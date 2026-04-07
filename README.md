@@ -29,11 +29,11 @@ This program runs entirely on GitHub:
 
 ### Video Content
 
-| Type | Duration | Platforms |
-| :---- | :---- | :---- |
-| Short-form clip | 30–90 sec | TikTok, Instagram Reels, YouTube Shorts |
-| Tutorial video | 5–15 min | YouTube |
-| Explainer video | 2–5 min | YouTube, Instagram |
+| Type | Duration | Platforms | Compensation (in USD)
+| :---- | :---- | :---- |  :----
+| Short-form clip | 30–90 sec | TikTok, Instagram Reels, YouTube Shorts | 50-100
+| Tutorial video | 5–15 min | YouTube | 100-200
+| Explainer video | 2–5 min | YouTube, Instagram | 50-100
 
 Pay is negotiable based on experience, production quality, and complexity. Bounty amounts are displayed as labels on each GitHub issue so you know the exact rate before you start.
 
