@@ -197,10 +197,30 @@ export const chakraLibrary = createLibrary({
   name: "chakra-genui",
   version: "1.0.0",
   components: [ChakraCard, ChakraTextContent, ChakraButton],
+  componentGroups: [
+    {
+      name: "Layout",
+      components: ["Card"],
+      notes: [
+        "Card uses Chakra Box with design tokens for spacing and color.",
+        "Use variant 'sunk' for secondary content areas.",
+      ],
+    },
+    {
+      name: "Content",
+      components: ["TextContent"],
+      notes: ["Use level 'h2' for section titles, 'body' for paragraphs."],
+    },
+    {
+      name: "Actions",
+      components: ["Button"],
+      notes: ["Use variant 'primary' for the main action, 'ghost' for secondary."],
+    },
+  ],
 });
 ```
 
-`createLibrary` takes your component definitions, extracts the schemas for prompt generation, and packages everything the `Renderer` needs.
+`createLibrary` takes your component definitions, extracts the schemas for prompt generation, and packages everything the `Renderer` needs. The `componentGroups` with `notes` are especially important — these notes appear verbatim in the system prompt sent to the model, teaching it your design system's conventions. "Use variant 'sunk' for secondary content areas" isn't just documentation — it's an instruction that shapes how the model uses your components.
 
 ## Wiring It Up
 
