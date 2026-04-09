@@ -142,11 +142,8 @@ For video content specifically:
 
 ### Written Content
 
-Articles are published on the OpenUI blog (canonical URL). Cross-posted to DEV.to with canonical URLs pointing back to the blog.
-
 | Channel | Role |
 | :---- | :---- |
-| OpenUI blog | Primary (canonical) |
 | DEV.to | Primary distribution |
 | Twitter/X | Promotion |
 | Discord | Community sharing |
