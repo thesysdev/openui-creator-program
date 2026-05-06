@@ -130,6 +130,9 @@ You can verify installed models using:
 ```bash
 ollama list
 ```
+
+<img src="../assets/Ollama-list.png" height="250px" />
+
 ### Step 1:  Cloning OpenUI
 
 Now let's get the OpenUI code onto your machine.
@@ -191,7 +194,6 @@ Navigate to the file:
 
 <div style="display: flex; gap: 10px;">
   <img src="../assets/Example.png" height="250px" />
-  <img src="../assets/Navigating-To-Route.ts.png" height="250px" />
 </div>
 
 Find the MODEL constant (Ctrl + F) and apply this change:
@@ -250,8 +252,8 @@ If a form appears, you're all set!
 
 My Results:
 
-![Contact-Card](../assets/Contact-card.png)
-![FitnessDashboard](../assets/Minimal-Fitness-Saas-Dashboad.png)
+![Minimal Calorie Tracker Dashboard](../assets/Calorie-Tracker.png)
+![Simple Todo App](../assets/Simple-Todo.png)
 
 ## Common Issues and Fixes
 
