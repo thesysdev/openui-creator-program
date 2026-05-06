@@ -1,8 +1,6 @@
-# Setting Up OpenUI with Ollama: Local-First Setup with Cloud Model Fallback
+# Setting Up OpenUI with Ollama: Local Setup, Model Testing, and Troubleshooting
 
-This guide walks you through setting up OpenUI with Ollama on your local machine, step by step, with notes from real setup attempts and common fixes.
-
-This setup keeps the Ollama runtime local while using a cloud-hosted model for more reliable OpenUI generation.
+This guide walks through setting up OpenUI with Ollama locally, including model configuration, troubleshooting, and real-world notes from testing different local and cloud-hosted models.
 
 This guide is beginner-friendly. Even if you've never worked with Docker or terminal commands, I'll walk you through every step. Let's get started.
 
@@ -32,7 +30,7 @@ Before we start, make sure you have these installed:
 
 Ollama is the tool that lets us run AI models locally. Here's how to set it up:
 
-### Step 1: Download Ollama using Windows
+### Step 1: Download and Install Ollama
 
 1. Go to [ollama.com/download](https://ollama.com/download)
 2. Click the download button for your OS (Windows, Mac, or Linux)
@@ -59,7 +57,7 @@ That's it for Ollama setup.
 
 ---
 
-## The Honest Truth About Local Models
+## Local Model Performance Notes
 
 I tested multiple local Ollama models while working with OpenUI and noticed a clear pattern: smaller local models (especially in the 3B–8B range) often struggled with `openui-lang` generation.
 
@@ -111,9 +109,9 @@ generated significantly more stable component trees and dashboard layouts compar
 
 You can find more models and details at the official [Ollama Search](https://ollama.com/search).
 
-### Running OpenUI with Ollama Models
+## Running OpenUI with Ollama Models
 
-### Step 0: Pull an Model from Ollama
+### Step 1: Pull a Model from Ollama
 
 Before running OpenUI, pull a local Ollama model.
 
@@ -133,21 +131,7 @@ ollama list
 
 <img src="../assets/Ollama-list.png" height="250px" />
 
-### Step 1:  Cloning OpenUI
 
-Now let's get the OpenUI code onto your machine.
-
-Open your terminal and run:
-
-```bash
-git clone https://github.com/thesysdev/openui
-cd openui
-code .
-```
-
-Or open the folder in whatever editor you prefer.
-
-I prefer VS Code.
 
 ### Step 2: Create and Run an OpenUI App
 
@@ -172,6 +156,14 @@ On Windows PowerShell:
 New-Item .env -ItemType File
 ```
 
+On Linux/macOS:
+
+```bash
+touch .env
+```
+
+
+
 Then add your configuration inside `.env`:
 
 ```env
@@ -184,13 +176,13 @@ You can replace the `MODEL` value with any Ollama local or cloud-hosted model.
 
 ### Step 3: Update the MODEL variable
 
-The model is hardcoded in route.ts, so we need to update it to accept Docker environment variables.
+The model is hardcoded in `route.ts`, so we need to update it to allow configurable model selection through environment variables.
 
 To change it:
 
 Navigate to the file:
 
-`genui-chat-app` -> `src` -> `app` -> `api` -> `chat` -> `route.ts`
+`src` -> `app` -> `api` -> `chat` -> `route.ts`
 
 <div style="display: flex; gap: 10px;">
   <img src="../assets/Example.png" height="250px" />
@@ -201,8 +193,8 @@ Find the MODEL constant (Ctrl + F) and apply this change:
 <img src="../assets/Hardcoded-Model.png" height="250px" />
 
 ```diff
--const model = "gpt-5.4";
-+const model = process.env.MODEL || "gpt-5.4";
+-model: "gpt-5.4";
++model: process.env.MODEL || "gpt-5.4";
 ```
 
 Explanation:
@@ -230,7 +222,7 @@ What this setup does:
 - `MODEL` — Selects the Ollama model used for UI generation
 - `npm run dev` — Starts the local Next.js development server
 
-### Step 6: Test It
+### Step 5: Test It
 
 Open your browser to
 
@@ -353,6 +345,20 @@ This is more common with smaller local models.
 
 ---
 
+### Increasing Context Length
+
+Some local models performed significantly better after increasing the Ollama context length.
+
+Example (Windows PowerShell):
+
+```bash
+setx OLLAMA_CONTEXT_LENGTH 8192
+```
+
+Restart your terminal after changing the value.
+
+---
+
 ### React Rendering Errors
 
 Example:
@@ -371,3 +377,4 @@ The model generated an invalid component tree or malformed structured output.
 - Use a stronger model
 - Increase context length
 - Avoid extremely small local models for complex UI generation
+
