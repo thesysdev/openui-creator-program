@@ -17,13 +17,13 @@ This guide is beginner-friendly. Even if you've never worked with Docker or term
 Before we start, make sure you have these installed:
 
 - **Node.js** - Download from [nodejs.org](https://nodejs.org/en/download)
-- **Docker Desktop** - Download from [docker.com](https://www.docker.com/products/docker-desktop/)
+- **Ollama** - Download from [ollama.com](https://ollama.com/download)
 - **Git** - Download from [git-scm.com](https://git-scm.com/downloads)
 
 **System Requirements:**
 
-- 8GB RAM minimum (16GB recommended)
-- 10GB free disk space
+- 16GB RAM minimum (32GB recommended)
+- 30GB free disk space
 - Windows 10+, macOS 10.15+, or Linux
 
 ---
@@ -61,50 +61,78 @@ That's it for Ollama setup.
 
 ## The Honest Truth About Local Models
 
-I tested a lot of small local models before writing this guide. I want to be straight with you because I wasted days on this.
+I tested multiple local Ollama models while working with OpenUI and noticed a clear pattern: smaller local models (especially in the 3B–8B range) often struggled with `openui-lang` generation.
 
-Small local models don't work well for OpenUI. Models like ministral-3:3b, phi4-mini:3.8b, qwen2.5:3b, or gemma4:e2b variants will:
+Common issues included:
+- partial UI generation,
+- broken syntax,
+- malformed component trees,
+- and inconsistent rendering inside OpenUI.
 
-1. Generate partial UI (just a title, missing the form fields)
-2. Show weird values like "0" instead of actual data
-3. Break syntax mid-generation
-4. Fail even with custom Modelfiles, Temperature 0, strict prompts, and extended context windows.
+Larger local models such as `qwen2.5-coder:14b` and `gpt-oss:20b` performed significantly better during testing.
 
-What actually works: Cloud-hosted models with bigger context windows. The minimax-m2.7:cloud model works great with OpenUI. You access it through Ollama, and the Ollama runtime itself stays local while the model runs on cloud hardware for reliability.
+The `qwen2.5-coder:14b` model was usable for local UI generation after increasing the context length, while `gpt-oss:20b` produced more stable and coherent layouts with fewer syntax issues, although inference was noticeably slower on a 16GB system.
 
-## Recommended Models for OpenUI
+In general, larger and more capable models produced more reliable OpenUI output because generative UI requires strong structured-output and long-context capabilities.
 
-These models are accessible through [Ollama](https://ollama.com/search) and provide the best stability for openui-lang generation.
+Cloud-hosted models still produced the most consistent results overall, although some providers may require subscriptions or gated access depending on the model.
 
-### Performance Tier List
+## Models Tested with OpenUI
 
-| Model Name             | Category      | Best For                                        | Recommendation     |
-| ---------------------- | ------------- | ----------------------------------------------- | ------------------ |
-| minimax-m2.7:cloud     | All-Rounder   | High-speed, stable UI generation                | ⭐ **Recommended** |
-| qwen3-coder-next:cloud | Developer Pro | Complex logic and deep coding tasks             |                    |
-| qwen3-next:80b-cloud   | Heavyweight   | Maximum reasoning for complex dashboard layouts |                    |
-| gemma4:31b-cloud       | Balanced      | Great middle-ground for creative UI prompts     |                    |
-| kimi-k2.5:cloud        | Context King  | Excellent for long-form UI descriptions         |                    |
-| glm-5.1:cloud          | Multi-purpose | Solid alternative for standard form generation  |                    |
-| nemotron-3-super:cloud | Performance   | Optimized for fast responses and clean syntax   |                    |
+During testing, different models behaved very differently when generating `openui-lang` output.
+
+### Local Models
+
+| Model | Result | Notes |
+|---|---|---|
+| `gpt-oss:20b` | Strong results | Produced significantly more stable layouts and fewer syntax issues, but inference was much slower on 16GB hardware. |
+| `qwen2.5-coder:14b` | Mostly usable | Good local balance between quality and performance. Occasionally produced malformed or incomplete UI output. |
+| `ministral-3:3b` | Unstable | Frequently generated incomplete or broken UI structures. |
+| `phi4-mini:3.8b` | Unstable | Struggled with consistent structured generation. |
+| `gemma4:e2b` | Partial success | Better reasoning than some smaller models but still inconsistent for larger UI layouts. |
+
+### Cloud Models
+
+Cloud-hosted models generally produced the most reliable OpenUI output during testing.
+
+Models such as:
+- `nemotron-3-super:cloud`
+- `qwen3-next:80b-cloud`
+- `gemma4:31b-cloud`
+
+generated significantly more stable component trees and dashboard layouts compared to smaller local models.
+
+> Note:
+> Some cloud-hosted Ollama models may require subscriptions or gated access depending on provider policies and account availability.
+>
+> During testing, models such as `kimi-k2.5:cloud`, `minimax-m2.7:cloud`, and `glm-5.1:cloud` returned `403 subscription required` errors on some setups.
 
 ### 💡 Pro-Tip
 
 You can find more models and details at the official [Ollama Search](https://ollama.com/search).
 
-### How to Switch Models
+### Running OpenUI with Ollama Models
 
-To swap your engine, update the `MODEL` variable. Use this command to automate the deployment with the recommended **minimax-m2.7:cloud** model:
+### Step 0: Pull an Model from Ollama
+
+Before running OpenUI, pull a local Ollama model.
+
+Example:
 
 ```bash
-docker run --rm -p 3000:3000 -e OPENAI_BASE_URL=http://host.docker.internal:11434/v1 -e OPENAI_API_KEY=ollama -e MODEL=minimax-m2.7:cloud openui-chat
+ollama run gpt-oss:20b
 ```
 
-### Cloning OpenUI
+This downloads the model locally and starts the Ollama runtime.
+
+You can verify installed models using:
+
+```bash
+ollama list
+```
+### Step 1:  Cloning OpenUI
 
 Now let's get the OpenUI code onto your machine.
-
-### Step 2: Clone the Repository
 
 Open your terminal and run:
 
@@ -118,7 +146,38 @@ Or open the folder in whatever editor you prefer.
 
 I prefer VS Code.
 
-### Building and Running OpenUI
+### Step 2: Create and Run an OpenUI App
+
+Run the official OpenUI CLI:
+
+```bash
+npx @openuidev/cli@latest create --name genui-chat-app
+cd genui-chat-app
+```
+
+This scaffolds a complete OpenUI chat application with:
+- OpenUI Lang support,
+- streaming UI generation,
+- built-in components,
+- and a ready-to-run Next.js setup.
+
+### Create the `.env` File
+
+On Windows PowerShell:
+
+```powershell
+New-Item .env -ItemType File
+```
+
+Then add your configuration inside `.env`:
+
+```env
+OPENAI_BASE_URL=http://localhost:11434/v1
+OPENAI_API_KEY=ollama
+MODEL=gpt-oss:20b
+```
+
+You can replace the `MODEL` value with any Ollama local or cloud-hosted model.
 
 ### Step 3: Update the MODEL variable
 
@@ -128,7 +187,7 @@ To change it:
 
 Navigate to the file:
 
-`examples` -> `openui-chat` -> `src` -> `app` -> `api` -> `chat` -> `route.ts`
+`genui-chat-app` -> `src` -> `app` -> `api` -> `chat` -> `route.ts`
 
 <div style="display: flex; gap: 10px;">
   <img src="../assets/Example.png" height="250px" />
@@ -140,38 +199,34 @@ Find the MODEL constant (Ctrl + F) and apply this change:
 <img src="../assets/Hardcoded-Model.png" height="250px" />
 
 ```diff
--const MODEL = "gpt-5.4";
-+const MODEL = process.env.MODEL || "gpt-5.4";
+-const model = "gpt-5.4";
++const model = process.env.MODEL || "gpt-5.4";
 ```
 
 Explanation:
 
-- `process.env.MODEL`: This allows us to inject the model name via Docker.
+- `process.env.MODEL`: This allows us to inject the model name via Env.
 - `|| "gpt-5.4"`: This is a fallback in case no variable is provided.
 
-### Step 4: Start Docker Engine locally, then build the Docker image
-
-If you're in the root folder:
+### Step 4: Start the Development Server
 
 ```bash
-docker build -f examples/openui-chat/Dockerfile -t openui-chat .
+npm run dev
 ```
 
-Wait for the build to complete. It might take a few minutes.
+Open:
 
-### Step 5: Run OpenUI with Ollama
-
-Now for the magic command. Make sure Ollama is running (check your system tray), then:
-
-```bash
-docker run --rm -p 3000:3000 -e OPENAI_BASE_URL=http://host.docker.internal:11434/v1  -e OPENAI_API_KEY=ollama -e MODEL=minimax-m2.7:cloud openui-chat
+```txt
+http://localhost:3000
 ```
 
-What this does:
+If everything is configured correctly, you should see the OpenUI chat interface running locally.
 
-- `-p 3000:3000` — Opens port 3000 on your machine
-- `OPENAI_BASE_URL` — Points to your local Ollama instance
-- `MODEL` — I used the minimax cloud model (you can swap this for others)
+What this setup does:
+
+- `OPENAI_BASE_URL` — Connects OpenUI to your local Ollama instance
+- `MODEL` — Selects the Ollama model used for UI generation
+- `npm run dev` — Starts the local Next.js development server
 
 ### Step 6: Test It
 
@@ -200,118 +255,117 @@ My Results:
 
 ## Common Issues and Fixes
 
-### Connection Refused Error
+ ### `touch .env`  Not Working on Windows
 
-**Problem:**  
-Ollama isn't accessible from Docker.
+**Problem:**
+
+PowerShell does not recognize the `touch` command.
 
 **Fix:**
 
-- Make sure Ollama is running
-- Check your system tray for the Ollama icon
-- If it's not running, start it manually:
+Create the `.env` file manually or run:
 
-```bash
-ollama serve
+```powershell
+New-Item .env -ItemType File
 ```
 
 ---
 
-### Model Not Found
+### `404 model not found`
 
-**Problem:**  
-The model name is incorrect or not installed.
+**Problem:**
 
-**Fix:**
-
-- Double-check the model name
-- Ensure the model is available in your Ollama setup
-- Some models may require API keys or authentication
-
----
-
-### Blank Screen or Partial UI
-
-**Problem:**  
-The model generated broken `openui-lang` code.
+The configured model does not exist in your Ollama installation.
 
 **Fix:**
 
-- This usually happens with smaller local models
-- Switch to a more reliable model like `minimax-m2.7:cloud`
-- Use cloud models for better and faster outputs
-
----
-
-### Docker Build Fails
-
-**Problem:**  
-Docker image fails to build due to dependency or configuration issues.
-
-**Fix:**
-
-- Make sure Docker Desktop is running
-- Check the terminal logs for the exact error
-- Rebuild the image without cache
-
-- Make sure you're running the command from the project root directory:
+Check installed models:
 
 ```bash
-docker rmi openui-chat
+ollama list
 ```
 
-Then rebuild:
+Then update the `MODEL` value inside `.env` with a valid installed model.
 
-```bash
-docker build --no-cache -f examples/openui-chat/Dockerfile -t openui-chat .
+Example:
+
+```env
+MODEL=gpt-oss:20b 
 ```
 
-or
+---
 
-- Retry running the container
+### `403 subscription required`
+
+**Problem:**
+
+Some Ollama cloud-hosted models require subscriptions or gated access.
+
+**Fix:**
+
+Try another available cloud model or switch to a local model.
+
+Examples tested during setup:
+
+- `qwen2.5-coder:14b`
+- `gpt-oss:20b`
+- `nemotron-3-super:cloud`
+- `gemma4:31b-cloud`
+---
+
+### `memory layout cannot be allocated`
+
+**Problem:**
+
+The selected model requires more RAM than your system can provide.
+
+This commonly happens with larger models such as:
+- `gemma4:26b`
+- `glm-4.7-flash`
+
+on lower-memory systems.
+
+**Fix:**
+
+- Use a smaller model
+- Reduce context length
+- Close other memory-heavy applications
+- Use cloud-hosted models instead
 
 ---
 
-## What You Can Build
+### Blank Screen or Broken UI
 
-With this setup, you can generate:
+**Problem:**
 
-- Contact forms
-- Data tables
-- Charts and graphs
-- Dashboard layouts
-- Interactive cards
+The model generated malformed `openui-lang` output.
 
-Just describe what you want in plain English and OpenUI will generate the UI.
+This is more common with smaller local models.
 
----
+**Fix:**
 
-## The Catch
-
-This setup works well for UI generation, but **tool calling is limited**.
-
-Features like:
-
-- Weather
-- Stock data
-- Calculators
-
-require external APIs (e.g. OpenAI) to function properly.
-
-For pure UI generation:  
-No expensive API bills or token costs; the Ollama runtime stays local while the model is cloud-hosted for stability.
+- Increase the Ollama context length
+- Use a stronger model
+- Retry the generation
+- Prefer larger models for complex dashboards and layouts
 
 ---
 
-## Wrapping Up
+### React Rendering Errors
 
-You now have a local-first generative UI setup with a cloud model fallback for reliability.
+Example:
 
-- No expensive API bills or token costs
-- No API key management
+```txt
+Objects are not valid as a React child
+```
 
-Try different prompts, inspect the generated UI, and iterate.
+**Problem:**
 
-If something breaks, it's usually the model—not OpenUI.
+The model generated an invalid component tree or malformed structured output.
 
-**Happy building.**
+**Fix:**
+
+- Retry generation
+- Use a stronger model
+- Increase context length
+- Avoid extremely small local models for complex UI generation
