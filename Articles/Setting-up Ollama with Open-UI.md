@@ -236,8 +236,6 @@ You should see the OpenUI chat interface
 Click any prompt shown on the screen.
 If you get a response in the frontend, the setup is complete.
 
-![AppleStock Price](../assets/Apple-Stockprice.png)
-
 Try this prompt:
 Create a contact form with name, email, and message fields
 If a form appears, you're all set!
