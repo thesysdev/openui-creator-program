@@ -1,75 +1,125 @@
-# 5 Things That Look Terrible as Plain Text (And How OpenUI Fixes Them)
+# 5 Things Plain Text Literally Cannot Do (And How OpenUI Fixes Them)
 
-You've seen it a hundred times. You ask an AI assistant a question, and it responds with a wall of text. Maybe there's a table — if you're lucky, rendered in ASCII art. Maybe there's a list. Maybe there are bullet points with bold headings. But at the end of the day, it's all just... text.
+You ask an AI assistant for something, and it responds with a wall of text. Maybe there's a markdown table. Maybe bullet points with bold headings. But it's all just text.
 
-The problem isn't the content. Large language models are remarkably good at understanding what you need and generating useful information. The problem is the *medium*. Plain text — even rich markdown — is fundamentally limited in what it can express. It can't show you a chart. It can't let you click a button. It can't give you an interactive form that adapts to your input. It can only describe these things and hope your imagination fills in the gaps.
+The problem isn't the content — LLMs generate useful information just fine. The problem is the *medium*. Plain text — even rich markdown — is fundamentally limited. It can't validate your input in real-time. It can't show you live state. It can't branch based on your answers. It can only *describe* these things and hope your imagination fills in the gaps.
 
-This article walks through five scenarios where plain text fails and OpenUI succeeds. Each one is a real, everyday use case — not a hypothetical. And each one demonstrates why the gap between "describing an interface" and "generating an interface" is the single biggest opportunity in AI UX right now.
+This article walks through five scenarios where plain text doesn't just look worse — it structurally *fails*. Where the information the AI has can't be expressed in a text-only medium without losing critical functionality. Each one is a real, everyday use case.
 
 ---
 
-## 1. Flight Search Results
+## 1. Adaptive Intake Forms
 
-### Plain Text: The Wall of Departures
+### Plain Text: The One-Size-Fits-All Questionnaire
 
-Ask any AI chatbot to find flights from San Francisco to Tokyo, and you'll get something like this:
-
-```
-Here are some flights from SFO to NRT on March 15:
-
-1. Japan Airlines JL1 — Departs 11:30 AM, arrives 3:45 PM+1
-   Duration: 11h 15m | Economy: $680 | Business: $3,200
-
-2. ANA NH7 — Departs 1:15 PM, arrives 5:30 PM+1
-   Duration: 11h 15m | Economy: $720 | Business: $3,450
-
-3. United UA837 — Departs 10:45 AM, arrives 2:30 PM+1
-   Duration: 10h 45m | Economy: $590 | Business: $2,900
-
-4. Singapore Airlines SQ33 — Departs 2:00 AM, arrives 7:15 AM+1
-   Duration: 11h 15m | Economy: $650 | Business: $3,100
-```
-
-This works. You can read it. But consider what you *can't* do:
-
-- **Sort by price, duration, or departure time** — you're reading the model's chosen order
-- **Filter by airline or class** — you see everything or nothing
-- **Compare side by side** — the vertical list format makes visual comparison difficult
-- **Select a flight** — you'd need to describe your choice in a follow-up message
-- **See price trends** — is $590 a good deal? You'd need another query
-
-### OpenUI: The Interactive Card Grid
-
-With OpenUI, the same LLM generates an interactive card grid instead of a text list:
+Ask an AI chatbot to help you fill out a medical intake form, and here's what you get:
 
 ```
-root = Grid(3)
-flight1 = FlightCard(
-  airline="Japan Airlines",
-  flightNumber="JL1",
-  depart="SFO 11:30 AM",
-  arrive="NRT 3:45 PM+1",
-  duration="11h 15m",
-  economyPrice="$680",
-  businessPrice="$3,200",
-  onSelect={tool: "bookFlight", args: {flightId: "JL1"}}
+Please answer the following questions for your medical intake:
+
+1. Full name:
+2. Date of birth:
+3. Are you currently taking any medications? (yes/no):
+4. If yes, list all medications and dosages:
+5. Do you have any known allergies? (yes/no):
+6. If yes, list all allergies and severity:
+7. Have you had surgery in the past 12 months? (yes/no):
+8. If yes, describe the procedure:
+9. Are you experiencing any of the following symptoms?
+   - Chest pain
+   - Shortness of breath
+   - Dizziness
+   - Persistent headaches
+   - Unexplained weight loss
+10. Do you smoke? (yes/no):
+11. How many cigarettes per day?
+12. Do you consume alcohol? (yes/no):
+13. How many drinks per week?
+
+Please type your answers and I'll organize them for you.
+```
+
+This is *barely functional*. What plain text structurally cannot do:
+
+- **Real-time validation** — type "feb 30" as a date and nothing happens. The AI can't check your input until you've submitted everything.
+- **Conditional branching** — questions 4, 6, 8, and 11 only apply if you answered "yes" to the prior question. In plain text, you see all 13 regardless. Skip logic doesn't exist.
+- **Progressive disclosure** — you're staring at 13 questions at once. A real form reveals the next question only after you answer the previous one.
+- **Error feedback** — submit a blank required field and the AI politely asks you to try again. There's no red border, no inline hint, no "this field is required" indicator.
+- **State persistence** — answer questions 1-5, get distracted, come back. Your answers are gone. A form component holds state; a chat message doesn't.
+
+### OpenUI: The Adaptive Stepper Form
+
+```
+root = IntakeForm(steps=[personal, medications, allergies, history, symptoms, lifestyle])
+personal = FormStep(
+  title="Personal Information",
+  fields=[
+    TextField(name="fullName", label="Full name", required=true, validate="name"),
+    DateField(name="dob", label="Date of birth", required=true, placeholder="MM/DD/YYYY"),
+    PhoneField(name="phone", label="Phone number", format="US")
+  ],
+  nextLabel="Continue"
 )
-flight2 = FlightCard(
-  airline="ANA",
-  flightNumber="NH7",
-  depart="SFO 1:15 PM",
-  arrive="NRT 5:30 PM+1",
-  duration="11h 15m",
-  economyPrice="$720",
-  businessPrice="$3,450",
-  onSelect={tool: "bookFlight", args: {flightId: "NH7"}}
+medications = FormStep(
+  title="Current Medications",
+  condition={field: "personal.hasMedications", equals: true},
+  fields=[
+    MultiField(
+      name="medications",
+      addLabel="Add medication",
+      fields=[
+        TextField(name="name", label="Medication name"),
+        DosageField(name="dosage", label="Dosage"),
+        SelectField(name="frequency", label="Frequency", options=["Daily", "Weekly", "As needed"])
+      ]
+    )
+  ],
+  skipLabel="I don't take medications"
 )
-root = Grid([flight1, flight2, flight3, flight4])
+allergies = FormStep(
+  title="Known Allergies",
+  condition={field: "personal.hasAllergies", equals: true},
+  fields=[
+    MultiField(
+      name="allergies",
+      addLabel="Add allergy",
+      fields=[
+        TextField(name="substance", label="Allergen"),
+        SelectField(name="severity", label="Severity", options=["Mild", "Moderate", "Severe"]),
+        CheckboxField(name="anaphylaxis", label="Causes anaphylaxis")
+      ]
+    )
+  ],
+  skipLabel="No known allergies"
+)
+symptoms = FormStep(
+  title="Current Symptoms",
+  fields=[
+    CheckboxGroup(name="symptoms", options=["Chest pain", "Shortness of breath", "Dizziness", "Persistent headaches", "Unexplained weight loss"]),
+    TextArea(name="symptomDetails", label="Describe your symptoms", showIf={field: "symptoms", notEmpty: true})
+  ]
+)
+lifestyle = FormStep(
+  title="Lifestyle",
+  fields=[
+    SelectField(name="smoking", label="Do you smoke?", options=["Never", "Former smoker", "Current smoker"]),
+    ConditionalField(
+      condition={field: "smoking", equals: "Current smoker"},
+      field=NumberField(name="cigarettesPerDay", label="Cigarettes per day", min=1, max=100)
+    ),
+    SelectField(name="alcohol", label="Alcohol consumption?", options=["None", "Occasional", "Regular"]),
+    ConditionalField(
+      condition={field: "alcohol", in: ["Occasional", "Regular"]},
+      field=NumberField(name="drinksPerWeek", label="Drinks per week", min=0, max=50)
+    )
+  ]
+)
+root = IntakeForm(steps=[personal, medications, allergies, history, symptoms, lifestyle], progressBar=true)
 ```
 
-Each card is a live React component. You can click "Select" to book. The grid layout makes visual comparison instant. The model chose the right component for the job — not because it was hardcoded to, but because your component library includes `FlightCard` and the model knows a flight search should use it.
+The rendered form shows one step at a time with a progress bar. Answer "no" to medications and that entire step disappears. The smoking follow-up only appears if you select "Current smoker." Date fields reject impossible dates instantly. Required fields show validation errors inline — before you submit.
 
-**The difference:** Plain text *describes* four flights. OpenUI *gives you* four flights you can act on.
+**The difference:** Plain text *asks you all the questions at once* and can't verify a single answer. OpenUI *adapts the questions to your answers* and validates every field in real-time.
 
 ---
 
@@ -92,12 +142,13 @@ Winds from the NE at 15-25 mph. 70% chance of rain. Expect 0.5-1 inch of rainfal
 The weekend will start mild but deteriorate quickly. Plan outdoor activities for Saturday morning if possible.
 ```
 
-This is readable. But a weather forecast is inherently *visual* — it's about trends over time, intensity levels, and conditional probabilities. A paragraph flattens all that into a linear reading experience.
+Readable? Yes. But a weather forecast is inherently *spatial* — it's about trends over time, intensity levels, and conditional probabilities. A paragraph flattens all of that into a linear reading experience where patterns are invisible.
 
-What you can't see at a glance:
-- The temperature *trend* (warming, then cooling)
-- The rain probability curve (10% → 30% → 70%)
-- The wind speed shift (moderate → calm → strong)
+What plain text structurally cannot convey:
+
+- **The temperature trend** — warming Saturday, then a sharp 7° drop Sunday. You'd need to parse three numbers and mentally plot the curve.
+- **The rain probability escalation** — 10% → 30% → 70%. That's a Hockey stick curve hiding in prose.
+- **Correlations at a glance** — the wind direction shifting from NW to NE as rain arrives. A visual makes that pattern instant; text makes you play detective.
 
 ### OpenUI: The Visual Forecast Strip
 
@@ -125,96 +176,98 @@ day3 = DayForecast(
   high=48, low=35,
   wind="NE 15-25 mph",
   rainChance=70,
-  icon="🌧️"
+  icon="🌧️",
   alert="Rain expected: 0.5-1 inch"
 )
 root = WeatherForecast([day1, day2, day3])
 ```
 
-The rendered output shows three side-by-side forecast panels with weather icons, temperature bars, and a rain probability indicator. Sunday's panel has a yellow alert badge. The visual trend — warming Saturday, then a sharp drop Sunday — is immediately obvious without reading a single word.
+Three side-by-side panels with weather icons, temperature bars, and a rain probability indicator. Sunday's yellow alert badge is unmissable. The visual trend — warming Saturday, then a sharp drop Sunday — registers before you read a single word.
 
-**The difference:** Plain text *tells you* the weather. OpenUI *shows you* the weather pattern, and your brain processes it 10x faster.
+**The difference:** Plain text *tells you* the weather. OpenUI *shows you* the pattern, and your brain processes it before you've finished reading the text version.
 
 ---
 
-## 3. Product Comparisons
+## 3. Live Status & Monitoring
 
-### Plain Text: The Messy Markdown Table
+### Plain Text: The Frozen Snapshot
 
-```
-Here's a comparison of three noise-cancelling headphones:
-
-| Feature | Sony WH-1000XM5 | Bose QC Ultra | Apple AirPods Max |
-|---------|-----------------|---------------|-------------------|
-| Price | $348 | $429 | $549 |
-| Battery | 30 hours | 24 hours | 20 hours |
-| ANC Quality | ★★★★★ | ★★★★★ | ★★★★☆ |
-| Sound Quality | ★★★★★ | ★★★★☆ | ★★★★☆ |
-| Weight | 250g | 250g | 384g |
-| Multipoint | Yes | Yes | No |
-| Foldable | Yes | Yes | No |
-| Spatial Audio | Yes | No | Yes |
-| Mic Quality | ★★★★☆ | ★★★★☆ | ★★★★★ |
-
-Recommendation: For most people, the Sony WH-1000XM5 offers the best balance of price, battery, and ANC. If you're in the Apple ecosystem, AirPods Max integrates seamlessly but costs significantly more and is heavier.
-```
-
-This table is fine for scanning, but it has real limitations:
-- You can't **hide columns** you don't care about
-- You can't **sort by priority** — what matters most to you?
-- You can't **weight features** — maybe battery matters twice as much as price
-- The **recommendation** is generic — it doesn't know *you*
-
-### OpenUI: The Interactive Comparison Matrix
+Ask "what's the status of my servers?" and you get:
 
 ```
-root = ProductComparison(products=[sony, bose, apple])
-sony = ProductCard(
-  name="Sony WH-1000XM5",
-  price=348,
-  image="sony-xm5.jpg",
-  highlights=["30hr battery", "Best ANC", "Foldable"],
-  rating=4.7,
-  specs=[
-    Spec(key="Battery", value="30 hours", score=5),
-    Spec(key="ANC", value="Excellent", score=5),
-    Spec(key="Weight", value="250g", score=4),
-    Spec(key="Price", value="$348", score=5)
+Server Status Report — Generated at 2:47 PM EST
+
+Production Cluster (us-east-1):
+- API Server: HEALTHY (uptime: 14d 6h)
+- Database Primary: HEALTHY (uptime: 14d 6h)
+- Database Replica: WARNING — replication lag 4.2s (threshold: 1s)
+- Cache Layer: HEALTHY (hit rate: 94.7%)
+- Worker Queue: CRITICAL — 12,400 pending jobs (threshold: 5,000)
+
+Staging Cluster (us-west-2):
+- API Server: HEALTHY (uptime: 3d 2h)
+- Database: HEALTHY (uptime: 3d 2h)
+
+Active Incidents:
+- INC-2847: Worker queue backlog since 2:31 PM. Auto-scaling triggered but not keeping up. On-call engineer paged.
+
+Recommendations:
+- Investigate worker queue — jobs are piling up at 3x normal rate
+- Database replica lag may worsen if primary load increases
+```
+
+This data is already stale. The moment the AI generated it, the replication lag might have hit 6 seconds. The worker queue might have drained. Or a new incident might have fired. You're reading a photograph of a river — the water moved on.
+
+What plain text fundamentally cannot do:
+
+- **Show "right now"** — it can only describe "at the time I was asked." No polling, no WebSocket, no live update.
+- **Color-code severity** — "CRITICAL" is a word, not a red indicator that draws your eye. Brains process color signals faster than text labels.
+- **Drill down interactively** — want the last 10 minutes of lag data? You need another query, another wait, another stale snapshot.
+- **Acknowledge or act** — you can't click "acknowledge INC-2847" or "force scale-up." You'd type a follow-up and hope the AI invokes the right tool.
+- **Show temporal progression** — is the worker queue growing or shrinking? Plain text gives you a number, not a sparkline.
+
+### OpenUI: The Live Dashboard
+
+```
+root = MonitoringDashboard(regions=[us_east, us_west], incidents=[inc2847])
+us_east = ClusterPanel(
+  name="Production (us-east-1)",
+  services=[
+    ServiceStatus(name="API Server", status="healthy", uptime="14d 6h", link="/api/metrics"),
+    ServiceStatus(name="DB Primary", status="healthy", uptime="14d 6h", link="/db/primary"),
+    ServiceStatus(name="DB Replica", status="warning", metric="replication lag", value="4.2s", threshold="1s", sparkline=[0.8, 1.1, 2.3, 3.8, 4.2], link="/db/replica"),
+    ServiceStatus(name="Cache", status="healthy", metric="hit rate", value="94.7%", link="/cache"),
+    ServiceStatus(name="Worker Queue", status="critical", metric="pending jobs", value="12400", threshold="5000", sparkline=[5200, 6800, 8900, 10200, 12400], link="/workers")
   ],
-  badge="Best Value"
+  refreshInterval=5000
 )
-bose = ProductCard(
-  name="Bose QC Ultra",
-  price=429,
-  image="bose-qc-ultra.jpg",
-  highlights=["24hr battery", "Top ANC", "Comfort"],
-  rating=4.6,
-  specs=[
-    Spec(key="Battery", value="24 hours", score=4),
-    Spec(key="ANC", value="Excellent", score=5),
-    Spec(key="Weight", value="250g", score=4),
-    Spec(key="Price", value="$429", score=3)
+us_west = ClusterPanel(
+  name="Staging (us-west-2)",
+  services=[
+    ServiceStatus(name="API Server", status="healthy", uptime="3d 2h"),
+    ServiceStatus(name="Database", status="healthy", uptime="3d 2h")
+  ],
+  refreshInterval=5000
+)
+inc2847 = IncidentCard(
+  id="INC-2847",
+  title="Worker queue backlog",
+  severity="critical",
+  startedAt="2:31 PM",
+  description="Auto-scaling triggered but not keeping up",
+  assignee="on-call",
+  actions=[
+    Action(label="Acknowledge", tool="ackIncident", args={id: "INC-2847"}),
+    Action(label="Force scale-up", tool="scaleUp", args={cluster: "us-east-1", service: "workers", count: 5}),
+    Action(label="View logs", tool="viewLogs", args={service: "workers", since: "30m"})
   ]
 )
-apple = ProductCard(
-  name="Apple AirPods Max",
-  price=549,
-  image="airpods-max.jpg",
-  highlights=["Spatial Audio", "Best mic", "Apple ecosystem"],
-  rating=4.5,
-  specs=[
-    Spec(key="Battery", value="20 hours", score=3),
-    Spec(key="ANC", value="Very Good", score=4),
-    Spec(key="Weight", value="384g", score=2),
-    Spec(key="Price", value="$549", score=2)
-  ]
-)
-root = ProductComparison(products=[sony, bose, apple], highlight="sony")
+root = MonitoringDashboard(regions=[us_east, us_west], incidents=[inc2847], live=true)
 ```
 
-The rendered comparison shows three product cards side by side with score bars, badges for top picks, and expandable spec sections. The "Best Value" badge on the Sony card makes the recommendation visual, not just textual. Each card can have a "Learn more" button that triggers a follow-up query.
+The rendered dashboard updates every 5 seconds. Red for critical, yellow for warning, green for healthy — severity registers before you read a word. The DB Replica card has a sparkline showing lag creeping up. The Worker Queue sparkline shows a steep upward curve. Click "Force scale-up" and the tool fires immediately — no follow-up needed. The incident card has real action buttons.
 
-**The difference:** Plain text gives you a *table someone else designed*. OpenUI gives you a *comparison interface the AI designed for this specific query*.
+**The difference:** Plain text gives you a *photograph of a moment*. OpenUI gives you a *live window into your systems* — with real-time updates, visual severity, and clickable actions.
 
 ---
 
@@ -250,12 +303,12 @@ Here's how to deploy a Next.js app to Vercel:
 Done! Your app is now live.
 ```
 
-This works for following along. But consider the friction:
+This works for following along. But the structural gaps are real:
 
-- **No progress indicator** — where am I in the process? Am I on step 3 of 6?
-- **No branching** — what if I already have the CLI installed? What if I need to authenticate first?
-- **No visual feedback** — the CLI output is described, not shown
-- **No "do this next" state** — after deployment, what about custom domains? Environment variables?
+- **No progress tracking** — where am I in the process? Step 3 of 6? Did I already do step 1 yesterday? Plain text can't know.
+- **No branching** — already have the CLI installed? You still read step 1. Need to authenticate first? That's not in the sequence.
+- **No visual state** — completed, current, and upcoming steps are visually identical. Your brain has to track which one you're on.
+- **No next-action affordance** — after deployment, what about custom domains? Environment variables? Those aren't "next" in any visible way.
 
 ### OpenUI: The Guided Stepper
 
@@ -307,13 +360,13 @@ step6 = Step(
 root = Stepper([step1, step2, step3, step4, step5, step6])
 ```
 
-The stepper shows a vertical progress indicator on the left, with completed steps checked off, the current step highlighted, and future steps grayed out. Each step has a copy-to-clipboard button for commands. Step 6 offers clickable action buttons for common follow-up tasks.
+Completed steps are checked off. The current step is highlighted. Future steps are dimmed. Each step has a copy-to-clipboard button for commands. Step 1 has an "Already installed" branch that skips ahead. Step 6 offers clickable actions for follow-up tasks.
 
-**The difference:** Plain text gives you a *reading assignment*. OpenUI gives you a *guided workflow* that tracks your progress and adapts to where you are.
+**The difference:** Plain text gives you a *reading assignment*. OpenUI gives you a *guided workflow* that tracks progress, branches on your situation, and shows you exactly what to do next.
 
 ---
 
-## 5. Data Visualizations and Charts
+## 5. Data Visualizations
 
 ### Plain Text: The ASCII Chart
 
@@ -338,9 +391,13 @@ Breakdown by platform:
 - Android: 14% (3,402)
 ```
 
-The ASCII bar chart is a noble effort. But it's lying to you. Those block characters have limited resolution — you can't see the difference between 18,100 and 18,200. You can't hover to see exact values. You can't zoom in on a specific month. You can't toggle between MAU, DAU, and new users.
+The ASCII bar chart is a noble effort. But it's structurally insufficient:
 
-And the "breakdown by platform" — that's a pie chart dying to be born. 58%, 28%, 14% in a text list doesn't communicate *proportion* the way a visual does.
+- **Lost precision** — block characters have ~4% resolution. You literally cannot see the difference between 18,100 and 18,900 at this scale.
+- **No interactivity** — you can't hover for exact values, zoom into a range, or toggle MAU/DAU/new users.
+- **No proportional reasoning** — "58%, 28%, 14%" in a list doesn't communicate *proportion*. A pie chart makes relative size instant. A text list makes you do arithmetic.
+
+This isn't a cosmetic complaint. ASCII charts *distort data* by rounding to the nearest block character. If you can't see the signal, you make bad decisions.
 
 ### OpenUI: The Interactive Dashboard
 
@@ -380,29 +437,29 @@ insights = InsightList(items=[
 root = AnalyticsDashboard([mau_chart, platform_chart, insights])
 ```
 
-The rendered dashboard shows a live line chart with hover states, an animated pie chart with a center label, and an insight panel. The May annotation marker is clickable — it could open the Product Hunt campaign details. The pie chart segments are interactive, expanding on hover to show exact numbers.
+A live line chart with hover states and exact values. A pie chart where proportion is *seen*, not calculated. Annotations that mark causation, not just correlation. The May annotation is clickable — it could open campaign details. Pie segments expand on hover to show precise numbers.
 
-**The difference:** Plain text *approximates* your data. OpenUI *renders* your data — with precision, interactivity, and visual fidelity that ASCII blocks can never match.
+**The difference:** Plain text *approximates* your data at ~4% resolution. OpenUI *renders* your data at full precision — with interactivity and visual fidelity that ASCII blocks can never provide.
 
 ---
 
 ## Why This Matters Beyond Aesthetics
 
-You might read these five examples and think: "Sure, it looks nicer. But does it matter?"
+You might read these examples and think: "Sure, it looks nicer. But does it matter?"
 
 It does. And not for the reason you think.
 
-The real cost of plain text AI isn't ugly formatting. It's **cognitive overhead**. Every time a user reads a text list and mentally converts it into a comparison, every time they parse an ASCII chart and try to extract a trend, every time they count steps in a tutorial to track progress — that's *their* brain doing work the AI should have done.
+The real cost of plain text AI isn't ugly formatting. It's **functional failure**. When an intake form can't validate your input, when a status report is stale the instant it's generated, when an ASCII chart rounds away your signal, when a tutorial can't track where you are — that's not a cosmetic problem. That's a *broken interface*.
 
-Research in information visualization consistently shows that visual representations are processed 60,000x faster than text (3M Corporation, 2001). Interactive interfaces don't just look better — they *reduce the time between seeing information and acting on it.*
+The bigger point is structural: entire categories of information — live state, conditional flows, continuous data, interactive actions — plain text *cannot represent*. Not "represents poorly." Cannot represent.
 
 ### The Generative UI Advantage
 
-Traditional UI development requires a designer to anticipate every possible interface need and a developer to build it. That's why most AI products have one layout for everything: a chat window with text responses.
+Traditional UI development requires a designer to anticipate every interface need and a developer to build it. That's why most AI products default to one layout: a chat window with text responses.
 
 OpenUI changes the equation:
 
-1. **You define a component library** — charts, cards, steppers, forms, dashboards. The building blocks.
+1. **You define a component library** — forms, dashboards, steppers, charts, status panels. The building blocks.
 2. **The LLM generates the layout** — it picks the right components, configures them with data, and composes them into a coherent interface.
 3. **The renderer brings it to life** — each component is a real React element, interactive and responsive.
 
@@ -429,13 +486,13 @@ The [OpenUI docs](https://www.openui.com/docs) cover the full architecture: comp
 
 ## The Bottom Line
 
-Plain text was the right interface for AI when AI could only generate text. But LLMs have moved past that limitation — they can compose structured, interactive UI in real time. The medium needs to catch up.
+Plain text was the right interface for AI when AI could only generate text. But LLMs have moved past that — they can compose structured, interactive UI in real time. The medium needs to catch up.
 
-These five scenarios — flight search, weather forecasts, product comparisons, step-by-step guides, and data visualizations — aren't edge cases. They're the most common types of queries users make. Every day, millions of people receive text descriptions of things that should be interfaces.
+These five scenarios — adaptive intake forms that validate and branch, weather forecasts that reveal patterns, live monitoring dashboards that show you right now, guided steppers that track your progress, and data visualizations with actual precision — aren't edge cases. They're the most common types of information people need. And for every one of them, plain text doesn't just fall short cosmetically. It structurally *fails* — it cannot validate input, cannot show live state, cannot represent continuous data, cannot track progress, cannot render precise values.
 
 OpenUI doesn't just make AI responses prettier. It makes them *functional*. It turns information into interaction. And it does it with a framework that's open-source, token-efficient, and streamable from the first token.
 
-The question isn't whether generative UI is better than plain text. The question is why we ever accepted plain text in the first place.
+The question isn't whether generative UI is better than plain text. The question is why we ever accepted plain text for things plain text can't do.
 
 ---
 
