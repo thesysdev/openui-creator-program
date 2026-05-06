@@ -2,7 +2,7 @@
 
 This guide walks through setting up OpenUI with Ollama locally, including model configuration, troubleshooting, and real-world notes from testing different local and cloud-hosted models.
 
-This guide is beginner-friendly. Even if you've never worked with Docker or terminal commands, I'll walk you through every step. Let's get started.
+This guide is beginner-friendly and walks through setting up OpenUI with Ollama step by step. Let's get started.
 
 ## Companion repo
 
@@ -59,21 +59,17 @@ That's it for Ollama setup.
 
 ## Local Model Performance Notes
 
-I tested multiple local Ollama models while working with OpenUI and noticed a clear pattern: smaller local models (especially in the 3B–8B range) often struggled with `openui-lang` generation.
+While testing OpenUI with Ollama, I noticed that smaller models (especially 3B–8B models) often had trouble generating stable UI layouts.
 
-Common issues included:
-- partial UI generation,
-- broken syntax,
-- malformed component trees,
-- and inconsistent rendering inside OpenUI.
+Common problems included:
+- broken UI output,
+- incomplete layouts,
+- syntax errors,
+- and inconsistent rendering.
 
-Larger local models such as `qwen2.5-coder:14b` and `gpt-oss:20b` performed significantly better during testing.
+Larger models like `qwen2.5-coder:14b` and `gpt-oss:20b` worked much better and produced more stable results, although they were slower on lower-memory systems.
 
-The `qwen2.5-coder:14b` model was usable for local UI generation after increasing the context length, while `gpt-oss:20b` produced more stable and coherent layouts with fewer syntax issues, although inference was noticeably slower on a 16GB system.
-
-In general, larger and more capable models produced more reliable OpenUI output because generative UI requires strong structured-output and long-context capabilities.
-
-Cloud-hosted models still produced the most consistent results overall, although some providers may require subscriptions or gated access depending on the model.
+In general, larger models handled OpenUI generation more reliably. Hosted models also produced the most consistent results during testing.
 
 ## Models Tested with OpenUI
 
@@ -87,7 +83,12 @@ During testing, different models behaved very differently when generating `openu
 | `qwen2.5-coder:14b` | Mostly usable | Good local balance between quality and performance. Occasionally produced malformed or incomplete UI output. |
 | `ministral-3:3b` | Unstable | Frequently generated incomplete or broken UI structures. |
 | `phi4-mini:3.8b` | Unstable | Struggled with consistent structured generation. |
-| `gemma4:e2b` | Partial success | Better reasoning than some smaller models but still inconsistent for larger UI layouts. |
+
+
+> Recommended:
+> For better OpenUI results, larger models (generally 14B+ models) are recommended. They usually follow instructions more reliably and generate more stable UI layouts compared to smaller models.
+>
+> Smaller models may still work for simple prompts, but they often struggle with larger or more complex UI generation tasks.
 
 ### Cloud Models
 
@@ -169,38 +170,10 @@ Then add your configuration inside `.env`:
 ```env
 OPENAI_BASE_URL=http://localhost:11434/v1
 OPENAI_API_KEY=ollama
-MODEL=gpt-oss:20b
+OPENAI_MODEL=gpt-oss:20b
 ```
 
-You can replace the `MODEL` value with any Ollama local or cloud-hosted model.
-
-### Step 3: Update the MODEL variable
-
-The model is hardcoded in `route.ts`, so we need to update it to allow configurable model selection through environment variables.
-
-To change it:
-
-Navigate to the file:
-
-`src` -> `app` -> `api` -> `chat` -> `route.ts`
-
-<div style="display: flex; gap: 10px;">
-  <img src="../assets/Example.png" height="250px" />
-</div>
-
-Find the MODEL constant (Ctrl + F) and apply this change:
-
-<img src="../assets/Hardcoded-Model.png" height="250px" />
-
-```diff
--model: "gpt-5.4";
-+model: process.env.MODEL || "gpt-5.4";
-```
-
-Explanation:
-
-- `process.env.MODEL`: This allows us to inject the model name via Env.
-- `|| "gpt-5.4"`: This is a fallback in case no variable is provided.
+You can replace the `OPENAI_MODEL` value with any Ollama local or cloud-hosted model.
 
 ### Step 4: Start the Development Server
 
@@ -219,7 +192,7 @@ If everything is configured correctly, you should see the OpenUI chat interface 
 What this setup does:
 
 - `OPENAI_BASE_URL` — Connects OpenUI to your local Ollama instance
-- `MODEL` — Selects the Ollama model used for UI generation
+- `OPENAI_MODEL` — Selects the Ollama model used for UI generation
 - `npm run dev` — Starts the local Next.js development server
 
 ### Step 5: Test It
@@ -245,9 +218,39 @@ My Results:
 ![Minimal Calorie Tracker Dashboard](../assets/Calorie-Tracker.png)
 ![Simple Todo App](../assets/Simple-Todo.png)
 
+
+## Using OpenRouter Hosted Models
+
+You can also connect OpenUI to hosted models using OpenRouter instead of running models locally through Ollama.
+
+This is useful if:
+- your system does not have enough RAM for larger models,
+- you want faster or more reliable generations,
+- or you want to test larger hosted models without downloading them locally.
+
+Models in the 27B–30B+ range generally followed instructions more reliably and handled larger UI generation tasks much better.
+
+### Step 1: Create an OpenRouter API Key
+
+1. Go to https://openrouter.ai
+2. Create an account
+3. Generate an API key from the dashboard
+
+### Step 2: Update the `.env` File
+
+Replace your local Ollama configuration with:
+
+```env
+OPENAI_BASE_URL=https://openrouter.ai/api/v1
+OPENAI_API_KEY=your_openrouter_api_key
+OPENAI_MODEL=google/gemma-3-27b-it
+```
+
+You can replace the `OPENAI_MODEL` value with any Ollama local or cloud-hosted model.
+
 ## Common Issues and Fixes
 
- ### `touch .env`  Not Working on Windows
+### `touch .env`  Not Working on Windows
 
 **Problem:**
 
@@ -282,7 +285,7 @@ Then update the `MODEL` value inside `.env` with a valid installed model.
 Example:
 
 ```env
-MODEL=gpt-oss:20b 
+OPENAI_MODEL=gpt-oss:20b 
 ```
 
 ---
