@@ -262,7 +262,7 @@ b3 = Button("Create a table", Action([@ToAssistant("Create a table")]))
 
 That is 8 lines. 158 tokens. The playground shows you exactly what the parser produces from the same UI in JSON:
 
-![OpenUI playground showing RAW OUTPUT 158 tokens vs PARSED JSON 844 tokens with 82% fewer tokens badge](../assets2/Screenshot_2026-05-10_135131.png)
+![OpenUI playground showing RAW OUTPUT 158 tokens vs PARSED JSON 844 tokens with 82% fewer tokens badge](../assets2/Json-Comparision.png)
 
 844 tokens. Same UI. 82% more tokens spent on structure instead of meaning.
 
