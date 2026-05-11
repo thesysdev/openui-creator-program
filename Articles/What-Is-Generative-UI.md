@@ -1,5 +1,9 @@
 # What Is Generative UI? (And Why Text Output Is No Longer Enough)
 
+<img src="../assets/playground-full.png" alt="OpenUI playground rendering a SaaS pricing comparison: structured DSL on the left, live interactive table on the right" />
+
+*The same query — "compare 5 SaaS pricing plans for a 30-person team" — answered as a streaming UI instead of a paragraph. Left: the model's structured output. Right: the live, interactive result. Generated in [openui.com/playground](https://www.openui.com/playground).*
+
 The first time I watched an LLM stream a 400-word answer that should have been a sortable table, I realized text was the wrong primitive.
 
 The user had asked, "Compare the five plans and tell me which one fits a 30-person team." The model answered correctly. The output was a numbered list, six paragraphs long, with the comparison spread across prose. The right answer was a table the user could re-sort by price and seat count. The model knew that. The interface couldn't render it.
@@ -91,9 +95,13 @@ Three pieces are doing the real work.
 
 **The vocabulary.** A registered set of components the model is allowed to use, with typed props the model is allowed to set. This is what stops the model from inventing a `Frobulator` that doesn't exist, or passing `color="purplish"` into a chart that wants a hex code. The vocabulary is also what you ship to the model in the system prompt — usually as a compact schema, not raw TypeScript.
 
-**The structured output format.** This is where the design choices get interesting. The obvious answer is JSON: every model can produce it, every parser can read it. The non-obvious problem is that JSON is verbose for UI trees. A nested layout with a chart, three cards, and a table is *a lot* of brackets and quoted keys. You pay for those tokens twice: once at generation latency, once at API cost. This is why several systems (OpenUI Lang, AI SDK's `generative_ui` mode, custom DSLs) compress the wire format. A 30% reduction in tokens isn't a footnote; it's the difference between a UI that streams smoothly and one that stutters.
+**The structured output format.** This is where the design choices get interesting. The obvious answer is JSON: every model can produce it, every parser can read it. The non-obvious problem is that JSON is verbose for UI trees. A nested layout with a chart, three cards, and a table is *a lot* of brackets and quoted keys. You pay for those tokens twice: once at generation latency, once at API cost. This is why several systems (OpenUI Lang, AI SDK's `generative_ui` mode, custom DSLs) compress the wire format. The savings are not marginal — for the pricing-comparison example below, the compact DSL came in around 80% under the equivalent JSON. At that ratio, it's the difference between a UI that streams smoothly and one that stutters.
 
 **The streaming renderer.** This is the part most developers underestimate. The model emits tokens one at a time. The user's screen should not freeze waiting for the close-bracket of the outermost component. A good renderer mounts components as soon as their open-bracket arrives, fills in props as they stream, and gracefully handles the half-second when a `Chart` has no `data` yet. Skeleton states, optimistic mounting, and a tolerant parser are not optional polish — they're load-bearing.
+
+<img src="../assets/playground-preview.png" alt="Rendered output: a styled comparison table with five plans, columns for cost/seats/storage/analytics, and a Plan Notes section recommending the Business tier" />
+
+*The rendered output. Real DOM, real interaction targets, real Plan Notes — not a paragraph describing them.*
 
 ---
 
@@ -101,7 +109,12 @@ Three pieces are doing the real work.
 
 This is the question every senior developer asks first, and the answer is the same five reasons every time:
 
-1. **Token cost.** A component tree in JSX is 3–5x larger than the same tree in a compact UI DSL. Every `<` and `</ComponentName>` is a paid token.
+1. **Token cost.** A component tree in JSX is 3–5x larger than the same tree in a compact UI DSL. Every `<` and `</ComponentName>` is a paid token. The savings show up at the wire format level too — that pricing-comparison example above generated 651 tokens of OpenUI Lang vs. the 3,278 tokens its parsed-JSON equivalent would have cost: roughly 80% fewer tokens for the same component tree.
+
+<img src="../assets/playground-raw.png" alt="Raw output panel showing 651 tokens for OpenUI Lang vs 3,278 tokens for the equivalent JSON, with an '80% FEWER TOKENS' badge, above the actual structured output starting with root = Stack([header, subtitle, tbl, legend])" />
+
+*Same UI tree, two formats. The token counter is from the playground for the same prompt as the hero image.*
+
 2. **Latency.** More tokens = slower first paint. Users notice.
 3. **Security.** Rendering arbitrary model-generated JSX is a remote code execution vector if you're not careful, and you will not be careful enough.
 4. **Consistency.** With a fixed vocabulary, every chart looks like your chart. With free-form JSX, the model invents styling, prop names, and behavior on the fly.
