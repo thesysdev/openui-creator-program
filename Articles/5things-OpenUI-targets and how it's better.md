@@ -18,13 +18,13 @@ Plain text forces you to serialize the comparison. Read option A, remember it, r
 
 **Claude response:**
 
-![Claude returning a text-based comparison of AI coding tools with tiers, paragraphs, and inline pricing info](../assets2/Comparision(frontend-framerworks).png)
+<img src="../assets2/Comparision(frontend-framerworks).png" width="450" height="300" />
 
 The model searched the web, categorized the tools, and identified pricing tiers. The analysis is good. But you still have to mentally organize everything yourself.
 
 **OpenUI response:**
 
-![OpenUI rendering the same AI coding tools as scannable cards with tags, pros/cons badges, and a feature comparison table](../assets2/framework-comparision.gif)
+<img src="../assets2/framework-comparision.gif" width="450" height="300" />
 
 Same information. Each tool gets a card with its category label, key feature tags, and a pro/con summary. Below that, a comparison table puts every tool side by side across the dimensions that matter. You scan instead of read. I keep asking for comparisons, then open a sheet anyway just to line things up. The model does not change. The format does.
 
@@ -76,13 +76,13 @@ Weather does not fit paragraphs. "Temperatures rise from 28°C at 8am to 35°C a
 
 **Claude response:**
 
-![Claude answering "what's the weather in Tokyo?" with a text response showing high/low temps, humidity, and clothing advice](../assets2/Comparision(weather-text).png)
+<img src="../assets2/Comparision(weather-text).png" width="450" height="300" />
 
 The response is accurate. Still annoying to use. A paragraph forces every relationship between variables into syntax instead of visuals. You have to reconstruct the time series from words.
 
 **OpenUI response:**
 
-![OpenUI rendering Tokyo weather as a structured card with current temperature, conditions, humidity, and wind speed](../assets2/Comparision(weather).png)
+<img src="../assets2/Comparision(weather).png" width="450" height="300" />
 
 Current conditions surface immediately. Data is grouped by relevance. A follow-up query can pull in an hourly chart without a second LLM call. The `Query` primitive wires up the data source once, and the runtime handles updates.
 
@@ -101,11 +101,11 @@ Search needs filtering. You want something open source, under $50/month, with VS
 
 **Plain text response:**
 
-![Gemini returning the best Coding tools in text format](../assets2/Coding-Tools(text).png)
+<img src="../assets2/Coding-Tools(text).png" width="450" height="300" />
 
 **OpenUI response:**
 
-![OpenUI rendering coding tools as filterable cards with pricing badges and IDE tags](../assets2/Comparision-CodingTools-Open.png)
+<img src="../assets2/Comparision-CodingTools-Open.png" width="450" height="300" />
 
 The `@Filter` primitive makes the filter controls work. Changing the select immediately re-evaluates the result list. No second model call. No round trip. That distinction matters beyond UX. In a chat interface, every refinement ("show me only the free ones") becomes a new prompt, a new model call, additional latency, and additional token cost. In a stateful interface, the same interaction is a local state update. The model is not involved. The filter re-runs client-side in milliseconds.
 
@@ -147,11 +147,11 @@ A numbered list. Maybe with headers for each step. When you finish, you're not s
 
 **OpenUI response (light theme):**
 
-![OpenUI rendering a multi-step SaaS deployment onboarding flow with a stepper showing Environment Setup completed, Database Configuration as current step, and form fields for database host and credentials](../assets2/Multistep(text).png)
+<img src="../assets2/Multistep(text).png" width="450" height="300" />
 
 **OpenUI response (dark theme):**
 
-![OpenUI rendering the same deployment setup flow in a dark-themed interface with progress indicators showing step 1 completed and step 2 current, environment variables table, and export to sheets button](../assets2/Multi-Step.png)
+<img src="../assets2/Multi-Step.png" width="450" height="300" />
 
 Both show what text cannot show. State. Completed steps are checked. The current step is highlighted. Future steps are dimmed. The database form validates inline before letting you continue. The environment variables table lets you audit what has been configured. The Export to Sheets button wires directly to a tool action.
 
@@ -193,13 +193,13 @@ Something fails in production. You ask your AI assistant what happened. It tells
 
 **AI response (text-based):**
 
-![Gemini returning a structured deployment error for a failed Next.js build, showing a diagnostic panel with error title, missing DATABASE_URL explanation, steps to fix, action buttons for retry and environment settings, and expandable build logs](../assets2/Comparision(errors-text).png)
+<img src="../assets2/Comparision(errors-text).png" width="450" height="300" />
 
 This is already better than raw prose. The error has structure. Action buttons are present. Logs are expandable. But the buttons do not actually retry the deployment. They navigate you somewhere else to do it. The diagnosis and the fix are on different surfaces.
 
 **OpenUI response:**
 
-![OpenUI rendering a deployment failure interface with a red error panel showing "Missing Environment Variable", DATABASE_URL error message, a prominent Retry Deployment button, a Configure Environment Variables button, and timestamped build logs](../assets2/Comparision(errors).png)
+<img src="../assets2/Comparision(errors).png" width="450" height="300" />
 
 The Retry Deployment button here is wired to a `Mutation` that actually fires the retry. The model generated both the diagnosis and the fix in one pass:
 
