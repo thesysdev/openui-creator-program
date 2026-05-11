@@ -14,59 +14,59 @@ Three representative UI types, chosen to span the complexity range you'd see in 
 
 ### Prompt 1 — Login form (small)
 
-<img src="../assets/token-cost-login.png" alt="OpenUI playground showing a login form: structured DSL on the left with token counters reading 234 OpenUI Lang vs 1,235 parsed JSON and an 81% FEWER TOKENS badge; rendered Welcome Back form with email field, password field, Remember Me checkbox, Sign In button, and Forgot Password link on the right" />
+<img src="../assets/token-cost-login.png" alt="OpenUI playground showing a login form: structured DSL on the left with token counters reading 176 OpenUI Lang vs 996 parsed JSON and an 82% FEWER TOKENS badge; rendered Welcome Back form with email field, password field, Sign In button, and Forgot Password link on the right" />
 
-**OpenUI Lang: 234 tokens. JSON: 1,235 tokens. Reduction: 81%.**
+**OpenUI Lang: 176 tokens. JSON: 996 tokens. Reduction: 82%.**
 
-Smallest output. The DSL still saves a kilobyte of tokens on a five-field form.
+Smallest output. The DSL still saves nearly a kilobyte of tokens on a few-field form.
 
 ### Prompt 2 — Weather dashboard (medium)
 
-<img src="../assets/token-cost-dashboard.png" alt="OpenUI playground showing a Weather Dashboard: structured DSL on the left with token counters reading 1,122 OpenUI Lang vs 4,750 parsed JSON and a 76% FEWER TOKENS badge; rendered dashboard with 4 KPI cards (Temperature, Humidity, Wind Speed, UV Index) and Temperature Forecast / Precipitation charts on the right" />
+<img src="../assets/token-cost-dashboard.png" alt="OpenUI playground showing a Weather Dashboard: structured DSL on the left with token counters and a 75% FEWER TOKENS badge; rendered dashboard with current weather (62°F, Partly Cloudy, Wind 12 mph NW, Humidity 74%) and an Hourly Forecast line chart on the right" />
 
-**OpenUI Lang: 1,122 tokens. JSON: 4,750 tokens. Reduction: 76%.**
+**Reduction: 75%.**
 
 Charts are where JSON's verbosity really shows up: every series, every data point, every axis config is a wrapped object.
 
 ### Prompt 3 — Kanban board (large)
 
-<img src="../assets/token-cost-kanban.png" alt="OpenUI playground showing a Kanban Board: structured DSL on the left with token counters reading 1,884 OpenUI Lang vs 9,135 parsed JSON and an 80% FEWER TOKENS badge; rendered Kanban board with four columns (Backlog 5, In Progress 3, In Review 2, Done 4) populated with cards showing Feature/Bug/Chore tags, priorities, and assignees on the right" />
+<img src="../assets/token-cost-kanban.png" alt="OpenUI playground showing a Kanban Board: structured DSL on the left with token counters reading 2,238 OpenUI Lang vs 11,411 parsed JSON and an 80% FEWER TOKENS badge; rendered Kanban board with four columns (To Do 5, In Progress 3, Review 2, Done 4) populated with cards showing Design/Backend/Frontend/QA tags, priorities, and assignees on the right" />
 
-**OpenUI Lang: 1,884 tokens. JSON: 9,135 tokens. Reduction: 80%.**
+**OpenUI Lang: 2,238 tokens. JSON: 11,411 tokens. Reduction: 80%.**
 
 The largest output of the three. As the UI tree grows, the JSON penalty compounds because every node carries the same syntactic overhead.
 
 ### Summary
 
-| Prompt | OpenUI Lang | Parsed JSON | Reduction | Tokens saved |
-|---|---:|---:|---:|---:|
-| Login form | 234 | 1,235 | 81% | 1,001 |
-| Weather dashboard | 1,122 | 4,750 | 76% | 3,628 |
-| Kanban board | 1,884 | 9,135 | 80% | 7,251 |
+| Prompt | OpenUI Lang | Parsed JSON | Reduction |
+|---|---:|---:|---:|
+| Login form | 176 | 996 | 82% |
+| Weather dashboard | (medium tree) | (medium tree) | 75% |
+| Kanban board | 2,238 | 11,411 | 80% |
 
-Average reduction across all three: **78%**. The bigger the UI tree, the bigger the absolute savings.
+Average reduction across all three: roughly **79%**. The bigger the UI tree, the bigger the absolute savings.
 
 ---
 
 ## What it actually costs
 
-At Anthropic's Sonnet 4.6 rate of **$3 per million input tokens / $15 per million output tokens** (rates as of writing), here's what those three UI types cost per render:
+At Anthropic's Sonnet 4.6 rate of **$3 per million input tokens / $15 per million output tokens** (rates as of writing), here's what the Login and Kanban examples cost per render:
 
-| Format | Login | Dashboard | Kanban |
+| Format | Login | Kanban |
+|---|---:|---:|
+| OpenUI Lang | $0.0026 | $0.0336 |
+| JSON | $0.0149 | $0.1712 |
+| **Delta per render** | **$0.0123** | **$0.1376** |
+
+Now project to product scale. Assume your app renders one of those component types per request (a conservative assumption — many apps render several):
+
+| Volume | OpenUI Lang (Kanban) | JSON (Kanban) | Annual delta |
 |---|---:|---:|---:|
-| OpenUI Lang | $0.0035 | $0.0168 | $0.0283 |
-| JSON | $0.0185 | $0.0713 | $0.1370 |
-| **Delta per render** | **$0.0150** | **$0.0544** | **$0.1088** |
+| 10k renders/mo (internal tool) | ~$3 | ~$17 | ~$170 |
+| 250k renders/mo (mid SaaS) | ~$84 | ~$428 | ~$4,128 |
+| 5M renders/mo (production app) | ~$1,680 | ~$8,560 | ~$82,560 |
 
-Now project to product scale. Assume your app renders one of these three component types per request (a conservative assumption — many apps render several):
-
-| Volume | OpenUI Lang | JSON | Annual delta |
-|---|---:|---:|---:|
-| 10k renders/mo (internal tool) | ~$2 | ~$8 | ~$70 |
-| 250k renders/mo (mid SaaS) | ~$42 | ~$200 | ~$1,900 |
-| 5M renders/mo (production app) | ~$839 | ~$3,990 | ~$37,800 |
-
-That's $37k a year on a single component type if you're at production scale. A B2B SaaS dashboard auto-refreshing every five minutes for 5,000 users hits 5M renders/month in a single quarter.
+That's $82k a year on a single component type if you're at production scale and rendering Kanban-sized trees. A B2B SaaS workflow board auto-refreshing every five minutes for 5,000 users hits 5M renders/month in a single quarter.
 
 The cost calculation isn't speculative: it's the same component tree, the same data, the same output budget. Only the wire format changes.
 
@@ -138,7 +138,7 @@ Cost-per-render is the headline number, but it's not the only thing you're payin
 
 **Lock-in.** OpenUI Lang is open-spec but the runtime that interprets it is the OpenUI library — switching renderers means re-tooling. AI SDK locks you to RSC + Vercel's ecosystem more tightly than its docs admit. JSON locks you to nothing.
 
-**Reliability.** Token-efficient formats also tend to be lower-error-rate formats, because the model has fewer characters where it can go wrong. A missing comma in a 9,000-token JSON Kanban board is a malformed render; in a 1,900-token OpenUI Lang output the model has fewer opportunities to introduce the comma in the first place. Anecdote, not study, but consistent with what I've observed.
+**Reliability.** Token-efficient formats also tend to be lower-error-rate formats, because the model has fewer characters where it can go wrong. A missing comma in an 11,000-token JSON Kanban board is a malformed render; in a 2,200-token OpenUI Lang output the model has fewer opportunities to introduce the comma in the first place. Anecdote, not study, but consistent with what I've observed.
 
 ---
 
@@ -156,13 +156,13 @@ A blunt prescription:
 
 ## What this actually costs you in a year
 
-Same three product scales, broken out by component type:
+Same three product scales, monthly cost for Login and Kanban examples:
 
-| Product | Renders/mo | Login (Lang) | Login (JSON) | Dashboard (Lang) | Dashboard (JSON) | Kanban (Lang) | Kanban (JSON) |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Internal tool | 10k | $0.42 | $2.22 | $2.02 | $8.56 | $3.40 | $16.44 |
-| Mid SaaS | 250k | $10.51 | $55.58 | $50.46 | $213.96 | $84.86 | $411.08 |
-| Production app | 5M | $210.15 | $1,111.50 | $1,009.13 | $4,279.13 | $1,697.13 | $8,221.50 |
+| Product | Renders/mo | Login (Lang) | Login (JSON) | Kanban (Lang) | Kanban (JSON) |
+|---|---:|---:|---:|---:|---:|
+| Internal tool | 10k | $0.26 | $1.49 | $3.36 | $17.12 |
+| Mid SaaS | 250k | $6.60 | $37.35 | $83.93 | $427.91 |
+| Production app | 5M | $132.00 | $747.00 | $1,678.50 | $8,558.25 |
 
 *(Cost per month, single component type per render, Anthropic Sonnet 4.6 output pricing.)*
 
