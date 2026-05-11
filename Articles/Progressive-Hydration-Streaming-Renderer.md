@@ -18,6 +18,22 @@ That's the whole framing. Everything below is mechanism.
 
 ---
 
+## What this looks like in practice
+
+Two captures of the same Kanban generation in the OpenUI playground, ~5 seconds apart:
+
+<img src="../assets/hydration-mid.png" alt="OpenUI playground mid-generation: structured DSL on the left is still streaming; the rendered Kanban board on the right has a few columns and cards populated but is visibly incomplete — fewer cards per column, some content still arriving" />
+
+*Mid-stream, ~5s in. The structure is already mounted — columns, the first cards, the column headers. The rest is still arriving but the user isn't looking at a blank screen.*
+
+<img src="../assets/hydration-complete.png" alt="OpenUI playground at end of generation: the structured DSL on the left is complete; the rendered Kanban board on the right is fully populated with four columns of task cards, each with type tags, priority badges, assignees, and due dates" />
+
+*Generation complete. The cards filled in progressively over the streaming window — each card mounted as soon as its definition arrived, rather than waiting for the whole board.*
+
+The user sees the UI materialize. They never see a spinner. That's progressive hydration — and the rest of this article is how it works.
+
+---
+
 ## Why JSON breaks for streaming UI
 
 Try to render this partial output:
