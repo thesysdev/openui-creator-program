@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="520" viewBox="0 0 1280 520" role="img" aria-labelledby="title desc">
+  <title id="title">Tool result to review interface flow</title>
+  <desc id="desc">A five step flow from tool call to structured approval payload.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f6f8fb}
+      .card{fill:#fff;stroke:#d9e0ea;stroke-width:2}
+      .label{font:700 30px Arial,sans-serif;fill:#172033}
+      .body{font:400 21px Arial,sans-serif;fill:#5d6675}
+      .chip{fill:#eef4ff;stroke:#c8d9ff;stroke-width:1}
+      .chipText{font:700 17px Arial,sans-serif;fill:#155eef}
+      .arrow{stroke:#8c98aa;stroke-width:3;fill:none;marker-end:url(#arrowhead)}
+    </style>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L10,6 L0,12 Z" fill="#8c98aa"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1280" height="520" rx="0"/>
+  <g transform="translate(52 84)">
+    <rect class="card" x="0" y="0" width="190" height="250" rx="18"/>
+    <text class="label" x="26" y="54">Tool Call</text>
+    <text class="body" x="26" y="98">Fetches task</text>
+    <text class="body" x="26" y="130">state, evidence,</text>
+    <text class="body" x="26" y="162">risks, links.</text>
+    <rect class="chip" x="26" y="190" width="112" height="34" rx="17"/>
+    <text class="chipText" x="45" y="213">schema</text>
+  </g>
+  <path class="arrow" d="M260 210 H348"/>
+  <g transform="translate(370 84)">
+    <rect class="card" x="0" y="0" width="190" height="250" rx="18"/>
+    <text class="label" x="26" y="54">Mapper</text>
+    <text class="body" x="26" y="98">Turns stable</text>
+    <text class="body" x="26" y="130">state into known</text>
+    <text class="body" x="26" y="162">components.</text>
+    <rect class="chip" x="26" y="190" width="112" height="34" rx="17"/>
+    <text class="chipText" x="43" y="213">props</text>
+  </g>
+  <path class="arrow" d="M578 210 H666"/>
+  <g transform="translate(688 84)">
+    <rect class="card" x="0" y="0" width="190" height="250" rx="18"/>
+    <text class="label" x="26" y="54">OpenUI</text>
+    <text class="body" x="26" y="98">Renders cards,</text>
+    <text class="body" x="26" y="130">status, details,</text>
+    <text class="body" x="26" y="162">and controls.</text>
+    <rect class="chip" x="26" y="190" width="126" height="34" rx="17"/>
+    <text class="chipText" x="43" y="213">interface</text>
+  </g>
+  <path class="arrow" d="M896 210 H984"/>
+  <g transform="translate(1006 84)">
+    <rect class="card" x="0" y="0" width="222" height="250" rx="18"/>
+    <text class="label" x="26" y="54">Approval</text>
+    <text class="body" x="26" y="98">User action</text>
+    <text class="body" x="26" y="130">returns typed</text>
+    <text class="body" x="26" y="162">payload.</text>
+    <rect class="chip" x="26" y="190" width="144" height="34" rx="17"/>
+    <text class="chipText" x="43" y="213">next event</text>
+  </g>
+  <path class="arrow" d="M1117 352 C1117 440 164 440 164 352"/>
+  <text class="body" x="410" y="468">The agent resumes with a precise event instead of parsing vague approval text.</text>
+</svg>
