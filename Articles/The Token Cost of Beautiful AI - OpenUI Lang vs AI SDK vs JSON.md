@@ -41,12 +41,13 @@ structured tool-call shape a model commonly has to emit when a chat framework
 uses tool calls to hand UI data to application code. The AI SDK docs expose tool
 calls as named tools with structured inputs, which is the envelope modeled here.
 
-OpenUI source references for the UI-native path:
+OpenUI source references for the UI-native path, pinned to the upstream
+`thesysdev/openui` repository at commit `af14af1adedc4de1e76766655baabb4ca5f283d4`:
 
-- `packages/lang-core/src/parser/parser.ts`
-- `packages/lang-core/src/parser/statements.ts`
-- `packages/react-lang/src/Renderer.tsx`
-- `packages/react-lang/src/hooks/useOpenUIState.ts`
+- [`packages/lang-core/src/parser/parser.ts`](https://github.com/thesysdev/openui/blob/af14af1adedc4de1e76766655baabb4ca5f283d4/packages/lang-core/src/parser/parser.ts)
+- [`packages/lang-core/src/parser/statements.ts`](https://github.com/thesysdev/openui/blob/af14af1adedc4de1e76766655baabb4ca5f283d4/packages/lang-core/src/parser/statements.ts)
+- [`packages/react-lang/src/Renderer.tsx`](https://github.com/thesysdev/openui/blob/af14af1adedc4de1e76766655baabb4ca5f283d4/packages/react-lang/src/Renderer.tsx)
+- [`packages/react-lang/src/hooks/useOpenUIState.ts`](https://github.com/thesysdev/openui/blob/af14af1adedc4de1e76766655baabb4ca5f283d4/packages/react-lang/src/hooks/useOpenUIState.ts)
 
 ## Benchmark Results
 
