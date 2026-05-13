@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420" role="img" aria-labelledby="title desc">
+  <title id="title">Token cost comparison for generated UI formats</title>
+  <desc id="desc">A bar chart comparing OpenUI Lang, compact JSON UI payloads, and AI SDK-style tool calls across three benchmark fixtures.</desc>
+  <rect width="920" height="420" rx="18" fill="#f7f7f2"/>
+  <rect x="28" y="28" width="864" height="364" rx="14" fill="#ffffff" stroke="#d8d8d0"/>
+
+  <text x="70" y="70" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" fill="#1f2933">Output tokens for the same generated UI</text>
+  <text x="70" y="101" font-family="Inter, Arial, sans-serif" font-size="15" fill="#56616d">Three compact fixtures measured with tiktoken o200k_base</text>
+
+  <line x1="84" y1="316" x2="832" y2="316" stroke="#c9c9c2" stroke-width="1.5"/>
+  <line x1="84" y1="256" x2="832" y2="256" stroke="#ededE7" stroke-width="1"/>
+  <line x1="84" y1="196" x2="832" y2="196" stroke="#ededE7" stroke-width="1"/>
+  <line x1="84" y1="136" x2="832" y2="136" stroke="#ededE7" stroke-width="1"/>
+
+  <text x="64" y="321" font-family="Inter, Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="end">0</text>
+  <text x="64" y="261" font-family="Inter, Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="end">100</text>
+  <text x="64" y="201" font-family="Inter, Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="end">200</text>
+  <text x="64" y="141" font-family="Inter, Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="end">300</text>
+
+  <rect x="148" y="191" width="150" height="125" rx="8" fill="#1f9d8a"/>
+  <rect x="386" y="135" width="150" height="181" rx="8" fill="#f29e4c"/>
+  <rect x="624" y="107" width="150" height="209" rx="8" fill="#5567e8"/>
+
+  <text x="223" y="176" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" fill="#1f2933" text-anchor="middle">208</text>
+  <text x="461" y="120" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" fill="#1f2933" text-anchor="middle">302</text>
+  <text x="699" y="92" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" fill="#1f2933" text-anchor="middle">348</text>
+
+  <text x="223" y="344" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#1f2933" text-anchor="middle">OpenUI Lang</text>
+  <text x="461" y="344" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#1f2933" text-anchor="middle">Compact JSON</text>
+  <text x="699" y="344" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#1f2933" text-anchor="middle">AI SDK-style</text>
+
+  <text x="223" y="366" font-family="Inter, Arial, sans-serif" font-size="13" fill="#56616d" text-anchor="middle">baseline</text>
+  <text x="461" y="366" font-family="Inter, Arial, sans-serif" font-size="13" fill="#56616d" text-anchor="middle">+45.2%</text>
+  <text x="699" y="366" font-family="Inter, Arial, sans-serif" font-size="13" fill="#56616d" text-anchor="middle">+67.3%</text>
+</svg>
