@@ -10,6 +10,14 @@ The snippets below assume your app has registered the referenced components in i
 
 Here are five common AI responses that get awkward fast as plain text, and what they look like when the model can generate UI instead.
 
+| If the answer needs... | Plain text usually gives users... | Generated UI can give users... |
+| --- | --- | --- |
+| Comparison | Paragraph scanning | Aligned fields and sortable structure |
+| Choice | A recommendation they must copy elsewhere | Selectable options and next actions |
+| Editing | Another prompt | Inputs, validation, and local state |
+| Monitoring | A stale summary | Refreshing status and tool-backed data |
+| Workflow | Instructions | A guided surface with submit/retry/approve actions |
+
 ---
 
 ## 1. Product Comparisons
@@ -249,6 +257,8 @@ The failure mode is easy to spot: if the model's answer makes the user copy valu
 OpenUI gives developers a way to make that boundary explicit. You define the components your app trusts. The model selects and composes those components. The renderer parses the generated OpenUI Lang and renders your UI progressively. For tool-connected apps, queries and mutations let the interface keep working after generation, without forcing every click through the model.
 
 That is the real upgrade. The model is not just writing nicer Markdown. It is producing a usable surface for the task.
+
+For developers, the practical implementation question is not "Can the model draw any interface?" It is narrower and more useful: "What component vocabulary should this feature expose to the model, and what actions should remain under application control?" That boundary is what keeps generative UI from turning into unreviewable frontend generation.
 
 ## Further Reading
 
