@@ -6,6 +6,10 @@ The problem is not that plain text is ugly. The problem is that plain text throw
 
 Generative UI fixes that only when it preserves the shape of the task. OpenUI is useful here because the model can return an interface instead of forcing the product to translate every complex answer back into a chat bubble.
 
+![Plain text answer compared with a reviewable generated interface](../assets/text-to-interface-review-loop.svg)
+
+The goal is not to make every answer more visual. The goal is to keep the parts that matter as first-class UI: evidence stays attached to claims, state stays visible, actions have stable targets, and decisions remain reviewable before anything executes.
+
 Here are five outputs that degrade badly as plain text, and what changes when the same answer becomes a rendered UI.
 
 ## 1. Incident Triage
