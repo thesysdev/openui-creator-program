@@ -20,6 +20,8 @@ interaction handlers that you already trust.
 The result is a generative UI surface that can adapt to a user's task without
 escaping the visual and behavioral rules of the product.
 
+![Chakra UI as the safety rail for OpenUI generated interfaces](../assets/chakra-openui-safety-rail.svg)
+
 ## The Mistake: Giving the Model the Whole Design System
 
 Chakra is intentionally flexible. A developer can compose `Box`, `Stack`,
