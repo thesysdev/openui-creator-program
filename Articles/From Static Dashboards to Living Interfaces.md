@@ -10,6 +10,13 @@ AI changes that assumption. If the interface can be generated at the moment of n
 
 OpenUI is one concrete technical path toward that shift. It lets an AI model generate structured UI from a component library your product controls, then lets the runtime render and execute that interface. The result is not just a chatbot with charts. It is a different way to think about how data products are assembled.
 
+```mermaid
+flowchart LR
+  A["Reports<br/>fixed output"] --> B["Dashboards<br/>fixed interface, live data"]
+  B --> C["Chat over data<br/>flexible question, text answer"]
+  C --> D["Living interfaces<br/>flexible question, generated UI, live actions"]
+```
+
 ---
 
 ## The First Era: Reports
@@ -189,6 +196,15 @@ Engineering teams can define the tools:
 The model's job is to assemble those primitives for the user's request. The application's job is to keep the components safe, consistent, and connected to real systems.
 
 This is why OpenUI's library-driven approach is important. The model is not being asked to generate arbitrary React code. It is being asked to compose from an allowed set of components and tool calls. That makes generative UI much closer to product infrastructure than to a demo trick.
+
+For a product team, the migration path looks less like a dashboard redesign and more like defining an interface contract:
+
+| Layer | Static dashboard question | Living interface question |
+| --- | --- | --- |
+| Components | Which chart should we place on this page? | Which trusted components can the model compose? |
+| Data | Which query powers this tile? | Which tools can the generated UI call after render? |
+| Interaction | Which filters do we expose? | Which state changes should update the UI without another prompt? |
+| Action | Where does the user go next? | Which safe actions belong inside the generated surface? |
 
 ---
 
