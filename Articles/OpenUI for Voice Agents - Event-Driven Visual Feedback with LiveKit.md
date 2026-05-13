@@ -27,6 +27,34 @@ User voice
   -> UI actions can send messages back to the agent
 ```
 
+As a sequence, the useful part looks like this:
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant Browser
+  participant LiveKit
+  participant Agent
+  participant Thesys
+  participant Renderer
+
+  User->>Browser: Speaks a request
+  Browser->>LiveKit: Publishes microphone audio
+  LiveKit->>Agent: Streams user audio
+  Agent->>Agent: Decides speech + visual response
+  Agent-->>LiveKit: Speaks a short update
+  Agent->>Thesys: show_ui(content)
+  Thesys-->>Agent: Streams generated UI chunks
+  Agent-->>LiveKit: streamText(topic: "genui")
+  LiveKit-->>Browser: Delivers "genui" text stream
+  Browser->>Renderer: Accumulates partial response
+  Renderer-->>User: Renders interactive UI
+  User->>Renderer: Clicks a generated action
+  Renderer->>Browser: Emits typed action event
+  Browser->>LiveKit: Sends follow-up chat message
+  LiveKit->>Agent: Continues the loop
+```
+
 The important design decision is that speech and UI are not the same output serialized two different ways. They serve different jobs.
 
 The spoken response should stay short:
@@ -279,6 +307,16 @@ Fifth, design an empty state. Before the first visual stream, the UI should expl
 ## A Minimal Implementation Checklist
 
 To build this pattern in your own app, you need five contracts.
+
+| Contract | Question it answers | Reference implementation |
+| --- | --- | --- |
+| Voice session | How does the browser join a room and start the agent? | `src/app/api/connection-details/route.ts` creates a LiveKit token and attaches room metadata. |
+| Visual stream | How does the agent send generated UI without blocking speech? | `ShowUITool` writes chunks with `room.localParticipant.streamText({ topic: "genui" })`. |
+| Renderer | How does the browser turn partial output into UI? | `VoiceUI` accumulates `genui` chunks and `GenUIPanel` passes them to `C1Component`. |
+| Action | How does a generated button re-enter the agent loop? | `handleAction` validates event type and sends a friendly message through LiveKit chat. |
+| Cancellation | What happens when the user changes direction mid-stream? | `ShowUITool` aborts the previous visual stream before starting a new one. |
+
+If you prefer a checklist, the same contracts look like this:
 
 1. A voice session contract:
 
