@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">OpenUI streamed renderer pipeline</title>
+  <desc id="desc">A diagram showing streamed OpenUI Lang moving through the streaming parser, OpenUI state hook, React renderer, and application component library.</desc>
+  <rect width="1280" height="720" fill="#f7f9fc"/>
+  <rect x="70" y="76" width="1140" height="568" rx="18" fill="#ffffff" stroke="#d7deea" stroke-width="2"/>
+  <text x="102" y="132" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#132033">How OpenUI Renders a Streaming Response</text>
+  <text x="102" y="170" font-family="Arial, sans-serif" font-size="18" fill="#5a667a">The model emits text; OpenUI turns the best current parse result into React components while deferring unsafe side effects.</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="108" y="246" width="184" height="126" rx="14" fill="#eaf1ff" stroke="#8baef0"/>
+    <text x="136" y="292" font-size="22" font-weight="700" fill="#17396b">Model Stream</text>
+    <text x="136" y="326" font-size="15" fill="#344d73">OpenUI Lang text</text>
+    <text x="136" y="350" font-size="15" fill="#344d73">arrives token by token</text>
+
+    <rect x="354" y="246" width="184" height="126" rx="14" fill="#ecfbf4" stroke="#8fd7b5"/>
+    <text x="382" y="292" font-size="22" font-weight="700" fill="#165c3b">Parser</text>
+    <text x="382" y="326" font-size="15" fill="#2e6650">Caches completed</text>
+    <text x="382" y="350" font-size="15" fill="#2e6650">statements</text>
+
+    <rect x="600" y="246" width="184" height="126" rx="14" fill="#fff6df" stroke="#e3bf68"/>
+    <text x="628" y="292" font-size="22" font-weight="700" fill="#6c4a04">State Hook</text>
+    <text x="628" y="326" font-size="15" fill="#755b25">Evaluates props, forms,</text>
+    <text x="628" y="350" font-size="15" fill="#755b25">queries, and errors</text>
+
+    <rect x="846" y="246" width="184" height="126" rx="14" fill="#f1edff" stroke="#b4a5f5"/>
+    <text x="874" y="292" font-size="22" font-weight="700" fill="#46368e">Renderer</text>
+    <text x="874" y="326" font-size="15" fill="#5a4b94">Maps ElementNode</text>
+    <text x="874" y="350" font-size="15" fill="#5a4b94">to React components</text>
+
+    <rect x="476" y="486" width="328" height="82" rx="14" fill="#142033"/>
+    <text x="532" y="535" font-size="23" font-weight="700" fill="#ffffff">Application-owned UI</text>
+  </g>
+
+  <g fill="none" stroke="#617087" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M298 309h48"/>
+    <path d="M340 299l12 10-12 10"/>
+    <path d="M544 309h48"/>
+    <path d="M586 299l12 10-12 10"/>
+    <path d="M790 309h48"/>
+    <path d="M832 299l12 10-12 10"/>
+    <path d="M938 380c0 72-80 102-196 122"/>
+    <path d="M750 490l-14 14 18 8"/>
+  </g>
+
+  <g font-family="Arial, sans-serif" font-size="16" fill="#5a667a">
+    <text x="132" y="438">Partial text can still become a partial tree.</text>
+    <text x="356" y="438">Incomplete tails are auto-closed for best-effort parsing.</text>
+    <text x="602" y="438">Queries and mutations wait until streaming is finished.</text>
+    <text x="836" y="438">Last-good rendering avoids blanking transient failures.</text>
+  </g>
+</svg>
