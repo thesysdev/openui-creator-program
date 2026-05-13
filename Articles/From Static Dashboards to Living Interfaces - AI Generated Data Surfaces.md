@@ -57,7 +57,7 @@ write the action list somewhere else.
 
 The data is present. The interface is not shaped around the job.
 
-## What A Living Interface Changes
+## What a Living Interface Changes
 
 A living interface is generated around intent. It still uses real metrics and
 real components, but its layout is assembled at runtime for the question in
@@ -219,9 +219,10 @@ system. It should receive a small vocabulary that matches the workflow.
 For a data workspace, that might be:
 
 - `Metric` for headline numbers,
-- `TrendChart` for time series,
-- `BreakdownChart` for grouped comparisons,
+- `LineChart` for time series,
+- `Funnel` for step-by-step conversion paths,
 - `SegmentTable` for accounts, users, or events,
+- `Alert` for exception or risk flags,
 - `FilterBar` for safe filters,
 - `Definition` for metric explanations,
 - `ActionList` for allowed next steps.
