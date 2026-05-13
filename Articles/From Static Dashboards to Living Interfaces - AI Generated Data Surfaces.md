@@ -280,7 +280,7 @@ The right split is not static versus AI. It is stable versus situational.
 Stable questions deserve stable dashboards. Situational questions deserve
 generated interfaces around intent.
 
-## The Dashboard Becomes A Starting Point
+## The Dashboard Becomes a Starting Point
 
 The most realistic future is hybrid. A user starts from a dashboard, asks a
 follow-up question, and the system generates a temporary interface next to the
