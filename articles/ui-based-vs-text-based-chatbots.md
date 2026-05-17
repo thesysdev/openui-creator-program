@@ -1,4 +1,4 @@
-# UI-Based Chatbots vs. Text-Based Chatbots: A Performance Comparison Across Task Completion Rate, Time-on-Task, and User Satisfaction
+# UI-Based Chatbots vs. Text-Based Chatbots: Task Completion Rate, Time-on-Task, and User Satisfaction
 
 A developer asks your support chatbot what parameters the `/auth/token` endpoint accepts.
 
@@ -11,6 +11,8 @@ The bot answers correctly, with full details, in two paragraphs. The developer r
 This happens constantly, and most teams debug it by improving the model. They rewrite prompts, upgrade the LLM, and tune the retrieval. The task completion number barely moves, because the model was never the problem.
 
 The output format was.
+
+Thesys ran a study with 145 people across 5 countries testing the same queries on their regular chatbot and a Generative UI interface. 92% said they wouldn't re-read or regenerate a response they found unsatisfactory. They just left. When asked what they value most in AI outputs, 73% said ease of understanding — above depth of information, relevance, or anything else. ([Thesys Generative UI Report 2025](https://www.thesys.dev/report/gen-ui-2025))
 
 ![Text chatbot vs UI chatbot comparison](../assets/ui-based-vs-text-based-chatbots/text-vs-ui.png)
 
@@ -63,6 +65,8 @@ The deployment numbers match this.
 
 A 2025 review of customer experience platforms found that RAG-based text chatbots resolve somewhere between 10% and 20% of tickets in production. When structured response components are available, that resolution rate improves because users can act directly from the response rather than having to navigate somewhere else to finish.
 
+The Thesys report shows what users do when text output fails them on complex tasks: 51% switch to traditional tools for structure, 27% turn to separate visualization tools, and 20% look for something interactive. They don't complain. They just go somewhere else. ([Thesys Generative UI Report 2025](https://www.thesys.dev/report/gen-ui-2025))
+
 ![Without OpenUI vs With OpenUI](../assets/ui-based-vs-text-based-chatbots/hero-web.png)
 
 This is the clearest visual summary of the task completion problem I've seen. Same query. Same model. One output leaves the user to figure out what to do next. The other gives them something they can act on immediately.
@@ -89,6 +93,8 @@ Say you're building an integration and you ask a support chatbot what parameters
 
 The same information as a parameter table with types, required flags, and example values takes a scan, not a reading. The information is identical. The time to use it is not.
 
+In the Thesys study, for queries that returned numerical data, 90% of respondents preferred a Generative UI response, with 67% citing visual appeal as the primary driver. The data wasn't different. The format was. ([Thesys Generative UI Report 2025](https://www.thesys.dev/report/gen-ui-2025))
+
 A 2022 study in the *International Journal of Human-Computer Studies* found that button-based interaction improved both pragmatic quality and hedonic quality scores compared to free-text interaction. Users completed the same tasks faster and rated the experience better.
 
 The improvement came from removing cognitive friction on both sides of the conversation: they didn't have to think about how to phrase input, and they didn't have to parse unstructured output. ([Følstad & Skjuve, 2022](https://www.sciencedirect.com/science/article/pii/S1071581922000179))
@@ -98,6 +104,8 @@ The framework behind this is cognitive load theory.
 Working memory has a fixed capacity. When an interface forces you to hold information in mind while also figuring out what to do with it, some users drop the task before they finish. Structured UI reduces extraneous cognitive load, meaning the load that comes from the interface itself rather than the actual task.
 
 Take that away and people move faster.
+
+In the Thesys study, 77% of participants who used a Generative UI interface said it could help them save time compared to their regular text-based chatbot. The study attributed this specifically to reduced refinement effort — users didn't need to prompt repeatedly to get the output into a usable shape. ([Thesys Generative UI Report 2025](https://www.thesys.dev/report/gen-ui-2025))
 
 ![OpenUI Playground weather dashboard](../assets/ui-based-vs-text-based-chatbots/weather-dashboard.png)
 
@@ -119,6 +127,8 @@ The 2021 *Computers in Human Behavior* study found that text-only chatbots produ
 - Higher cognitive effort: parsing prose requires active processing in a way that structured options don't
 
 Both eroded satisfaction on their own, and they compounded each other.
+
+The Thesys Generative UI Report puts numbers on this. In an A/B test with 115 respondents comparing static text responses against Generative UI responses for the same queries: 89% found Generative UI responses easier to comprehend, 85% found the experience more engaging, and 83% chose the Generative UI response when asked which they preferred. ([Thesys Generative UI Report 2025](https://www.thesys.dev/report/gen-ui-2025))
 
 ### The emotional context problem
 
@@ -145,6 +155,8 @@ Research on chatbot UX recovery found that users who hit friction during a chatb
 For simple, single-turn queries, "is this endpoint deprecated?", "what's the rate limit?", the format barely matters. Text works. The user reads it, gets the answer, moves on.
 
 The calculus changes when tasks become multi-step, require user input, or involve a decision. Configuring an integration. Filling out a support escalation. Completing an onboarding flow. Booking a refund.
+
+One participant in the Thesys study described a text-only chatbot response for a complex task as "throwing it all at you." The structured Generative UI version of the same response they called "more organized and easier to take in." That's the difference between a format that transfers information and one that supports the task. ([Thesys Generative UI Report 2025](https://www.thesys.dev/report/gen-ui-2025))
 
 For these tasks, text responses create a real mismatch. The user needs to do something, but the interface only gives them something to read. The best the chatbot can do is describe the action and redirect the user somewhere else to complete it. NN/G documented exactly this: users who received correct instructions still abandoned tasks because there was no clear path from "I know what to do" to "I have done it."
 
@@ -275,4 +287,4 @@ If you want to understand where your chatbot's format is costing you, here are t
 
 ---
 
-*Research cited: Nguyen, Q.N., Sidorova, A. & Torres, R. (2021). "User interactions with chatbot interfaces vs. menu-based interfaces: An empirical study." Computers in Human Behavior, 125. https://www.sciencedirect.com/science/article/abs/pii/S0747563221004167 | Følstad, A. & Skjuve, M. (2022). "Understanding the user experience of customer service chatbots." International Journal of Human-Computer Studies, 161. https://www.sciencedirect.com/science/article/pii/S1071581922000179 | Nielsen Norman Group. "The User Experience of Chatbots." https://www.nngroup.com/articles/chatbots/ | Forethought. "It's 2025, Why Are Some Chatbots Still So Bad?" https://forethought.ai/blog/why-are-some-chatbots-still-bad*
+*Research cited: Nguyen, Q.N., Sidorova, A. & Torres, R. (2021). "User interactions with chatbot interfaces vs. menu-based interfaces: An empirical study." Computers in Human Behavior, 125. https://www.sciencedirect.com/science/article/abs/pii/S0747563221004167 | Følstad, A. & Skjuve, M. (2022). "Understanding the user experience of customer service chatbots." International Journal of Human-Computer Studies, 161. https://www.sciencedirect.com/science/article/pii/S1071581922000179 | Nielsen Norman Group. "The User Experience of Chatbots." https://www.nngroup.com/articles/chatbots/ | Forethought. "It's 2025, Why Are Some Chatbots Still So Bad?" https://forethought.ai/blog/why-are-some-chatbots-still-bad | Thesys. "Generative UI Report 2025." 145 participants, 5 countries. https://www.thesys.dev/report/gen-ui-2025*
