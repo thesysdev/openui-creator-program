@@ -82,6 +82,24 @@ Without those pieces, "AI-generated dashboards" become fragile demos. With them,
 
 The key idea is OpenUI Lang: instead of asking a model to return markdown or a large JSON object, the model returns a compact, line-oriented UI description constrained to a developer-defined component library. The OpenUI docs describe the flow clearly: define components, generate system instructions from that library, have the LLM respond in OpenUI Lang, and render the result progressively in React.
 
+For example, a user might ask, "Which enterprise regions are most at risk this quarter, and what should I do next?" Instead of returning a paragraph, the model can produce a small OpenUI Lang response like this:
+
+```txt
+root = Stack([title, note, table, rowActions])
+title = TextContent("Pipeline risk by region", "large-heavy")
+note = TextContent("Generated for enterprise deals slipping this quarter.", "medium")
+table = Table([Col("Region", regions), Col("Open pipeline", pipeline, "number"), Col("At-risk deals", risk, "number"), Col("Next action", nextSteps)])
+regions = ["North America", "EMEA", "APAC"]
+pipeline = [4200000, 3100000, 1800000]
+risk = [12, 8, 5]
+nextSteps = ["Review legal blockers", "Escalate procurement", "Confirm renewal owners"]
+rowActions = Buttons([crmBtn, forecastBtn], "row")
+crmBtn = Button("Open CRM view", "action:open-crm", "secondary")
+forecastBtn = Button("Recalculate forecast", "action:recalculate-forecast", "primary")
+```
+
+Rendered through the application's component library, that becomes a native interface: a title, explanatory note, structured table, and product-specific action buttons. The model is not inventing React components. It is composing approved primitives the application already knows how to render.
+
 For data interfaces, that matters for two reasons.
 
 The first is latency. OpenUI's benchmark documentation compares OpenUI Lang with YAML and JSON-based UI formats across scenarios like tables, charts, forms, dashboards, pricing pages, and settings panels. In those benchmarks, OpenUI Lang uses 4,800 tokens across seven scenarios compared with 10,180 tokens for Vercel JSON-Render and 9,948 for Thesys C1 JSON. For a complex dashboard, fewer generated tokens means the interface can appear sooner and cost less to produce.
