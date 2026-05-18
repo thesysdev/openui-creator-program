@@ -82,23 +82,27 @@ Without those pieces, "AI-generated dashboards" become fragile demos. With them,
 
 The key idea is OpenUI Lang: instead of asking a model to return markdown or a large JSON object, the model returns a compact, line-oriented UI description constrained to a developer-defined component library. The OpenUI docs describe the flow clearly: define components, generate system instructions from that library, have the LLM respond in OpenUI Lang, and render the result progressively in React.
 
-For example, a user might ask, "Which enterprise regions are most at risk this quarter, and what should I do next?" Instead of returning a paragraph, the model can produce a small OpenUI Lang response like this:
+For example, a user might ask, "Which enterprise regions are most at risk this quarter, and what should I do next?" Instead of returning a paragraph, the model can produce a small OpenUI Lang response using the default OpenUI component signatures:
 
 ```txt
-root = Stack([title, note, table, rowActions])
+root = Stack([title, note, table, actions])
 title = TextContent("Pipeline risk by region", "large-heavy")
 note = TextContent("Generated for enterprise deals slipping this quarter.", "medium")
-table = Table([Col("Region", regions), Col("Open pipeline", pipeline, "number"), Col("At-risk deals", risk, "number"), Col("Next action", nextSteps)])
+table = Table([regionCol, pipelineCol, riskCol, actionCol])
+regionCol = Col("Region", regions)
+pipelineCol = Col("Open pipeline", pipeline, "number")
+riskCol = Col("At-risk deals", risk, "number")
+actionCol = Col("Next action", nextSteps)
 regions = ["North America", "EMEA", "APAC"]
 pipeline = [4200000, 3100000, 1800000]
 risk = [12, 8, 5]
 nextSteps = ["Review legal blockers", "Escalate procurement", "Confirm renewal owners"]
-rowActions = Buttons([crmBtn, forecastBtn], "row")
-crmBtn = Button("Open CRM view", "action:open-crm", "secondary")
-forecastBtn = Button("Recalculate forecast", "action:recalculate-forecast", "primary")
+actions = Buttons([detailsBtn, forecastBtn], "row")
+detailsBtn = Button("View details", "action:view-details", "secondary")
+forecastBtn = Button("Recalculate forecast", "action:recalculate", "primary")
 ```
 
-Rendered through the application's component library, that becomes a native interface: a title, explanatory note, structured table, and product-specific action buttons. The model is not inventing React components. It is composing approved primitives the application already knows how to render.
+Rendered through the application's component library, that becomes a native interface: a title, explanatory note, structured table, and action buttons. The button action strings are still application-defined; OpenUI supplies the language and renderer contract, while the host product decides what `action:view-details` or `action:recalculate` actually does. The model is not inventing React components. It is composing approved primitives the application already knows how to render.
 
 For data interfaces, that matters for two reasons.
 
