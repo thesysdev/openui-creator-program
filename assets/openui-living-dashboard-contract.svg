@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="500" viewBox="0 0 940 500" role="img" aria-labelledby="title desc">
+  <title id="title">Living dashboard runtime contract</title>
+  <desc id="desc">A diagram showing user intent, governed metrics, data tools, constrained components, and validated actions feeding a generated data surface.</desc>
+  <rect width="940" height="500" rx="20" fill="#f5f7fb"/>
+  <rect x="30" y="30" width="880" height="440" rx="16" fill="#ffffff" stroke="#d8dee9"/>
+
+  <text x="70" y="77" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" fill="#17202a">Living dashboards are generated from contracts, not guesses</text>
+  <text x="70" y="108" font-family="Inter, Arial, sans-serif" font-size="15" fill="#52616f">The model composes the interface; the application owns data, permissions, components, and effects.</text>
+
+  <rect x="70" y="154" width="170" height="86" rx="10" fill="#e9f5ff" stroke="#7bb7e8"/>
+  <text x="155" y="187" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#1f4e79" text-anchor="middle">User intent</text>
+  <text x="155" y="213" font-family="Inter, Arial, sans-serif" font-size="13" fill="#375a74" text-anchor="middle">question, role, goal</text>
+
+  <rect x="70" y="285" width="170" height="86" rx="10" fill="#eef7ed" stroke="#8ccf88"/>
+  <text x="155" y="318" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#256b2f" text-anchor="middle">Metric contract</text>
+  <text x="155" y="344" font-family="Inter, Arial, sans-serif" font-size="13" fill="#47734b" text-anchor="middle">definitions, filters</text>
+
+  <rect x="310" y="154" width="170" height="86" rx="10" fill="#fff3df" stroke="#f3b562"/>
+  <text x="395" y="187" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#8a5200" text-anchor="middle">Data tools</text>
+  <text x="395" y="213" font-family="Inter, Arial, sans-serif" font-size="13" fill="#795d2f" text-anchor="middle">audited results</text>
+
+  <rect x="310" y="285" width="170" height="86" rx="10" fill="#f1edff" stroke="#b6a0f3"/>
+  <text x="395" y="318" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#513a8a" text-anchor="middle">OpenUI vocabulary</text>
+  <text x="395" y="344" font-family="Inter, Arial, sans-serif" font-size="13" fill="#665889" text-anchor="middle">allowed components</text>
+
+  <rect x="565" y="190" width="170" height="132" rx="12" fill="#f9fbff" stroke="#bcc7d6"/>
+  <text x="650" y="224" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" fill="#17202a" text-anchor="middle">Model composes</text>
+  <text x="650" y="252" font-family="Inter, Arial, sans-serif" font-size="13" fill="#52616f" text-anchor="middle">layout</text>
+  <text x="650" y="276" font-family="Inter, Arial, sans-serif" font-size="13" fill="#52616f" text-anchor="middle">components</text>
+  <text x="650" y="300" font-family="Inter, Arial, sans-serif" font-size="13" fill="#52616f" text-anchor="middle">safe action payloads</text>
+
+  <rect x="770" y="154" width="100" height="217" rx="14" fill="#17202a"/>
+  <rect x="790" y="178" width="60" height="11" rx="4" fill="#7bb7e8"/>
+  <rect x="790" y="206" width="60" height="36" rx="6" fill="#8ccf88"/>
+  <rect x="790" y="257" width="60" height="50" rx="6" fill="#f3b562"/>
+  <rect x="790" y="322" width="60" height="25" rx="6" fill="#b6a0f3"/>
+  <text x="820" y="395" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#17202a" text-anchor="middle">Generated</text>
+  <text x="820" y="417" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#17202a" text-anchor="middle">data surface</text>
+
+  <path d="M245 197 H300" stroke="#8896a8" stroke-width="2.5" fill="none"/>
+  <path d="M292 190 L304 197 L292 204" fill="none" stroke="#8896a8" stroke-width="2.5"/>
+  <path d="M245 328 H300" stroke="#8896a8" stroke-width="2.5" fill="none"/>
+  <path d="M292 321 L304 328 L292 335" fill="none" stroke="#8896a8" stroke-width="2.5"/>
+  <path d="M485 197 C520 197 530 225 557 238" stroke="#8896a8" stroke-width="2.5" fill="none"/>
+  <path d="M548 229 L562 241 L544 244" fill="none" stroke="#8896a8" stroke-width="2.5"/>
+  <path d="M485 328 C520 328 530 287 557 275" stroke="#8896a8" stroke-width="2.5" fill="none"/>
+  <path d="M545 271 L562 273 L550 285" fill="none" stroke="#8896a8" stroke-width="2.5"/>
+  <path d="M738 256 H762" stroke="#8896a8" stroke-width="2.5" fill="none"/>
+  <path d="M754 249 L766 256 L754 263" fill="none" stroke="#8896a8" stroke-width="2.5"/>
+
+  <line x1="100" y1="434" x2="840" y2="434" stroke="#d8dee9" stroke-width="1"/>
+  <text x="470" y="456" font-family="Inter, Arial, sans-serif" font-size="13" fill="#52616f" text-anchor="middle">Runtime output is adaptive; data and effects stay governed.</text>
+</svg>
