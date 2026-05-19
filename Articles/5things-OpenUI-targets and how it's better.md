@@ -18,7 +18,7 @@ Plain text forces you to serialize the comparison. Read option A, remember it, r
 
 | **Claude Response** | **OpenUI Response** |
 |---|---|
-| <img src="../assets(for #5)/Comparision(frontend-framerworks).png" width="450" height="300" /> | <img src="../assets(for #5)/framework-comparision.gif" width="450" height="300" /> |
+| <img src="../assetsForArticle5/Comparision(frontend-framerworks).png" width="450" height="300" /> | <img src="../assetsForArticle5/framework-comparision.gif" width="450" height="300" /> |
 
 The model searched the web, categorized the tools, and identified pricing tiers. The analysis is good. But you still have to mentally organize everything yourself.
 
@@ -72,7 +72,7 @@ Weather does not fit paragraphs. "Temperatures rise from 28°C at 8am to 35°C a
 
 | **Claude Response** | **OpenUI Response** |
 |---|---|
-| <img src="../assets(for #5)/Comparision(weather-text).png" width="450" height="300" /> | <img src="../assets(for #5)/Comparision(weather).png" width="450" height="300" /> |
+| <img src="../assetsForArticle5/Comparision(weather-text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Comparision(weather).png" width="450" height="300" /> |
 
 The response is accurate. Still annoying to use. A paragraph forces every relationship between variables into syntax instead of visuals. You have to reconstruct the time series from words.
 
@@ -93,7 +93,7 @@ Search needs filtering. You want something open source, under $50/month, with VS
 
 | **Claude Response** | **OpenUI Response** |
 |---|---|
-| <img src="../assets(for #5)/Coding-Tools(text).png" width="450" height="300" /> | <img src="../assets(for #5)/Comparision-CodingTools-Open.png" width="450" height="300" /> |
+| <img src="../assetsForArticle5/Coding-Tools(text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Comparision-CodingTools-Open.png" width="450" height="300" /> |
 
 The `@Filter` primitive makes the filter controls work. Changing the select immediately re-evaluates the result list. No second model call. No round trip. That distinction matters beyond UX. In a chat interface, every refinement ("show me only the free ones") becomes a new prompt, a new model call, additional latency, and additional token cost. In a stateful interface, the same interaction is a local state update. The model is not involved. The filter re-runs client-side in milliseconds.
 
@@ -135,7 +135,7 @@ A numbered list. Maybe with headers for each step. When you finish, you're not s
 
 | **Gemini Response** | **OpenUI Response** |
 |---|---|
-| <img src="../assets(for #5)/Multistep(text).png" width="450" height="300" /> | <img src="../assets(for #5)/Multi-Step.png" width="450" height="300" /> |
+| <img src="../assetsForArticle5/Multistep(text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Multi-Step.png" width="450" height="300" /> |
 
 Both show what text cannot show. State. Completed steps are checked. The current step is highlighted. Future steps are dimmed. The database form validates inline before letting you continue. The environment variables table lets you audit what has been configured. The Export to Sheets button wires directly to a tool action.
 
@@ -161,7 +161,7 @@ When Test Connection fires, the mutation runs and the UI updates. The model is n
 
 The screenshot below shows a resumable workflow. A previously incomplete setup flow with saved progress, reopened and continuing from where it stopped:
 
-![Resumable onboarding flow showing persistent state with completed steps and pre-filled form fields from a previous session](../assets(for #5)/Birthday-ezgif.com-speed.gif)
+![Resumable onboarding flow showing persistent state with completed steps and pre-filled form fields from a previous session](../assetsForArticle5/Birthday-ezgif.com-speed.gif)
 
 This falls out of the architecture instead of being a feature bolted on top. UI state is managed in the renderer rather than reconstructed from chat history on every turn, so it can be stored, restored, and shared. Collaborative setup flows become possible. One team member completes the environment step, another continues from the database step. The interface holds the state, not a private conversation thread.
 
@@ -177,7 +177,7 @@ Something fails in production. You ask your AI assistant what happened. It tells
 
 | **Gemini Response** | **OpenUI Response** |
 |---|---|
-| <img src="../assets(for #5)/Comparision(errors-text).png" width="450" height="300" /> | <img src="../assets(for #5)/Comparision(errors).png" width="450" height="300" /> |
+| <img src="../assetsForArticle5/Comparision(errors-text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Comparision(errors).png" width="450" height="300" /> |
 
 This is already better than raw prose. The error has structure. Action buttons are present. Logs are expandable. But the buttons do not actually retry the deployment. They navigate you somewhere else to do it. The diagnosis and the fix are on different surfaces.
 
@@ -219,7 +219,7 @@ That reconstruction becomes expensive quickly. You are comparing multiple calend
 
 | **Plain Text Scheduling** | **OpenUI Scheduling Interface** |
 |---|---|
-| <img src="../assets(for #5)/Scheduling(text).png" width="450" height="300" /> | <img src="../assets(for #5)/Scheduling(Openui).png" width="450" height="300" /> | 	
+| <img src="../assetsForArticle5/Scheduling(text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Scheduling(Openui).png" width="450" height="300" /> | 	
 
 
 The OpenUI version keeps the scheduling structure intact. Overlapping availability becomes immediately visible. Conflicts are surfaced visually instead of buried in paragraphs. Recommended meeting slots are highlighted directly inside the calendar grid.
