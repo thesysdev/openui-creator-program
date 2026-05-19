@@ -262,5 +262,6 @@ Comparisons render as tables you can filter. Workflows render as steppers that t
 The interface layer is what needed to catch up.
 
 *Built with [OpenUI](https://www.openui.com/) — the open standard for generative UI. Explore the [GitHub repository](https://github.com/thesysdev/openui) or try the [OpenUI Playground](https://openui.com/playground).*
+
 ---
 
