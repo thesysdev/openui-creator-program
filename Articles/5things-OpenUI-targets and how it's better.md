@@ -235,13 +235,10 @@ slots = Query("find_meeting_slots", {
   participants: ["You", "Sarah", "Alex"],
   duration: "45m"
 })
-
 calendar = AvailabilityGrid(slots)
+bookBtn = Button("Book Best Match", Action([@Run(bookSlot)]))
+suggestBtn = Button("Suggest Another Time", Action([@ToAssistant("Suggest another time")]))
 
-actions = [
-  Button("Book Best Match"),
-  Button("Suggest Another Time")
-]
 ```
 
 This is the broader pattern behind scheduling interfaces. Plain text forces users to manually reconstruct time, availability, and coordination from language. Interactive interfaces preserve the structure the model already understood.
@@ -262,9 +259,8 @@ What comes next is not a smarter chatbot. It is a different interface paradigm e
 
 Comparisons render as tables you can filter. Workflows render as steppers that track progress. Errors render with buttons that actually fix them. Schedules render as calendars where you click to book.
 
-The models are ready. The interface just needs to catch up.
+The interface layer is what needed to catch up.
 
-They do now. [Try the OpenUI Playground](https://openui.com/playground), explore the [open source repo](https://github.com/thesysdev/openui), or read the [docs](https://openui.com) to see how it integrates with your existing model and component library. The models are ready. The interface just needs to catch up.
-
+*Built with [OpenUI](https://www.openui.com/) — the open standard for generative UI. Explore the [GitHub repository](https://github.com/thesysdev/openui) or try the [OpenUI Playground](https://openui.com/playground).*
 ---
 
