@@ -16,9 +16,7 @@ Comparisons are the clearest case. Ask any AI assistant to compare React, Vue, a
 
 Plain text forces you to serialize the comparison. Read option A, remember it, read option B, hold both, read option C, now compare. That is a working memory issue, not a content issue. Interfaces let you scan across a row, filter by a column, and anchor on the one attribute that matters. The model had the right answer. The format threw away the shape.
 
-| **Claude Response** | **OpenUI Response** |
-|---|---|
-| <img src="../assetsForArticle5/Comparision(frontend-framerworks).png" width="450" height="300" /> | <img src="../assetsForArticle5/framework-comparision.gif" width="450" height="300" /> |
+![Frontend Frameworks Comparison](../assetsForArticle5/Comparision(frontend-framerworks).png)
 
 The model searched the web, categorized the tools, and identified pricing tiers. The analysis is good. But you still have to mentally organize everything yourself.
 
@@ -70,9 +68,7 @@ Generative UI
 
 Weather does not fit paragraphs. "Temperatures rise from 28°C at 8am to 35°C at 2pm, with humidity increasing through the afternoon and precipitation probability peaking around 4pm." You can read that sentence. You cannot see the curve.
 
-| **Claude Response** | **OpenUI Response** |
-|---|---|
-| <img src="../assetsForArticle5/Comparision(weather-text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Comparision(weather).png" width="450" height="300" /> |
+![Weather Comparison](../assetsForArticle5/Comparision(weather-text).png)
 
 The response is accurate. Still annoying to use. A paragraph forces every relationship between variables into syntax instead of visuals. You have to reconstruct the time series from words.
 
@@ -91,9 +87,7 @@ weatherData = Query("get_weather", {city: "Tokyo"}, {})
 
 Search needs filtering. You want something open source, under $50/month, with VS Code support. The AI gives you eight tools in eight paragraphs. You read all eight and mentally cross-reference three criteria, hoping you do not miss one.
 
-| **Claude Response** | **OpenUI Response** |
-|---|---|
-| <img src="../assetsForArticle5/Coding-Tools(text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Comparision-CodingTools-Open.png" width="450" height="300" /> |
+![Coding Tools Comparison](../assetsForArticle5/Comparision-CodingTools-Open.png)
 
 The `@Filter` primitive makes the filter controls work. Changing the select immediately re-evaluates the result list. No second model call. No round trip. That distinction matters beyond UX. In a chat interface, every refinement ("show me only the free ones") becomes a new prompt, a new model call, additional latency, and additional token cost. In a stateful interface, the same interaction is a local state update. The model is not involved. The filter re-runs client-side in milliseconds.
 
@@ -133,9 +127,7 @@ Real workflows involve both. Which steps are done, which fields are valid, what 
 
 A numbered list. Maybe with headers for each step. When you finish, you're not sure you did it right. When you come back, you're not sure where you stopped.
 
-| **Gemini Response** | **OpenUI Response** |
-|---|---|
-| <img src="../assetsForArticle5/Multistep(text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Multi-Step.png" width="450" height="300" /> |
+![Multi-Step Comparison](../assetsForArticle5/Comparision(Multi-Step).png)
 
 Both show what text cannot show. State. Completed steps are checked. The current step is highlighted. Future steps are dimmed. The database form validates inline before letting you continue. The environment variables table lets you audit what has been configured. The Export to Sheets button wires directly to a tool action.
 
@@ -175,9 +167,7 @@ Current AI chat interfaces separate diagnosis from execution. This gap costs the
 
 Something fails in production. You ask your AI assistant what happened. It tells you in three paragraphs. What broke, why it broke, what to do about it. Then you open your deployment dashboard to fix it. You copy the environment variable name from the chat. You navigate to the settings page. You paste the value. You lose time switching tabs. The AI did the hard part and left you with the busywork.
 
-| **Gemini Response** | **OpenUI Response** |
-|---|---|
-| <img src="../assetsForArticle5/Comparision(errors-text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Comparision(errors).png" width="450" height="300" /> |
+![Errors Comparison](../assetsForArticle5/Comparision(errors-text).png)
 
 This is already better than raw prose. The error has structure. Action buttons are present. Logs are expandable. But the buttons do not actually retry the deployment. They navigate you somewhere else to do it. The diagnosis and the fix are on different surfaces.
 
@@ -217,9 +207,7 @@ The information is technically correct. The problem is that the user now has to 
 
 That reconstruction becomes expensive quickly. You are comparing multiple calendars, converting timezones, tracking conflicts, and evaluating tradeoffs at the same time. The AI already identified the structure internally. Plain text threw the structure away.
 
-| **Plain Text Scheduling** | **OpenUI Scheduling Interface** |
-|---|---|
-| <img src="../assetsForArticle5/Scheduling(text).png" width="450" height="300" /> | <img src="../assetsForArticle5/Scheduling(Openui).png" width="450" height="300" /> | 	
+![Scheduling Comparison](../assetsForArticle5/Scheduling(text).png) 	
 
 
 The OpenUI version keeps the scheduling structure intact. Overlapping availability becomes immediately visible. Conflicts are surfaced visually instead of buried in paragraphs. Recommended meeting slots are highlighted directly inside the calendar grid.
