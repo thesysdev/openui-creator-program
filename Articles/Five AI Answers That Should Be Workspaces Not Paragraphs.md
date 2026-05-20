@@ -1,4 +1,4 @@
-# Five AI Answers That Should Be Workspaces, Not Paragraphs
+# Five AI Outputs That Look Terrible as Plain Text
 
 Plain text is a good format for explanation. It is a bad format for work.
 
@@ -15,6 +15,24 @@ status blocks, and action buttons. OpenUI is one way to make that possible
 without letting the model invent arbitrary frontend code. The app still owns the
 component library, validation rules, permissions, and action handlers. The model
 chooses how to arrange those pieces for the current task.
+
+That is the important part of how OpenUI fixes the problem. The model should
+not return a block of React code or a blob of arbitrary JSON and hope the app
+trusts it. The product exposes a component vocabulary, then the model responds
+with a structured interface made from those allowed pieces. A conceptual output
+for a review answer might look like this:
+
+```text
+ReviewWorkspace
+  SummaryStrip: high=2, medium=4, low=3
+  FindingsTable: rows=[...], sortableBy=[severity, owner, dueDate]
+  EvidencePanel: selectedFindingId="migration-backfill-counts"
+  DecisionActions: allowed=["request_changes", "mark_ready"]
+```
+
+The exact component names belong to the application, not the model. OpenUI's
+role is to let the answer become a renderable, constrained interface instead of
+another paragraph the user has to translate back into state.
 
 Here are five common AI answers that look worse as plain text than they do as
 small, task-specific workspaces.
@@ -141,38 +159,40 @@ reason, amount, and return status, but it cannot invent a hidden "approve refund
 permission. The renderer turns the model output into real UI, and the app turns
 the submitted form into a normal, auditable action.
 
-## 4. Multi-Step Guidance That Needs Progress
+## 4. Migration Reviews That Need Progress
 
-Step-by-step answers are another place where text looks organized but behaves
-poorly.
+Step-by-step operational answers are another place where text looks organized
+but behaves poorly.
 
-Consider a setup assistant for configuring an analytics integration:
+Consider an assistant reviewing a database migration dry run:
 
 ```text
-1. Create an API key.
-2. Add the tracking script.
-3. Configure allowed domains.
-4. Send a test event.
-5. Verify the event in the dashboard.
+1. Run the migration in dry-run mode.
+2. Compare source and target row counts.
+3. Check foreign-key violations.
+4. Verify billing totals before and after the backfill.
+5. Prepare rollback commands.
 ```
 
 The list is clear, but it has no memory. It cannot show which steps are done,
 which ones failed, which one is blocked by permissions, or where the user should
-resume tomorrow.
+resume tomorrow. It also hides the most important review question: is this
+migration safe to promote, or is it still blocked?
 
 The useful version is a progress workspace:
 
 - A stepper with current state.
-- A checklist for prerequisites.
-- Inline code snippets for the selected framework.
-- Status cards for tests that passed or failed.
-- A retry action for the test event.
-- A final verification panel.
+- A checklist for required preflight checks.
+- Row-count and total-difference cards.
+- Status blocks for passed, failed, and skipped checks.
+- A rollback command panel.
+- A final decision panel that can say "blocked", "needs rerun", or "ready for
+  review".
 
 The assistant can still explain what each step means, but the workflow state
 belongs on screen. If the user completes step two, the interface should change.
-If step four fails, the error should attach to step four, not appear as a new
-paragraph below the list.
+If the billing-total check fails, the error should attach to that check, not
+appear as a new paragraph below the list.
 
 This is especially important for AI agents because they often operate across
 time. A text transcript is a weak project memory. A generated stepper or task
