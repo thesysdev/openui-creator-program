@@ -177,6 +177,54 @@ The model may propose `action:notify-owners`. The application decides whether th
 
 Generative UI should make actions easier to review, not easier to bypass.
 
+## What the boundary looks like in code
+
+The safest implementations make the boundary explicit. The model can describe intent, but the application has the final say over components, props, and actions.
+
+```ts
+type ComponentName = "AccountCard" | "EvidenceTable" | "ApprovalPanel";
+
+type GeneratedNode = {
+  component: ComponentName;
+  props: Record<string, unknown>;
+  children?: GeneratedNode[];
+};
+
+const componentRegistry = {
+  AccountCard: {
+    render: AccountCard,
+    validateProps: validateAccountCardProps,
+  },
+  EvidenceTable: {
+    render: EvidenceTable,
+    validateProps: validateEvidenceTableProps,
+  },
+  ApprovalPanel: {
+    render: ApprovalPanel,
+    validateProps: validateApprovalPanelProps,
+  },
+};
+
+function renderGeneratedNode(node: GeneratedNode) {
+  const entry = componentRegistry[node.component];
+  if (!entry) return <SafeFallback reason="unknown_component" />;
+
+  const props = entry.validateProps(node.props);
+  if (!props.ok) return <SafeFallback reason="invalid_props" />;
+
+  const Component = entry.render;
+  return (
+    <Component {...props.value}>
+      {node.children?.map(renderGeneratedNode)}
+    </Component>
+  );
+}
+```
+
+This is deliberately less exciting than "the model made a UI." That is the point. Production generative UI should feel like ordinary application architecture: typed boundaries, a registry, validation, fallbacks, and explicit action handlers.
+
+The model is useful because it can choose the right composition for the user's current task. The application is safe because it still decides what that composition is allowed to mean.
+
 ## A concrete example: the same answer as text and UI
 
 Imagine a user asks:
