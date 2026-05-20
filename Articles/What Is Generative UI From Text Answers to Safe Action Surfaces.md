@@ -133,6 +133,16 @@ notifyBtn = Button("Notify owners", "action:notify-owners", "primary")
 
 That is not React. It is not a privileged script. It is a description that the host application can parse, validate, and render through components it already controls.
 
+This is also where OpenUI's design choices matter. OpenUI Lang is not trying to be a prettier JSON format. It is designed for UI that arrives progressively from a model, while still staying inside a typed component contract. The practical benefits are:
+
+- the model can stream interface structure before the whole answer is complete,
+- the renderer can reject components that are not registered,
+- component props can be constrained with schemas,
+- prompts can be generated from the component library instead of maintained as disconnected prose,
+- and the UI can stay compact enough that the model spends more of its budget on the user's task instead of verbose syntax.
+
+That combination is what makes generative UI feel like an engineering surface rather than a demo trick. The output is flexible, but the flexibility has rails.
+
 ### 3. The renderer
 
 The renderer is the boundary between model output and product UI. Its job is to turn the generated description into real components without handing control to the model.
@@ -239,6 +249,10 @@ Generative UI is most useful when the output is:
 Good candidates include analytics exploration, support triage, agent approval queues, incident response, compliance review, product comparison, workflow setup, and internal tools where users ask situational questions.
 
 If the user keeps asking follow-up questions because the text answer is not enough to act on, that is a signal. The answer probably wants an interface.
+
+There is another useful test: ask whether the user needs to preserve context across a sequence of decisions.
+
+Text-only answers are easy to read and easy to forget. A generated interface can keep the important state visible while the user moves through the task: selected rows, rejected options, approval status, validation errors, filters, pending actions, and audit notes. That persistence is often the difference between an AI answer that sounds helpful and an AI workflow that actually gets completed.
 
 ## The production bar
 
