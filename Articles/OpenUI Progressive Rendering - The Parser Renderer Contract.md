@@ -14,6 +14,10 @@ The interesting part is not "streaming" by itself. The interesting part is the c
 
 That contract is what lets generated UI feel live without making the browser fragile.
 
+![OpenUI progressive rendering pipeline](../assets/openui-progressive-rendering-pipeline.svg)
+
+The key idea is that streaming UI is not one step. Syntax recovery, statement caching, reference resolution, side-effect gating, and last-good rendering each protect a different boundary.
+
 ## Why Plain Streaming Is Not Enough
 
 A normal streaming chat app is simple:
