@@ -18,6 +18,8 @@ The question is not whether chat is useful. It is. The better question is:
 
 > When does a chatbot answer need to become an interface?
 
+![UI-based chatbot metrics matrix](../assets/openui-chatbot-metrics-matrix.svg)
+
 Task completion rate, time-on-task, and user satisfaction give us a better way
 to answer that than taste or hype.
 
