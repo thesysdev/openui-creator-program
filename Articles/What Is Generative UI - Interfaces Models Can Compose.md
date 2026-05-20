@@ -10,6 +10,8 @@ Generative UI is the next layer after that. It means the model does not only gen
 
 The important word is composes. A production generative UI system should not let a model invent arbitrary frontend code. It gives the model a controlled vocabulary of components, data shapes, and actions, then asks it to assemble the right interface for the user's current task.
 
+![Generative UI contract](../assets/openui-generative-ui-contract.svg)
+
 That distinction is what separates a useful architecture from a flashy demo.
 
 ## Text Is a Narrow Output Format
