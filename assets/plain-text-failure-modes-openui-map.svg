@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title desc">
+  <title id="title">Plain text failure modes mapped to OpenUI components</title>
+  <desc id="desc">A matrix showing five plain text failure modes and the OpenUI component patterns that preserve structure.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .header { fill: #111827; }
+      .left { fill: #fff7ed; stroke: #f97316; stroke-width: 2; }
+      .right { fill: #ecfdf5; stroke: #10b981; stroke-width: 2; }
+      .line { stroke: #cbd5e1; stroke-width: 2; }
+      .arrow { stroke: #334155; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+      .title { font: 700 24px Arial, sans-serif; fill: #ffffff; }
+      .subtitle { font: 15px Arial, sans-serif; fill: #cbd5e1; }
+      .label { font: 700 17px Arial, sans-serif; fill: #111827; }
+      .body { font: 14px Arial, sans-serif; fill: #334155; }
+      .small { font: 12px Arial, sans-serif; fill: #475569; }
+      .chip-orange { fill: #fed7aa; }
+      .chip-green { fill: #bbf7d0; }
+      .chip-text { font: 12px Arial, sans-serif; fill: #111827; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#334155" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1120" height="620" rx="18" />
+  <rect class="header" x="40" y="34" width="1040" height="84" rx="14" />
+  <text x="560" y="70" text-anchor="middle" class="title">When Plain Text Pretends To Be An Interface</text>
+  <text x="560" y="96" text-anchor="middle" class="subtitle">OpenUI preserves the structure users need to scan, compare, validate, and act.</text>
+
+  <text x="202" y="158" text-anchor="middle" class="label">Plain text failure</text>
+  <text x="918" y="158" text-anchor="middle" class="label">OpenUI pattern</text>
+
+  <g transform="translate(70 184)">
+    <rect class="left" width="330" height="70" rx="12" />
+    <text x="22" y="28" class="label">Dense data</text>
+    <text x="22" y="52" class="body">Columns collapse into numbered sentences.</text>
+    <path d="M354 35 H688" class="arrow" />
+    <rect class="right" x="720" width="330" height="70" rx="12" />
+    <text x="742" y="28" class="label">Table + Col</text>
+    <text x="742" y="52" class="body">Keeps rows, columns, and values aligned.</text>
+  </g>
+
+  <g transform="translate(70 266)">
+    <rect class="left" width="330" height="70" rx="12" />
+    <text x="22" y="28" class="label">Comparisons</text>
+    <text x="22" y="52" class="body">Tradeoffs become paragraphs to decode.</text>
+    <path d="M354 35 H688" class="arrow" />
+    <rect class="right" x="720" width="330" height="70" rx="12" />
+    <text x="742" y="28" class="label">Aligned option grid</text>
+    <text x="742" y="52" class="body">Shows shared attributes side by side.</text>
+  </g>
+
+  <g transform="translate(70 348)">
+    <rect class="left" width="330" height="70" rx="12" />
+    <text x="22" y="28" class="label">Status</text>
+    <text x="22" y="52" class="body">Severity hides inside wording.</text>
+    <path d="M354 35 H688" class="arrow" />
+    <rect class="right" x="720" width="330" height="70" rx="12" />
+    <text x="742" y="28" class="label">Card + Tag + Callout</text>
+    <text x="742" y="52" class="body">Makes state and next action visible.</text>
+  </g>
+
+  <g transform="translate(70 430)">
+    <rect class="left" width="330" height="70" rx="12" />
+    <text x="22" y="28" class="label">Input collection</text>
+    <text x="22" y="52" class="body">Users serialize fields by hand.</text>
+    <path d="M354 35 H688" class="arrow" />
+    <rect class="right" x="720" width="330" height="70" rx="12" />
+    <text x="742" y="28" class="label">Form + FormControl</text>
+    <text x="742" y="52" class="body">Collects typed values with validation.</text>
+  </g>
+
+  <g transform="translate(70 512)">
+    <rect class="left" width="330" height="70" rx="12" />
+    <text x="22" y="28" class="label">Actions</text>
+    <text x="22" y="52" class="body">Advice is disconnected from execution.</text>
+    <path d="M354 35 H688" class="arrow" />
+    <rect class="right" x="720" width="330" height="70" rx="12" />
+    <text x="742" y="28" class="label">Buttons + Action</text>
+    <text x="742" y="52" class="body">Hands safe intent back to app code.</text>
+  </g>
+
+  <line x1="560" y1="172" x2="560" y2="590" class="line" />
+  <rect x="442" y="149" width="236" height="34" rx="17" class="chip-orange" />
+  <text x="560" y="171" text-anchor="middle" class="chip-text">flattened prose</text>
+  <rect x="442" y="578" width="236" height="34" rx="17" class="chip-green" />
+  <text x="560" y="600" text-anchor="middle" class="chip-text">task-shaped interface</text>
+</svg>

@@ -10,6 +10,10 @@ Here are five places where plain text usually breaks down, and the OpenUI patter
 
 The goal is not to replace every sentence with a widget. Text is still the right format for explanation, narrative, and reasoning. The problem starts when text has to pretend to be an interface.
 
+![Plain text failure modes mapped to OpenUI components](../assets/plain-text-failure-modes-openui-map.svg)
+
+The five patterns below follow one rule: preserve the shape of the user's next action. Tables, comparisons, status checks, forms, and guarded actions all lose meaning when they are flattened into prose.
+
 ## 1. Dense Data Becomes A Reading Test
 
 Plain text is bad at dense tabular data.
