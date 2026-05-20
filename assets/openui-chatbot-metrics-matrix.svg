@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">UI-Based Chatbot Metrics Matrix</title>
+  <desc id="desc">A matrix comparing text-only chatbot output and UI-based chatbot output across explanation, comparison, and action workflow tasks.</desc>
+  <rect width="1280" height="720" fill="#f7f5f0"/>
+  <rect x="66" y="56" width="1148" height="608" rx="28" fill="#fffdf8" stroke="#26231d" stroke-width="3"/>
+  <text x="104" y="116" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="800" fill="#26231d">When chat output should become UI</text>
+  <text x="104" y="152" font-family="Inter, Arial, sans-serif" font-size="18" fill="#5e5950">The useful comparison is not chat versus UI. It is prose output versus task-fit structured output.</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="104" y="202" width="1072" height="76" rx="18" fill="#26231d"/>
+    <text x="138" y="249" font-size="19" font-weight="800" fill="#fffdf8">Task shape</text>
+    <text x="396" y="249" font-size="19" font-weight="800" fill="#fffdf8">Text-only output</text>
+    <text x="718" y="249" font-size="19" font-weight="800" fill="#fffdf8">UI-based output</text>
+    <text x="1012" y="249" font-size="19" font-weight="800" fill="#fffdf8">Metric to watch</text>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="104" y="300" width="1072" height="96" rx="16" fill="#e4f0ff" stroke="#2f6fb3" stroke-width="2"/>
+    <text x="138" y="338" font-size="22" font-weight="800" fill="#183a61">Explanation</text>
+    <text x="138" y="368" font-size="15" fill="#183a61">"What does this mean?"</text>
+    <text x="396" y="340" font-size="16" fill="#183a61">Usually enough for</text>
+    <text x="396" y="364" font-size="16" fill="#183a61">short answers.</text>
+    <text x="718" y="340" font-size="16" fill="#183a61">Use sparingly: examples,</text>
+    <text x="718" y="364" font-size="16" fill="#183a61">links, small states.</text>
+    <text x="1012" y="350" font-size="16" font-weight="800" fill="#183a61">Satisfaction</text>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="104" y="420" width="1072" height="96" rx="16" fill="#e7f7ed" stroke="#2d7a4f" stroke-width="2"/>
+    <text x="138" y="458" font-size="22" font-weight="800" fill="#1f4f36">Comparison</text>
+    <text x="138" y="488" font-size="15" fill="#1f4f36">"Which option wins?"</text>
+    <text x="396" y="460" font-size="16" fill="#1f4f36">Forces memory and</text>
+    <text x="396" y="484" font-size="16" fill="#1f4f36">manual alignment.</text>
+    <text x="718" y="460" font-size="16" fill="#1f4f36">Tables, cards, filters,</text>
+    <text x="718" y="484" font-size="16" fill="#1f4f36">highlighted tradeoffs.</text>
+    <text x="1012" y="470" font-size="16" font-weight="800" fill="#1f4f36">Time-on-task</text>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="104" y="540" width="1072" height="96" rx="16" fill="#fce8d8" stroke="#b45a28" stroke-width="2"/>
+    <text x="138" y="578" font-size="22" font-weight="800" fill="#6d3317">Action workflow</text>
+    <text x="138" y="608" font-size="15" fill="#6d3317">"Review and approve."</text>
+    <text x="396" y="580" font-size="16" fill="#6d3317">Leaves the user to</text>
+    <text x="396" y="604" font-size="16" fill="#6d3317">copy, find, and commit.</text>
+    <text x="718" y="580" font-size="16" fill="#6d3317">Rows, reason codes,</text>
+    <text x="718" y="604" font-size="16" fill="#6d3317">safe buttons, recovery.</text>
+    <text x="1012" y="590" font-size="16" font-weight="800" fill="#6d3317">Completion rate</text>
+  </g>
+</svg>
