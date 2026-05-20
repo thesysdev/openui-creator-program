@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+  <title id="title">Chakra UI and OpenUI adapter contract</title>
+  <desc id="desc">A five-step diagram showing model output flowing through OpenUI schemas, product wrappers, Chakra primitives, themed UI, and application-owned actions.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e0; stroke-width: 2; }
+      .accent-blue { fill: #ebf8ff; stroke: #3182ce; }
+      .accent-purple { fill: #faf5ff; stroke: #805ad5; }
+      .accent-green { fill: #f0fff4; stroke: #38a169; }
+      .accent-orange { fill: #fffaf0; stroke: #dd6b20; }
+      .accent-gray { fill: #f7fafc; stroke: #4a5568; }
+      .title { font: 700 22px Arial, sans-serif; fill: #1a202c; }
+      .label { font: 700 18px Arial, sans-serif; fill: #1a202c; }
+      .body { font: 15px Arial, sans-serif; fill: #2d3748; }
+      .small { font: 13px Arial, sans-serif; fill: #4a5568; }
+      .arrow { stroke: #2d3748; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+      .divider { stroke: #cbd5e0; stroke-width: 2; stroke-dasharray: 8 8; }
+      .chip { fill: #edf2f7; stroke: #cbd5e0; }
+      .chip-text { font: 12px Arial, sans-serif; fill: #2d3748; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#2d3748" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1120" height="560" rx="18" />
+  <text x="560" y="46" text-anchor="middle" class="title">OpenUI as the Adapter Contract for Chakra UI</text>
+  <text x="560" y="72" text-anchor="middle" class="body">Keep the model on product semantics; keep Chakra in charge of presentation.</text>
+
+  <rect x="52" y="118" width="188" height="220" rx="14" class="panel accent-blue" />
+  <text x="146" y="154" text-anchor="middle" class="label">Model Output</text>
+  <text x="78" y="194" class="body">Uses only approved</text>
+  <text x="78" y="216" class="body">component names and</text>
+  <text x="78" y="238" class="body">semantic prop values.</text>
+  <rect x="78" y="270" width="136" height="34" rx="17" class="chip" />
+  <text x="146" y="292" text-anchor="middle" class="chip-text">status = warning</text>
+
+  <rect x="274" y="118" width="188" height="220" rx="14" class="panel accent-purple" />
+  <text x="368" y="154" text-anchor="middle" class="label">OpenUI</text>
+  <text x="300" y="194" class="body">Parses streamed</text>
+  <text x="300" y="216" class="body">OpenUI Lang through</text>
+  <text x="300" y="238" class="body">Zod-backed schemas.</text>
+  <rect x="300" y="270" width="136" height="34" rx="17" class="chip" />
+  <text x="368" y="292" text-anchor="middle" class="chip-text">StatusCard.ref</text>
+
+  <rect x="496" y="118" width="188" height="220" rx="14" class="panel accent-green" />
+  <text x="590" y="154" text-anchor="middle" class="label">Product Wrapper</text>
+  <text x="522" y="194" class="body">Maps product intent</text>
+  <text x="522" y="216" class="body">to safe component</text>
+  <text x="522" y="238" class="body">recipes and slots.</text>
+  <rect x="522" y="270" width="136" height="34" rx="17" class="chip" />
+  <text x="590" y="292" text-anchor="middle" class="chip-text">tone = yellow</text>
+
+  <rect x="718" y="118" width="188" height="220" rx="14" class="panel accent-orange" />
+  <text x="812" y="154" text-anchor="middle" class="label">Chakra UI</text>
+  <text x="744" y="194" class="body">Applies theme tokens,</text>
+  <text x="744" y="216" class="body">variants, spacing, and</text>
+  <text x="744" y="238" class="body">accessibility behavior.</text>
+  <rect x="744" y="270" width="136" height="34" rx="17" class="chip" />
+  <text x="812" y="292" text-anchor="middle" class="chip-text">Badge + Card</text>
+
+  <rect x="940" y="118" width="128" height="220" rx="14" class="panel accent-gray" />
+  <text x="1004" y="154" text-anchor="middle" class="label">App Code</text>
+  <text x="966" y="194" class="body">Owns actions,</text>
+  <text x="966" y="216" class="body">permission checks,</text>
+  <text x="966" y="238" class="body">and side effects.</text>
+  <rect x="966" y="270" width="76" height="34" rx="17" class="chip" />
+  <text x="1004" y="292" text-anchor="middle" class="chip-text">onAction</text>
+
+  <path d="M240 228 H270" class="arrow" />
+  <path d="M462 228 H492" class="arrow" />
+  <path d="M684 228 H714" class="arrow" />
+  <path d="M906 228 H936" class="arrow" />
+
+  <line x1="52" y1="392" x2="1068" y2="392" class="divider" />
+  <text x="82" y="430" class="label">Boundary rule</text>
+  <text x="82" y="462" class="body">Do not expose raw Chakra props to the model. Expose product decisions like status, metric, section, and action.</text>
+  <text x="82" y="488" class="body">That keeps prompts shorter, output safer, and design-system changes isolated to wrapper code.</text>
+
+  <rect x="792" y="418" width="242" height="58" rx="12" fill="#1a202c" />
+  <text x="913" y="443" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">Model chooses:</text>
+  <text x="913" y="464" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">StatusCard("API", "warning")</text>
+</svg>

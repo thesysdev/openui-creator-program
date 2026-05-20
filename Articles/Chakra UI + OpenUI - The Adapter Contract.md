@@ -18,6 +18,16 @@ OpenUI component schema -> product-level React wrapper -> Chakra primitives -> t
 
 The model should not be asked to compose arbitrary Chakra props. It should choose from an approved vocabulary. Your app keeps control of the design system.
 
+![Chakra OpenUI adapter contract](../assets/chakra-openui-adapter-contract.svg)
+
+The diagram above is the mental model for the rest of this article:
+
+- the model only sees names, descriptions, examples, and Zod schemas
+- OpenUI turns streamed language into validated component calls
+- product wrappers translate semantic props into Chakra primitives
+- Chakra renders the final UI through your normal theme system
+- application code owns actions, permissions, and side effects
+
 ## The OpenUI Side Of The Contract
 
 OpenUI's React package gives you three important pieces:
