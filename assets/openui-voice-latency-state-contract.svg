@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">OpenUI Voice Latency and State Contract</title>
+  <desc id="desc">A diagram showing a voice agent turn split into audio acknowledgement, OpenUI streaming state, action gating, and superseded turn handling.</desc>
+  <rect width="1280" height="720" fill="#f7f4ef"/>
+  <rect x="64" y="56" width="1152" height="608" rx="28" fill="#fffdf8" stroke="#25221c" stroke-width="3"/>
+  <text x="104" y="118" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="800" fill="#25221c">The shared turn contract</text>
+  <text x="104" y="154" font-family="Inter, Arial, sans-serif" font-size="17" fill="#5d5a52">LiveKit moves the conversation. OpenUI preserves the state that must stay inspectable.</text>
+
+  <line x1="128" y1="232" x2="1138" y2="232" stroke="#c8c0b3" stroke-width="4"/>
+  <polygon points="1138,232 1118,220 1118,244" fill="#c8c0b3"/>
+  <text x="128" y="208" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#5d5a52">one user turn</text>
+
+  <g>
+    <rect x="104" y="262" width="210" height="148" rx="16" fill="#e4f0ff" stroke="#2863a6" stroke-width="3"/>
+    <text x="130" y="304" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#183a61">1. Intent</text>
+    <text x="130" y="336" font-family="Inter, Arial, sans-serif" font-size="15" fill="#183a61">User speaks in a</text>
+    <text x="130" y="358" font-family="Inter, Arial, sans-serif" font-size="15" fill="#183a61">LiveKit room.</text>
+    <text x="130" y="386" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#2863a6">turnId starts here</text>
+  </g>
+
+  <g>
+    <rect x="374" y="262" width="210" height="148" rx="16" fill="#fce8d8" stroke="#b45a28" stroke-width="3"/>
+    <text x="400" y="304" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#6d3317">2. Audio</text>
+    <text x="400" y="336" font-family="Inter, Arial, sans-serif" font-size="15" fill="#6d3317">Fast bridge phrase,</text>
+    <text x="400" y="358" font-family="Inter, Arial, sans-serif" font-size="15" fill="#6d3317">then summary.</text>
+    <text x="400" y="386" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#b45a28">first audio token</text>
+  </g>
+
+  <g>
+    <rect x="644" y="262" width="210" height="148" rx="16" fill="#e7f7ed" stroke="#2d7a4f" stroke-width="3"/>
+    <text x="670" y="304" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#1f4f36">3. OpenUI</text>
+    <text x="670" y="336" font-family="Inter, Arial, sans-serif" font-size="15" fill="#1f4f36">Skeleton, partial rows,</text>
+    <text x="670" y="358" font-family="Inter, Arial, sans-serif" font-size="15" fill="#1f4f36">then ready state.</text>
+    <text x="670" y="386" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#2d7a4f">first visual frame</text>
+  </g>
+
+  <g>
+    <rect x="914" y="262" width="230" height="148" rx="16" fill="#f2e8ff" stroke="#6d4ba6" stroke-width="3"/>
+    <text x="940" y="304" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#443061">4. Actions</text>
+    <text x="940" y="336" font-family="Inter, Arial, sans-serif" font-size="15" fill="#443061">Buttons enable only</text>
+    <text x="940" y="358" font-family="Inter, Arial, sans-serif" font-size="15" fill="#443061">when payload is current.</text>
+    <text x="940" y="386" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#6d4ba6">action-ready UI</text>
+  </g>
+
+  <path d="M314 336H374" stroke="#25221c" stroke-width="4" fill="none"/>
+  <polygon points="374,336 360,328 360,344" fill="#25221c"/>
+  <path d="M584 336H644" stroke="#25221c" stroke-width="4" fill="none"/>
+  <polygon points="644,336 630,328 630,344" fill="#25221c"/>
+  <path d="M854 336H914" stroke="#25221c" stroke-width="4" fill="none"/>
+  <polygon points="914,336 900,328 900,344" fill="#25221c"/>
+
+  <g>
+    <rect x="138" y="474" width="1004" height="88" rx="18" fill="#25221c"/>
+    <text x="168" y="512" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#fffdf8">VoiceUiEnvelope</text>
+    <text x="168" y="542" font-family="Inter, Arial, sans-serif" font-size="16" fill="#f7f4ef">turnId + status + dataVersion + spokenSummary + allowedActions keep both channels honest.</text>
+  </g>
+
+  <g>
+    <path d="M1010 474C990 450 958 436 910 436H748" stroke="#9b2f2f" stroke-width="4" fill="none" stroke-dasharray="9 8"/>
+    <polygon points="748,436 764,426 764,446" fill="#9b2f2f"/>
+    <rect x="716" y="590" width="426" height="42" rx="21" fill="#ffe7e7" stroke="#9b2f2f" stroke-width="2"/>
+    <text x="742" y="617" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#7a2323">Interruption marks older UI as superseded and disables stale actions.</text>
+  </g>
+</svg>

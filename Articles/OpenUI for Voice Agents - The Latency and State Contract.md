@@ -49,6 +49,10 @@ microphone
 
 LiveKit is responsible for realtime audio transport, room state, interruption handling, and the agent's conversational loop. OpenUI is responsible for rendering structured UI that the model can compose from an approved component library.
 
+![OpenUI voice latency and state contract](../assets/openui-voice-latency-state-contract.svg)
+
+The diagram above is the shape to preserve in implementation. Audio can acknowledge the user before every tool result is perfect. OpenUI can stream the visual state as soon as the result is structured enough to render. Actions stay disabled until the UI envelope says the payload is current, versioned, and allowed. If the user interrupts, the same envelope marks the older surface as `superseded` instead of leaving a stale button on screen.
+
 The agent should not dump arbitrary React into the browser. It should emit a constrained OpenUI payload that maps to product-owned components:
 
 ```tsx
