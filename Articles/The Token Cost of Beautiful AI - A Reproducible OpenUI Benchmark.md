@@ -95,6 +95,8 @@ The current output is:
 | Support triage | 102 | 117 | 123 |
 | **Total** | **300** | **322** | **411** |
 
+![OpenUI token benchmark totals](../assets/openui-token-benchmark-totals.svg)
+
 Across this fixture set, OpenUI Lang is:
 
 - 6.8% smaller than compact JSON,
