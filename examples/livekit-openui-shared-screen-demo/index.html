@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LiveKit + OpenUI Shared Screen Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111827;
+        --muted: #64748b;
+        --line: #d7dde8;
+        --panel: #ffffff;
+        --surface: #f6f8fb;
+        --accent: #176b87;
+        --accent-strong: #0f4c5c;
+        --success: #1f7a4d;
+        --warn: #a35c00;
+        --danger: #a43d3d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--surface);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .page {
+        width: 1180px;
+        min-height: 760px;
+        padding: 34px;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 20px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+      }
+
+      .voice {
+        padding: 22px;
+      }
+
+      .label {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 10px 0 12px;
+        font-size: 28px;
+        line-height: 1.12;
+      }
+
+      .copy {
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .wave {
+        display: flex;
+        align-items: end;
+        gap: 5px;
+        height: 72px;
+        margin: 26px 0;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcff;
+      }
+
+      .bar {
+        width: 10px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      .transcript {
+        display: grid;
+        gap: 12px;
+      }
+
+      .bubble {
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .user {
+        background: #e7f4f8;
+      }
+
+      .agent {
+        background: #eef2f7;
+      }
+
+      .screen {
+        overflow: hidden;
+      }
+
+      .screen-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .status {
+        border-radius: 999px;
+        padding: 7px 10px;
+        background: #e9f7ef;
+        color: var(--success);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .status.updating {
+        background: #fff4df;
+        color: var(--warn);
+      }
+
+      .status.error {
+        background: #fdecec;
+        color: var(--danger);
+      }
+
+      .content {
+        padding: 20px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .summary,
+      .options,
+      .confirm,
+      .warning {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+      }
+
+      .summary h2,
+      .options h2,
+      .confirm h2 {
+        margin: 0 0 6px;
+        font-size: 18px;
+      }
+
+      .progress {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 8px;
+        padding: 12px 14px;
+        background: #edf8f3;
+        color: var(--success);
+        font-weight: 700;
+      }
+
+      .progress.updating {
+        background: #fff6e6;
+        color: var(--warn);
+      }
+
+      .option {
+        display: grid;
+        grid-template-columns: 1fr 110px 150px;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .option:first-of-type {
+        border-top: 0;
+      }
+
+      .time {
+        font-weight: 800;
+      }
+
+      .pill {
+        justify-self: start;
+        border-radius: 999px;
+        padding: 6px 9px;
+        background: #edf8f3;
+        color: var(--success);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      button {
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 11px 14px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 800;
+      }
+
+      button.secondary {
+        background: #fff;
+        color: var(--accent-strong);
+      }
+
+      .warning {
+        background: #fff7ed;
+        color: var(--warn);
+        font-weight: 700;
+      }
+
+      [data-state="updating"] .ready-only,
+      [data-state="error"] .ready-only {
+        opacity: 0.45;
+      }
+
+      [data-state="updating"] button,
+      [data-state="error"] button {
+        opacity: 0.55;
+      }
+    </style>
+  </head>
+  <body data-state="ready">
+    <main class="page">
+      <section class="shell">
+        <aside class="panel voice">
+          <div class="label">LiveKit voice room</div>
+          <h1>Realtime voice, visible working state</h1>
+          <p class="copy">
+            The agent can speak naturally while OpenUI keeps options, tool progress, and approval
+            state visible.
+          </p>
+          <div class="wave" aria-label="voice activity">
+            <div class="bar" style="height: 18px"></div>
+            <div class="bar" style="height: 42px"></div>
+            <div class="bar" style="height: 26px"></div>
+            <div class="bar" style="height: 58px"></div>
+            <div class="bar" style="height: 34px"></div>
+            <div class="bar" style="height: 48px"></div>
+            <div class="bar" style="height: 24px"></div>
+          </div>
+          <div class="transcript">
+            <div class="bubble user">Move my flight to tomorrow morning, same airline if possible.</div>
+            <div class="bubble agent">I found refundable options. I am putting them on screen.</div>
+            <div class="bubble user" id="interruption">Actually, only show refundable options.</div>
+          </div>
+        </aside>
+
+        <section class="panel screen">
+          <header class="screen-header">
+            <div>
+              <div class="label">OpenUI shared screen</div>
+              <strong>Flight change workspace</strong>
+            </div>
+            <div class="status" id="status">Ready</div>
+          </header>
+          <div class="content">
+            <section class="summary">
+              <h2>Flight change</h2>
+              <p class="copy">Tomorrow morning, same airline preferred. Refundable filter active.</p>
+            </section>
+            <div class="progress" id="progress">Found 2 refundable options</div>
+            <section class="options ready-only">
+              <h2>Options</h2>
+              <div class="option">
+                <div class="time">7:10 AM</div>
+                <div>$42 more</div>
+                <div class="pill">Window available</div>
+              </div>
+              <div class="option">
+                <div class="time">10:20 AM</div>
+                <div>$38 more</div>
+                <div class="pill">Window available</div>
+              </div>
+            </section>
+            <section class="confirm ready-only">
+              <h2>Choose a flight</h2>
+              <p class="copy">Generated actions are routed through the app action registry before booking.</p>
+              <div class="actions">
+                <button>Choose 10:20 AM</button>
+                <button class="secondary">Keep searching</button>
+              </div>
+            </section>
+            <section class="warning" id="warning" hidden>
+              Seat availability could not be refreshed. The app can retry without losing the voice
+              context.
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const state = params.get("state") || "ready";
+      document.body.dataset.state = state;
+      const status = document.getElementById("status");
+      const progress = document.getElementById("progress");
+      const warning = document.getElementById("warning");
+      const interruption = document.getElementById("interruption");
+
+      if (state === "updating") {
+        status.textContent = "Updating turn";
+        status.classList.add("updating");
+        progress.textContent = "Refreshing options after interruption";
+        progress.classList.add("updating");
+        interruption.style.background = "#fff4df";
+      }
+
+      if (state === "error") {
+        status.textContent = "Needs retry";
+        status.classList.add("error");
+        progress.textContent = "Seat refresh failed";
+        progress.classList.add("updating");
+        warning.hidden = false;
+      }
+    </script>
+  </body>
+</html>
