@@ -68,7 +68,9 @@ The model receives a serialized JSON schema for each tool in the request payload
 
 ### OpenUI Lang
 
-OpenUI uses a custom DSL designed specifically for UI generation. Instead of JSON, the model produces something closer to named function calls:
+OpenUI is a framework-agnostic generative UI toolkit with first-party React support. Developers define a component library; OpenUI generates the system prompt from it; the model outputs in OpenUI Lang; the renderer consumes that output. OpenUI Lang is the wire format between model and renderer — it's not something developers write.
+
+What the model produces looks like this:
 
 ```
 root = Stack([header, kpiRow])
@@ -81,13 +83,13 @@ revenueCard = Card([
 ], "card", "column", "s", "start")
 ```
 
-The system prompt is generated from your registered component library via `openuiLibrary.prompt()`. The renderer parses OpenUI Lang incrementally and renders components as each statement completes — not after the full output arrives.
+The renderer parses this incrementally and renders components as each statement completes — not after the full output arrives. Developers interact with the component library definition and the renderer API, not with OpenUI Lang directly.
 
 ---
 
-## Why format determines token count
+## Why encoding determines token count
 
-This isn't a subtle effect.
+The content is the same across all three approaches — the same components, the same layout, the same data. The token difference is purely about how that component tree gets encoded as text.
 
 JSON requires structural characters on every value: quotes around keys, quotes around strings, braces around objects, brackets around arrays. A nested component tree compounds this fast. The schema description in your system prompt — the part that tells the model what to generate — is itself JSON, which means it pays the same overhead.
 
@@ -99,7 +101,7 @@ I suspect this is part of why models tend to stay more consistent with code-like
 
 ## The benchmark numbers
 
-The OpenUI benchmark suite compares output token counts across seven UI scenarios: [github.com/thesysdev/openui/tree/main/benchmarks](https://github.com/thesysdev/openui/tree/main/benchmarks)
+The OpenUI benchmark suite compares output token counts across seven UI scenarios: [github.com/thesysdev/openui/tree/main/benchmarks](https://github.com/thesysdev/openui/tree/main/benchmarks). The methodology generates an AST for each scenario first, then serializes it into each format — so all three approaches encode the same component tree. The token difference is encoding overhead, not a difference in what's being described.
 
 | Scenario | OpenUI Lang | YAML | Vercel JSON-Render | C1 JSON |
 |---|---|---|---|---|
@@ -115,6 +117,8 @@ The OpenUI benchmark suite compares output token counts across seven UI scenario
 Across all seven scenarios, OpenUI Lang uses 4,800 tokens to Vercel's 10,180. That's 52.8% fewer output tokens on average.
 
 The contact form gap is the starkest — 67.1%. In JSON, every field carries its own metadata repeatedly: labels, placeholders, validation rules, enum values, nesting. OpenUI Lang represents the same field in a fraction of the characters because the component's defaults live in the component definition, not in every instance. As forms grow longer, the gap widens further.
+
+One important caveat: these numbers compare against Vercel's JSON-Render format, which is verbose by design — it's the full schema representation, not hand-minimized JSON. If you write your JSON payloads as compactly as possible, stripping field descriptions and flattening nesting, the gap narrows substantially. Independent benchmarks against stripped-down JSON fixtures put the savings somewhere around 6–27%, depending on how aggressive the minimization is. That's still meaningful at scale, but it's not the 52–67% headline. The realistic number for most production codebases sits in between — schemas rarely stay compact once validation, enums, and nested types get involved.
 
 ---
 
@@ -178,7 +182,7 @@ Token efficiency is a one-time calculation. Maintenance cost runs forever.
 
 **Vercel AI SDK** makes sense when you're already building in the Next.js / RSC ecosystem and tool-calling semantics match your architecture. It works well for a small number of high-specificity components that map cleanly to distinct tools. It starts to break down as the vocabulary grows — twenty tools is manageable, fifty with overlapping concerns is not.
 
-**OpenUI** makes sense when token cost is a real variable in your budget, your component library is large or expected to grow, you care about progressive streaming, and you can't absorb a 3% invalid output rate in a customer-facing product. The tradeoff is the dependency and the OpenUI Lang learning curve. For a prototype, neither is worth it. For a production product at scale, both pay off.
+**OpenUI** makes sense when token cost is a real variable in your budget, your component library is large or expected to grow, you care about progressive streaming, and you can't absorb a 3% invalid output rate in a customer-facing product. The learning curve is around the framework itself — defining component libraries, configuring the renderer, understanding how the system prompt is generated from your library. OpenUI Lang is generated by the model, not written by developers. For a prototype, the overhead isn't worth it. For a production product at scale, it is.
 
 ---
 
