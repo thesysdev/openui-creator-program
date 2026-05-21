@@ -16,6 +16,15 @@ This program runs entirely on GitHub:
 6. **Review**: we provide feedback via PR comments (up to 2 rounds)  
 7. **Publish & get paid**: merged PR \= published content \= payment triggered
 
+## Issue Intake Policy
+
+We are not currently accepting new unsolicited content issues or topic requests.
+
+Only GitHub issues labeled with the [`official`](https://github.com/thesysdev/openui-creator-program/issues?q=state%3Aopen%20label%3A%22official%22) tag will be reviewed and moderated by the OpenUI team. Any non-official issues, pitches, or self-created bounty requests may be closed without review.
+
+If you'd like to propose a new topic, please wait for an official call for submissions or a moderator-approved discussion thread.
+
+
 ## What You Can Create
 
 ### Written Content
