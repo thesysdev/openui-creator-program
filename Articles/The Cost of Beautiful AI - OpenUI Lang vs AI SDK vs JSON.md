@@ -1,4 +1,4 @@
-# The Token Cost of Beautiful AI: OpenUI Lang vs. AI SDK vs. JSON
+# The Token Cost of Beautiful AI: OpenUI Lang vs. AI SDK vs. JSON — What You're Actually Paying For
 
 Ask a model to generate a support dashboard, a checkout form, or a settings panel, and the first answer most teams reach for is JSON.
 
@@ -31,6 +31,8 @@ OpenUI includes a benchmark suite that compares four ways to encode the same gen
 
 That "Vercel JSON-Render" row is not the same thing as AI SDK RSC. It is a useful proxy for a JSON-patch-style streamed UI representation, not a full measurement of the AI SDK runtime. I am using it for the representation-cost part of the analysis because it gives us an apples-to-apples token comparison over the same generated interface.
 
+This is not an independent third-party benchmark. It is OpenUI's own reproducible benchmark, and that matters. The useful part is that the method is inspectable: same prompts, one generated OpenUI Lang output, one parsed AST, multiple serializations, then one token-counting path. If your component vocabulary is very different, you should rerun the benchmark against your own schemas before treating any percentage as universal.
+
 The benchmark uses seven common UI scenarios:
 
 - simple table
@@ -61,6 +63,8 @@ Across the full benchmark, OpenUI Lang used:
 - 52.8% fewer tokens than Vercel JSON-Render
 
 That is not a small optimization. It is the difference between treating generated UI as a practical runtime primitive and treating it as a premium feature that gets throttled the moment usage grows.
+
+It is also not a claim that every JSON implementation will always be 52.8% more expensive. A hand-minimized JSON payload with short keys, fewer nested envelopes, and no repeated descriptions will narrow the gap. The reason the official benchmark is still useful is that production schemas rarely stay minimal. Once you add validation states, accessibility labels, variants, actions, nested children, and enough component metadata for a model to use the schema reliably, verbosity returns.
 
 ## Why JSON Gets Large So Quickly
 
@@ -236,6 +240,22 @@ The mistake is treating them as interchangeable. If a team says "we use JSON bec
 
 Those are three different costs.
 
+## A Practical Adoption Scorecard
+
+The cleanest way to choose is to separate "can it render?" from "what does it cost to operate?"
+
+| Question | Usually favors |
+| --- | --- |
+| Is this a prototype with three to five component types? | Raw JSON |
+| Is the app already centered on Next.js, Server Actions, and React Server Components? | AI SDK RSC |
+| Does the same generated UI need to render outside one React/RSC runtime? | OpenUI Lang or JSON |
+| Is generated UI on the user-facing hot path, not an occasional admin feature? | OpenUI Lang |
+| Will the component library keep growing over time? | OpenUI Lang |
+| Do independent systems need to consume the payload without sharing a renderer? | Raw JSON |
+| Is the main risk schema drift between prompt, renderer, and components? | OpenUI Lang or AI SDK |
+
+My read is simple: JSON is the lowest-friction starting point, AI SDK is strongest when the app architecture is already aligned with Vercel's React tooling, and OpenUI Lang is strongest when generated UI becomes repeated product infrastructure. The moment teams care about cost per render, time to first meaningful component, and keeping a growing component vocabulary synchronized, the compact renderer contract becomes an advantage rather than extra machinery.
+
 ## The Tradeoff: Compactness Requires a Runtime Contract
 
 OpenUI Lang is not free magic. The compactness comes from moving knowledge out of the generated text and into the runtime contract.
@@ -282,8 +302,8 @@ Beautiful AI is not just about whether the interface looks good. It is also abou
 
 ## References
 
-- OpenUI benchmark methodology and results: `benchmarks/README.md` in the OpenUI repository.
-- OpenUI React renderer documentation: `docs/content/docs/openui-lang/renderer.mdx` in the OpenUI repository.
-- Vercel AI SDK RSC docs: `https://ai-sdk.dev/docs/ai-sdk-rsc`.
-- Vercel Generative UI with RSC template: `https://vercel.com/templates/ai/rsc-genui`.
-- OpenUI creator program bounty issue: `thesysdev/openui-creator-program#4`.
+- OpenUI benchmark methodology and results: [benchmarks/README.md](https://github.com/thesysdev/openui/tree/main/benchmarks) in the OpenUI repository.
+- OpenUI React renderer documentation: [docs/content/docs/openui-lang/renderer.mdx](https://github.com/thesysdev/openui/blob/main/docs/content/docs/openui-lang/renderer.mdx) in the OpenUI repository.
+- Vercel AI SDK RSC docs: [ai-sdk.dev/docs/ai-sdk-rsc](https://ai-sdk.dev/docs/ai-sdk-rsc).
+- Vercel Generative UI with RSC template: [vercel.com/templates/ai/rsc-genui](https://vercel.com/templates/ai/rsc-genui).
+- OpenUI creator program bounty issue: [thesysdev/openui-creator-program#4](https://github.com/thesysdev/openui-creator-program/issues/4).
