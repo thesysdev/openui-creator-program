@@ -67,13 +67,15 @@ In practice, a generative UI system usually has five parts:
 
 That architecture matters because it keeps the model inside product boundaries. The model can choose a table or form, but the application still controls what a valid table or form is.
 
-## A Small Example
+## Same Prompt, Two Outputs
 
 Imagine a support agent asks:
 
 > Create a refund request for order ORD-18392.
 
-A text-only assistant might respond:
+The same input prompt can lead to two very different product experiences.
+
+A text-only assistant might respond like this:
 
 ```txt
 Refund request created:
@@ -83,25 +85,29 @@ Refund request created:
 - Recommended action: Approve
 ```
 
-That is readable, but it is not much of an interface. The agent cannot validate the amount, change the reason, or clearly approve the request without moving into another system.
+That is readable, but it is not much of an interface. The agent still has to trust the summary, move into another system, validate the amount, change the reason if needed, and take the actual approval action somewhere else.
 
-A generative UI response can represent the same task as a form:
+A generative UI response can answer the same prompt as an interactive form:
 
 ```txt
 root = Stack([title, form])
 title = TextContent("Refund request", "large-heavy")
 form = Form("refund-request", buttons, [orderId, amount, reason])
-orderId = FormControl("Order ID", Input("orderId", "Enter order ID", "text", {required: true}))
-amount = FormControl("Refund amount", Input("amount", "Enter amount", "number", {required: true, numeric: true}))
-reason = FormControl("Reason", Select("reason", reasons, "Choose a reason", {required: true}))
+orderId = FormControl("Order ID", Input("orderId", "Order ID", "text", {required: true}, "ORD-18392"))
+amount = FormControl("Refund amount", Input("amount", "Refund amount", "number", {required: true, numeric: true}, "89.00"))
+reason = FormControl("Reason", Select("reason", reasons, "Choose a reason", {required: true}, "duplicate-charge"))
 reasons = [duplicate, productIssue, cancellation]
 duplicate = SelectItem("duplicate-charge", "Duplicate charge")
 productIssue = SelectItem("product-issue", "Product issue")
 cancellation = SelectItem("customer-cancellation", "Customer cancellation")
 buttons = Buttons([submitBtn, cancelBtn], "row")
-submitBtn = Button("Submit request", Action([@ToAssistant("Submit this refund request")]), "primary")
-cancelBtn = Button("Cancel", Action([@ToAssistant("Cancel this refund request")]), "secondary")
+submitBtn = Button("Submit request", "submit:refund-request", "primary")
+cancelBtn = Button("Cancel", "action:cancel", "secondary")
 ```
+
+The input prompt did not change. The output contract changed.
+
+In the text-only version, the model describes the refund request. In the generative UI version, the model composes a reviewable surface from approved components: a title, a form, editable fields, a select menu, and action buttons. The application still decides what `submit:refund-request` or `action:cancel` actually does.
 
 This example uses OpenUI Lang, but the concept is broader than one syntax. The important shift is that the model returns a structured interface description. The application renders that description using known components and decides what the actions actually do.
 
