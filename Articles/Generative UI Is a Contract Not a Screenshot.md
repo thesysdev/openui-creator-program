@@ -65,13 +65,17 @@ Fourth, the application owns rendering and execution. The model can describe a b
 
 OpenUI follows this pattern. You define components with schemas and React renderers, create a library, generate prompt instructions from that library, receive OpenUI Lang from the model, and render it through `<Renderer />`.
 
-## A small example
+## A side-by-side example
 
 Suppose a support assistant needs to respond to:
 
 ```txt
 Show me what is wrong with this customer's failed checkout and what I should do next.
 ```
+
+The same prompt can produce two very different product experiences.
+
+### Text-only response
 
 The text-only answer might be:
 
@@ -81,9 +85,15 @@ has retried twice. I recommend asking them to retry in 10 minutes and
 opening an internal incident if failures continue.
 ```
 
-That is readable, but it is not a workspace.
+That answer is readable, but the operator still has to extract the diagnosis,
+evidence, severity, and next actions from a paragraph. Nothing in the response
+can enforce permissions, record an audit trail, or guide the user through a
+specific workflow.
 
-A generative UI response could instead describe an approved support surface:
+### Generative UI response
+
+A generative UI response can answer the same prompt by describing an approved
+support surface:
 
 ```txt
 root = SupportCase("Payment gateway timeout", severity, evidence, actions)
@@ -99,6 +109,11 @@ openIncident = Action("Open incident if failures continue", "open_incident")
 The app renders this through its own support components. It decides how a high severity badge looks. It decides whether the current user can open an incident. It logs actions through normal product systems.
 
 The model composed the interface. It did not become the application.
+
+The difference is not that the second response is more visual. The difference
+is that the second response has a product contract. The diagnosis becomes a
+case header, the evidence becomes a list of trusted fields, and the next steps
+become typed actions that the application can validate before anything happens.
 
 ## Why a component library matters
 
