@@ -74,15 +74,26 @@ The response is accurate. Still annoying to use. A paragraph forces every relati
 
 Current conditions surface immediately. Data is grouped by relevance. A follow-up query can pull in an hourly chart without a second LLM call. The `Query` primitive wires up the data source once, and the runtime handles updates.
 
-```
-root = Stack([currentConditions, detailGrid])
-currentConditions = Card([StatCard("Tokyo", "18°C", "flat"), StatCard("Feels Like", "16°C", "flat")])
-detailGrid = Grid([
-  StatCard("Humidity", "65%", "flat"),
-  StatCard("Wind", "12 km/h SW", "flat"),
-  StatCard("Condition", "Partly Cloudy", "flat")
+```js
+weather = Query("get_weather", { city: "Tokyo" }, {})
+
+currentWeather = Card([
+  CardHeader("Tokyo, Japan", "Current Weather Report"),
+  TextContent("28°C / 82°F", "large-heavy"),
+  TextContent("☀️ Sunny", "large")
 ])
-weatherData = Query("get_weather", {city: "Tokyo"}, {})
+
+metrics = Stack([
+  Card([TextContent("💨 Wind"), TextContent("16 km/h")]),
+  Card([TextContent("☀️ UV Index"), TextContent("6 — High")]),
+  Card([TextContent("👁 Visibility"), TextContent("10 km")]),
+  Card([TextContent("🌡 Pressure"), TextContent("1008 hPa")])
+], "row")
+
+forecast = Card([
+  CardHeader("5-Day Forecast"),
+  BarChart(["Fri", "Sat", "Sun", "Mon", "Tue"], [highSeries, lowSeries], "grouped")
+])
 ```
 
 Search needs filtering. You want something open source, under $50/month, with VS Code support. The AI gives you eight tools in eight paragraphs. You read all eight and mentally cross-reference three criteria, hoping you do not miss one.
@@ -151,7 +162,7 @@ dbStep = Card([
 
 When Test Connection fires, the mutation runs and the UI updates. The model is not involved. The state lives in the interface, not in the conversation history.
 
-The screenshot below shows a resumable workflow. A previously incomplete setup flow with saved progress, reopened and continuing from where it stopped:
+The GIF below shows a resumable onboarding workflow. Progress, completed steps, and form values persist across sessions, allowing users to continue from where they left off rather than restarting from the beginning.
 
 ![Resumable onboarding flow showing persistent state with completed steps and pre-filled form fields from a previous session](../assetsForArticle5/Birthday-ezgif.com-speed.gif)
 
