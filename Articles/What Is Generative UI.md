@@ -18,6 +18,8 @@ That sounds simple. The important part is what it is not.
 
 Generative UI is not "let the model write arbitrary React." It is not a random layout generator. It is not a replacement for product design or frontend engineering. A good generative UI system gives the model a controlled vocabulary of interface primitives and lets it compose those primitives based on user intent, available data, and application context.
 
+![Generative UI flow from user intent to rendered product interface](../assets/generative-ui-flow.png)
+
 ## Why Text Was the Default
 
 The first wave of AI products copied the chat interface because chat matches how LLMs work. A prompt goes in. Tokens come out. The UI can stream those tokens as they arrive.
@@ -77,37 +79,49 @@ The same input prompt can lead to two very different product experiences.
 
 A text-only assistant might respond like this:
 
-```txt
-Refund request created:
-- Order ID: ORD-18392
-- Amount: $89.00
-- Reason: Duplicate charge
-- Recommended action: Approve
-```
+
+![Text-only response to the refund request prompt](../assets/generative-ui-text-response.png)
 
 That is readable, but it is not much of an interface. The agent still has to trust the summary, move into another system, validate the amount, change the reason if needed, and take the actual approval action somewhere else.
 
 A generative UI response can answer the same prompt as an interactive form:
 
 ```txt
-root = Stack([title, form])
-title = TextContent("Refund request", "large-heavy")
-form = Form("refund-request", buttons, [orderId, amount, reason])
-orderId = FormControl("Order ID", Input("orderId", "Order ID", "text", {required: true}, "ORD-18392"))
-amount = FormControl("Refund amount", Input("amount", "Refund amount", "number", {required: true, numeric: true}, "89.00"))
-reason = FormControl("Reason", Select("reason", reasons, "Choose a reason", {required: true}, "duplicate-charge"))
-reasons = [duplicate, productIssue, cancellation]
-duplicate = SelectItem("duplicate-charge", "Duplicate charge")
-productIssue = SelectItem("product-issue", "Product issue")
-cancellation = SelectItem("customer-cancellation", "Customer cancellation")
-buttons = Buttons([submitBtn, cancelBtn], "row")
-submitBtn = Button("Submit request", "submit:refund-request", "primary")
-cancelBtn = Button("Cancel", "action:cancel", "secondary")
+root = Stack([header, orderInfo, sep1, formCard, callout])
+header = Card([cardHeader], "clear")
+cardHeader = CardHeader("Refund Request", "Submit a refund request for your order")
+orderInfo = Card([orderRow], "sunk", "row", "s", "center", "between")
+orderRow = Stack([orderLabel, orderTag], "row", "m", "center", "between")
+orderLabel = TextContent("Order ID", "small")
+orderTag = Tag("ORD-18392", null, "md", "info")
+sep1 = Separator("horizontal", true)
+formCard = Card([form])
+form = Form("refund-request", formButtons, [reasonField, categoryField, amountField, descField, evidenceField, contactField])
+reasonField = FormControl("Reason for Refund", Select("reason", reasonOptions, "Select a reason...", {required: true}), "Please select the primary reason for your refund request.")
+reasonOptions = [SelectItem("damaged", "Item Damaged or Defective"), SelectItem("not-received", "Item Not Received"), SelectItem("wrong-item", "Wrong Item Sent"), SelectItem("not-as-described", "Item Not as Described"), SelectItem("changed-mind", "Changed My Mind"), SelectItem("duplicate", "Duplicate Order")]
+categoryField = FormControl("Refund Type", RadioGroup("refund-type", refundTypeOptions, "full"), "Choose whether you'd like a full or partial refund.")
+refundTypeOptions = [RadioItem("Full Refund", "Refund the entire order amount", "full"), RadioItem("Partial Refund", "Refund only part of the order amount", "partial")]
+amountField = FormControl("Refund Amount (USD)", Input("amount", "e.g. 49.99", "number", {required: true, numeric: true, min: 0.01}), "Enter the amount you'd like refunded.")
+descField = FormControl("Description", TextArea("description", "Please describe the issue in detail...", 4, {required: true, minLength: 20, maxLength: 1000}), "Provide as much detail as possible to help us process your request.")
+evidenceField = FormControl("Supporting Evidence", TextArea("evidence", "Add any relevant order numbers, tracking IDs, or links...", 3), "Optional: Provide any additional evidence or references.")
+contactField = FormControl("Contact Email", Input("contact-email", "your@email.com", "email", {required: true, email: true}), "We'll send updates about your refund to this email.")
+formButtons = Buttons([submitBtn, cancelBtn])
+submitBtn = Button("Submit Refund Request", Action([@ToAssistant("Submit refund request for ORD-18392")]), "primary")
+cancelBtn = Button("Cancel", Action([@ToAssistant("Cancel refund request")]), "secondary")
+callout = Callout("info", "Processing Time", "Refund requests are typically reviewed within 3–5 business days. You will receive an email confirmation once submitted.")
 ```
 
 The input prompt did not change. The output contract changed.
 
 In the text-only version, the model describes the refund request. In the generative UI version, the model composes a reviewable surface from approved components: a title, a form, editable fields, a select menu, and action buttons. The application still decides what `submit:refund-request` or `action:cancel` actually does.
+
+Rendered through OpenUI, the same structured response becomes a product-native form:
+
+![Rendered OpenUI refund request form generated from OpenUI Lang](../assets/generative-ui-openui-rendered-refund.png)
+
+Here is the same OpenUI response being generated and rendered in the chat interface:
+
+<video controls src="../assets/Generate_Refund_Request_with_OpenUI.webm"></video>
 
 This example uses OpenUI Lang, but the concept is broader than one syntax. The important shift is that the model returns a structured interface description. The application renders that description using known components and decides what the actions actually do.
 
