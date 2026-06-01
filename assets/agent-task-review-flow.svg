@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="560" viewBox="0 0 1280 560" role="img" aria-labelledby="title desc">
+  <title id="title">Tool result to OpenUI approval loop</title>
+  <desc id="desc">A structured tool result is mapped to an OpenUI review surface. The user approves a typed event that returns to the agent loop through a policy gate.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f6f8fb}
+      .rail{fill:none;stroke:#d7dde8;stroke-width:2}
+      .card{fill:#fff;stroke:#d8e0eb;stroke-width:2}
+      .cardStrong{fill:#fff;stroke:#b8c9f5;stroke-width:2}
+      .label{font:700 28px Arial,sans-serif;fill:#172033}
+      .eyebrow{font:700 14px Arial,sans-serif;fill:#155eef;letter-spacing:.04em}
+      .body{font:400 18px Arial,sans-serif;fill:#596579}
+      .small{font:400 16px Arial,sans-serif;fill:#667184}
+      .chip{fill:#eef4ff;stroke:#c8d9ff;stroke-width:1}
+      .chipText{font:700 14px Arial,sans-serif;fill:#155eef}
+      .arrow{stroke:#8d99ab;stroke-width:3;fill:none;marker-end:url(#arrowhead)}
+      .return{stroke:#718096;stroke-width:3;fill:none;marker-end:url(#arrowhead)}
+      .gate{fill:#f7f3ff;stroke:#d9ccff;stroke-width:2}
+      .gateText{font:700 18px Arial,sans-serif;fill:#49318f}
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,5 L0,10 Z" fill="#8d99ab"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1280" height="560"/>
+  <path class="rail" d="M86 98 H1194"/>
+
+  <g transform="translate(70 122)">
+    <rect class="cardStrong" x="0" y="0" width="220" height="238" rx="18"/>
+    <text class="eyebrow" x="24" y="40">SOURCE STATE</text>
+    <text class="label" x="24" y="78">Tool Result</text>
+    <text class="body" x="24" y="120">records, scores,</text>
+    <text class="body" x="24" y="150">risks, links, and</text>
+    <text class="body" x="24" y="180">action names</text>
+    <rect class="chip" x="24" y="198" width="112" height="28" rx="14"/>
+    <text class="chipText" x="47" y="217">schema</text>
+  </g>
+
+  <path class="arrow" d="M312 241 H392"/>
+
+  <g transform="translate(414 122)">
+    <rect class="card" x="0" y="0" width="220" height="238" rx="18"/>
+    <text class="eyebrow" x="24" y="40">TRANSLATOR</text>
+    <text class="label" x="24" y="78">UI Mapping</text>
+    <text class="body" x="24" y="120">keeps known state</text>
+    <text class="body" x="24" y="150">deterministic and</text>
+    <text class="body" x="24" y="180">validatable</text>
+    <rect class="chip" x="24" y="198" width="102" height="28" rx="14"/>
+    <text class="chipText" x="48" y="217">props</text>
+  </g>
+
+  <path class="arrow" d="M656 241 H736"/>
+
+  <g transform="translate(758 122)">
+    <rect class="card" x="0" y="0" width="220" height="238" rx="18"/>
+    <text class="eyebrow" x="24" y="40">REVIEW SURFACE</text>
+    <text class="label" x="24" y="78">OpenUI</text>
+    <text class="body" x="24" y="120">renders cards,</text>
+    <text class="body" x="24" y="150">forms, state, and</text>
+    <text class="body" x="24" y="180">controls</text>
+    <rect class="chip" x="24" y="198" width="120" height="28" rx="14"/>
+    <text class="chipText" x="46" y="217">interface</text>
+  </g>
+
+  <path class="arrow" d="M1000 241 H1080"/>
+
+  <g transform="translate(1102 122)">
+    <rect class="cardStrong" x="0" y="0" width="128" height="238" rx="18"/>
+    <text class="eyebrow" x="18" y="40">HUMAN</text>
+    <text class="label" x="18" y="78">Action</text>
+    <text class="body" x="18" y="120">approve,</text>
+    <text class="body" x="18" y="150">change,</text>
+    <text class="body" x="18" y="180">or defer</text>
+    <rect class="chip" x="18" y="198" width="92" height="28" rx="14"/>
+    <text class="chipText" x="35" y="217">event</text>
+  </g>
+
+  <g transform="translate(490 420)">
+    <rect class="gate" x="0" y="0" width="300" height="56" rx="28"/>
+    <text class="gateText" x="58" y="36">Policy gate validates</text>
+  </g>
+
+  <path class="return" d="M1166 360 C1166 430 902 448 790 448"/>
+  <path class="return" d="M490 448 C330 448 180 424 180 360"/>
+  <text class="small" x="392" y="512">The agent resumes from a typed approval event, not from a vague sentence in a chat transcript.</text>
+</svg>

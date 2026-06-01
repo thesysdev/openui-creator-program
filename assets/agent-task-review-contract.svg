@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="620" viewBox="0 0 1280 620" role="img" aria-labelledby="title desc">
+  <title id="title">Agent interface contract for OpenUI workflows</title>
+  <desc id="desc">The diagram shows the separation between agent reasoning, tool facts, OpenUI rendering, human approval, backend policy, and audit logging.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f7f8fb}
+      .panel{fill:#fff;stroke:#d9e0ea;stroke-width:2}
+      .panelBlue{fill:#f3f7ff;stroke:#bdd0ff;stroke-width:2}
+      .panelPurple{fill:#f8f5ff;stroke:#dbcfff;stroke-width:2}
+      .title{font:700 28px Arial,sans-serif;fill:#162033}
+      .label{font:700 20px Arial,sans-serif;fill:#172033}
+      .body{font:400 17px Arial,sans-serif;fill:#5f6b7d}
+      .small{font:400 15px Arial,sans-serif;fill:#677287}
+      .badge{fill:#eef4ff;stroke:#c8d9ff;stroke-width:1}
+      .badgeText{font:700 13px Arial,sans-serif;fill:#155eef}
+      .arrow{stroke:#8793a5;stroke-width:3;fill:none;marker-end:url(#arrowhead)}
+      .rule{stroke:#d9e0ea;stroke-width:2}
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,5 L0,10 Z" fill="#8793a5"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1280" height="620"/>
+  <text class="title" x="72" y="70">A good agent UI has three contracts</text>
+  <text class="body" x="72" y="106">Facts come from tools, presentation comes from a component library, and approvals pass through backend policy.</text>
+
+  <g transform="translate(72 154)">
+    <rect class="panelBlue" width="304" height="300" rx="18"/>
+    <text class="label" x="28" y="48">1. Tool State Contract</text>
+    <text class="body" x="28" y="92">The agent does not invent the</text>
+    <text class="body" x="28" y="122">decision surface. It receives</text>
+    <text class="body" x="28" y="152">typed state from tools.</text>
+    <line class="rule" x1="28" y1="184" x2="276" y2="184"/>
+    <text class="small" x="28" y="224">records, URLs, scores, statuses</text>
+    <text class="small" x="28" y="254">risk flags, validation evidence</text>
+  </g>
+
+  <path class="arrow" d="M398 304 H486"/>
+
+  <g transform="translate(508 154)">
+    <rect class="panel" width="304" height="300" rx="18"/>
+    <text class="label" x="28" y="48">2. UI Library Contract</text>
+    <text class="body" x="28" y="92">OpenUI renders only known</text>
+    <text class="body" x="28" y="122">components with valid props.</text>
+    <text class="body" x="28" y="152">Generated UI stays inside</text>
+    <text class="body" x="28" y="182">the product boundary.</text>
+    <rect class="badge" x="28" y="220" width="144" height="28" rx="14"/>
+    <text class="badgeText" x="50" y="239">Zod schemas</text>
+  </g>
+
+  <path class="arrow" d="M834 304 H922"/>
+
+  <g transform="translate(944 154)">
+    <rect class="panelPurple" width="264" height="300" rx="18"/>
+    <text class="label" x="28" y="48">3. Action Contract</text>
+    <text class="body" x="28" y="92">Human choices become</text>
+    <text class="body" x="28" y="122">typed events. Policy still</text>
+    <text class="body" x="28" y="152">validates every side effect.</text>
+    <line class="rule" x1="28" y1="184" x2="236" y2="184"/>
+    <text class="small" x="28" y="224">approve_task</text>
+    <text class="small" x="28" y="254">request_changes</text>
+    <text class="small" x="28" y="284">defer</text>
+  </g>
+
+  <path class="arrow" d="M1076 454 C1076 536 220 536 220 456"/>
+  <text class="body" x="406" y="562">The loop is only trustworthy when state, rendering, and approval are separately testable.</text>
+</svg>
