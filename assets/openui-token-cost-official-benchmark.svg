@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="480" viewBox="0 0 860 480" role="img" aria-labelledby="title desc">
+  <title id="title">OpenUI official benchmark token totals</title>
+  <desc id="desc">Bar chart comparing total output tokens across seven official OpenUI benchmark scenarios: OpenUI Lang 4800, YAML 9122, Thesys C1 JSON 9948, Vercel JSON-Render 10180.</desc>
+  <rect width="860" height="480" fill="#ffffff"/>
+  <text x="48" y="54" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Official OpenUI Benchmark Totals</text>
+  <text x="48" y="82" font-family="Inter, Arial, sans-serif" font-size="14" fill="#4b5563">Total output tokens across seven equivalent generated UI scenarios</text>
+  <line x1="248" y1="380" x2="790" y2="380" stroke="#d1d5db" stroke-width="1"/>
+  <line x1="248" y1="110" x2="248" y2="380" stroke="#d1d5db" stroke-width="1"/>
+  <text x="224" y="384" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="15" fill="#374151">OpenUI Lang</text>
+  <text x="224" y="314" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="15" fill="#374151">YAML</text>
+  <text x="224" y="244" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="15" fill="#374151">Thesys C1 JSON</text>
+  <text x="224" y="174" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="15" fill="#374151">Vercel JSON-Render</text>
+  <rect x="248" y="358" width="249" height="34" rx="4" fill="#2563eb"/>
+  <rect x="248" y="288" width="474" height="34" rx="4" fill="#9ca3af"/>
+  <rect x="248" y="218" width="517" height="34" rx="4" fill="#6b7280"/>
+  <rect x="248" y="148" width="529" height="34" rx="4" fill="#374151"/>
+  <text x="515" y="381" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#111827">4,800</text>
+  <text x="740" y="311" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#111827">9,122</text>
+  <text x="783" y="241" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#111827">9,948</text>
+  <text x="795" y="171" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#111827">10,180</text>
+  <text x="248" y="426" font-family="Inter, Arial, sans-serif" font-size="13" fill="#4b5563">OpenUI Lang uses 52.8% fewer output tokens than Vercel JSON-Render in this benchmark.</text>
+  <text x="248" y="448" font-family="Inter, Arial, sans-serif" font-size="12" fill="#6b7280">Source: thesysdev/openui benchmarks README. Counts use tiktoken with the gpt-5 model encoder.</text>
+</svg>
