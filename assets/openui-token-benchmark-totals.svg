@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">OpenUI Token Benchmark Totals</title>
+  <desc id="desc">A bar chart comparing total output tokens for OpenUI Lang, compact JSON, and an AI SDK style tool envelope across three equivalent UI fixtures.</desc>
+  <rect width="1280" height="720" fill="#f8f6f1"/>
+  <rect x="70" y="58" width="1140" height="604" rx="28" fill="#fffdf8" stroke="#26231d" stroke-width="3"/>
+  <text x="112" y="122" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="800" fill="#26231d">Measured output tokens across the fixture set</text>
+  <text x="112" y="158" font-family="Inter, Arial, sans-serif" font-size="18" fill="#5b5750">Three equivalent generated UI surfaces counted with tiktoken o200k_base.</text>
+
+  <line x1="190" y1="548" x2="1090" y2="548" stroke="#26231d" stroke-width="3"/>
+  <line x1="190" y1="220" x2="190" y2="548" stroke="#26231d" stroke-width="3"/>
+
+  <g stroke="#d8d0c3" stroke-width="2">
+    <line x1="190" y1="468" x2="1090" y2="468"/>
+    <line x1="190" y1="388" x2="1090" y2="388"/>
+    <line x1="190" y1="308" x2="1090" y2="308"/>
+    <line x1="190" y1="228" x2="1090" y2="228"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" font-size="14" fill="#6c675f">
+    <text x="132" y="553">0</text>
+    <text x="121" y="473">100</text>
+    <text x="121" y="393">200</text>
+    <text x="121" y="313">300</text>
+    <text x="121" y="233">400</text>
+  </g>
+
+  <g>
+    <rect x="280" y="308" width="150" height="240" rx="12" fill="#2f6fb3"/>
+    <text x="316" y="290" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#173b63">300</text>
+    <text x="276" y="596" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800" fill="#26231d">OpenUI Lang</text>
+    <text x="298" y="624" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5b5750">baseline</text>
+  </g>
+
+  <g>
+    <rect x="565" y="290" width="150" height="258" rx="12" fill="#319465"/>
+    <text x="600" y="272" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#1f5a3d">322</text>
+    <text x="563" y="596" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800" fill="#26231d">Compact JSON</text>
+    <text x="572" y="624" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5b5750">+22 tokens</text>
+  </g>
+
+  <g>
+    <rect x="850" y="219" width="150" height="329" rx="12" fill="#a35f25"/>
+    <text x="885" y="201" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#683812">411</text>
+    <text x="816" y="596" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800" fill="#26231d">Tool-call envelope</text>
+    <text x="856" y="624" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5b5750">+111 tokens</text>
+  </g>
+
+  <rect x="264" y="666" width="752" height="32" rx="16" fill="#26231d"/>
+  <text x="296" y="688" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#fffdf8">OpenUI saves 6.8% vs compact JSON and 27.0% vs the tool-call envelope in this benchmark.</text>
+</svg>
