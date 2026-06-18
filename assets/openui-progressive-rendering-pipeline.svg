@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="560" viewBox="0 0 1180 560" role="img" aria-labelledby="title desc">
+  <title id="title">OpenUI progressive rendering pipeline</title>
+  <desc id="desc">A diagram of streamed OpenUI Lang moving through auto-close, statement cache, reference resolver, runtime guards, and React rendering.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; }
+      .blue { fill: #eff6ff; stroke: #3b82f6; }
+      .violet { fill: #f5f3ff; stroke: #8b5cf6; }
+      .green { fill: #ecfdf5; stroke: #10b981; }
+      .amber { fill: #fffbeb; stroke: #f59e0b; }
+      .rose { fill: #fff1f2; stroke: #f43f5e; }
+      .slate { fill: #f1f5f9; stroke: #64748b; }
+      .title { font: 700 24px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 17px Arial, sans-serif; fill: #0f172a; }
+      .body { font: 14px Arial, sans-serif; fill: #334155; }
+      .small { font: 12px Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+      .guard { stroke: #f59e0b; stroke-width: 3; stroke-dasharray: 8 7; fill: none; }
+      .chip { fill: #e2e8f0; }
+      .chip-text { font: 12px Arial, sans-serif; fill: #0f172a; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#334155" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1180" height="560" rx="18" />
+  <text x="590" y="48" text-anchor="middle" class="title">Progressive Rendering Is A Pipeline, Not A Parse Event</text>
+  <text x="590" y="76" text-anchor="middle" class="body">OpenUI keeps UI useful while streamed model output is still incomplete.</text>
+
+  <rect x="54" y="128" width="160" height="166" rx="14" class="panel blue" />
+  <text x="134" y="160" text-anchor="middle" class="label">Stream</text>
+  <text x="78" y="196" class="body">Model emits</text>
+  <text x="78" y="218" class="body">OpenUI Lang</text>
+  <text x="78" y="240" class="body">chunks over time.</text>
+  <rect x="78" y="260" width="112" height="24" rx="12" class="chip" />
+  <text x="134" y="276" text-anchor="middle" class="chip-text">partial text</text>
+
+  <rect x="258" y="128" width="160" height="166" rx="14" class="panel violet" />
+  <text x="338" y="160" text-anchor="middle" class="label">Auto-Close</text>
+  <text x="282" y="196" class="body">Adds temporary</text>
+  <text x="282" y="218" class="body">quotes/brackets</text>
+  <text x="282" y="240" class="body">for parse attempts.</text>
+  <rect x="282" y="260" width="112" height="24" rx="12" class="chip" />
+  <text x="338" y="276" text-anchor="middle" class="chip-text">syntax recovery</text>
+
+  <rect x="462" y="128" width="160" height="166" rx="14" class="panel green" />
+  <text x="542" y="160" text-anchor="middle" class="label">Statement Cache</text>
+  <text x="486" y="196" class="body">Parses completed</text>
+  <text x="486" y="218" class="body">depth-zero lines</text>
+  <text x="486" y="240" class="body">once, then reuses.</text>
+  <rect x="486" y="260" width="112" height="24" rx="12" class="chip" />
+  <text x="542" y="276" text-anchor="middle" class="chip-text">stable chunks</text>
+
+  <rect x="666" y="128" width="160" height="166" rx="14" class="panel amber" />
+  <text x="746" y="160" text-anchor="middle" class="label">Resolver</text>
+  <text x="690" y="196" class="body">Allows children</text>
+  <text x="690" y="218" class="body">and refs to arrive</text>
+  <text x="690" y="240" class="body">later in the stream.</text>
+  <rect x="690" y="260" width="112" height="24" rx="12" class="chip" />
+  <text x="746" y="276" text-anchor="middle" class="chip-text">late references</text>
+
+  <rect x="870" y="128" width="160" height="166" rx="14" class="panel rose" />
+  <text x="950" y="160" text-anchor="middle" class="label">Runtime Guards</text>
+  <text x="894" y="196" class="body">Defers Query and</text>
+  <text x="894" y="218" class="body">Mutation work until</text>
+  <text x="894" y="240" class="body">streaming finishes.</text>
+  <rect x="894" y="260" width="112" height="24" rx="12" class="chip" />
+  <text x="950" y="276" text-anchor="middle" class="chip-text">safe side effects</text>
+
+  <rect x="508" y="362" width="164" height="130" rx="14" class="panel slate" />
+  <text x="590" y="394" text-anchor="middle" class="label">React Renderer</text>
+  <text x="534" y="430" class="body">Receives evaluated</text>
+  <text x="534" y="452" class="body">props and keeps the</text>
+  <text x="534" y="474" class="body">last good UI visible.</text>
+
+  <path d="M214 211 H254" class="arrow" />
+  <path d="M418 211 H458" class="arrow" />
+  <path d="M622 211 H662" class="arrow" />
+  <path d="M826 211 H866" class="arrow" />
+  <path d="M950 294 C950 336 720 340 648 362" class="arrow" />
+  <path d="M542 294 C542 330 552 344 568 362" class="arrow" />
+
+  <path d="M850 106 H1056 V316 H850 Z" class="guard" />
+  <text x="953" y="335" text-anchor="middle" class="small">Side effects stay behind a streaming guard.</text>
+  <text x="590" y="526" text-anchor="middle" class="body">Render progressively; execute conservatively.</text>
+</svg>
