@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Generative UI Contract</title>
+  <desc id="desc">A diagram showing a model composing approved components from trusted data while the host application owns rendering, permissions, validation, and actions.</desc>
+  <rect width="1280" height="720" fill="#f8f5ef"/>
+  <rect x="64" y="56" width="1152" height="608" rx="28" fill="#fffdf8" stroke="#26231d" stroke-width="3"/>
+  <text x="104" y="118" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="800" fill="#26231d">Generative UI is a contract, not model-written React</text>
+  <text x="104" y="154" font-family="Inter, Arial, sans-serif" font-size="18" fill="#5e5950">The model composes approved interface structure. The app keeps control of code, data, and actions.</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="104" y="224" width="240" height="150" rx="18" fill="#e4f0ff" stroke="#2f6fb3" stroke-width="3"/>
+    <text x="132" y="266" font-size="22" font-weight="800" fill="#183a61">Model</text>
+    <text x="132" y="300" font-size="16" fill="#183a61">Chooses layout and</text>
+    <text x="132" y="324" font-size="16" fill="#183a61">fills component props.</text>
+    <text x="132" y="352" font-size="13" font-weight="800" fill="#2f6fb3">No arbitrary frontend code</text>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="470" y="198" width="340" height="202" rx="22" fill="#26231d"/>
+    <text x="508" y="242" font-size="24" font-weight="800" fill="#fffdf8">OpenUI description</text>
+    <text x="508" y="278" font-size="16" fill="#f8f5ef">Stack</text>
+    <text x="508" y="304" font-size="16" fill="#f8f5ef">MetricCard(label, value, tone)</text>
+    <text x="508" y="330" font-size="16" fill="#f8f5ef">DataTable(rows, columns)</text>
+    <text x="508" y="356" font-size="16" fill="#f8f5ef">Button(action:approve-refund)</text>
+    <text x="508" y="384" font-size="13" font-weight="800" fill="#c7d7ff">Structured output, not executable code</text>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="936" y="224" width="240" height="150" rx="18" fill="#e7f7ed" stroke="#2d7a4f" stroke-width="3"/>
+    <text x="964" y="266" font-size="22" font-weight="800" fill="#1f4f36">Host app</text>
+    <text x="964" y="300" font-size="16" fill="#1f4f36">Renders real components,</text>
+    <text x="964" y="324" font-size="16" fill="#1f4f36">checks auth and state.</text>
+    <text x="964" y="352" font-size="13" font-weight="800" fill="#2d7a4f">Owns side effects</text>
+  </g>
+
+  <path d="M344 300H470" stroke="#26231d" stroke-width="4" fill="none"/>
+  <polygon points="470,300 452,290 452,310" fill="#26231d"/>
+  <path d="M810 300H936" stroke="#26231d" stroke-width="4" fill="none"/>
+  <polygon points="936,300 918,290 918,310" fill="#26231d"/>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="154" y="474" width="250" height="96" rx="18" fill="#fce8d8" stroke="#b45a28" stroke-width="2"/>
+    <text x="184" y="510" font-size="19" font-weight="800" fill="#6d3317">Component boundary</text>
+    <text x="184" y="540" font-size="15" fill="#6d3317">Only approved UI pieces</text>
+    <text x="184" y="562" font-size="15" fill="#6d3317">are available to compose.</text>
+  </g>
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="515" y="474" width="250" height="96" rx="18" fill="#f2e8ff" stroke="#6d4ba6" stroke-width="2"/>
+    <text x="545" y="510" font-size="19" font-weight="800" fill="#443061">Data boundary</text>
+    <text x="545" y="540" font-size="15" fill="#443061">IDs, values, and permissions</text>
+    <text x="545" y="562" font-size="15" fill="#443061">come from trusted sources.</text>
+  </g>
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="876" y="474" width="250" height="96" rx="18" fill="#e4f0ff" stroke="#2f6fb3" stroke-width="2"/>
+    <text x="906" y="510" font-size="19" font-weight="800" fill="#183a61">Action boundary</text>
+    <text x="906" y="540" font-size="15" fill="#183a61">Buttons send declared</text>
+    <text x="906" y="562" font-size="15" fill="#183a61">payloads for validation.</text>
+  </g>
+</svg>
