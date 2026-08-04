@@ -169,3 +169,8 @@ Videos are published on the creator's own channel by default. OpenUI may repost 
 | YouTube Shorts | Cross-post from TikTok |
 | Twitter/X | Clip promotion |
 | Discord | Community sharing |
+
+## Navigation
+
+- [Back to `REPOS`](../README.md)
+- [Back to `AI_REVENUE_SPRINT_100_24H`](../../README.md)
